@@ -1,0 +1,14 @@
+Thumbs.db
+*.obj
+*.exe
+*.msi
+*.pdb
+*.user
+*.suo
+*.user
+bin/
+[Dd]debug*/
+obj/
+[Rr]elease*/
+_ReSharper*/
+TestResults/
