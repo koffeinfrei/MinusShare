@@ -52,47 +52,25 @@
         <TextBox Height="23" HorizontalAlignment="Left" Margin="51,9,0,0" Name="inputTitle" VerticalAlignment="Top" Width="291" />
         <Button Content="Share" Height="23" HorizontalAlignment="Left" Margin="12,121,0,0" Name="buttonShare" VerticalAlignment="Top" Width="75" Click="buttonShare_Click" />
         <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="102,121,0,0" Name="buttonCancel" VerticalAlignment="Top" Width="75" Click="buttonCancel_Click" />
+
         
-        <Canvas Name="spinner" Margin="5,150,245,154"> 
-            <Canvas Name="spinningProgress" Margin="0,0,0,0" Height="130" Width="130"  VerticalAlignment="Top" HorizontalAlignment="Left"> 
-                <Canvas Name="innerCanvas" Height="110" Width="110"  VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="10" Canvas.Top="10"> 
-                    <Ellipse Margin="45,-5,0,0" Name="ellipseLarge" Stroke="Black" Height="20" Width="20" VerticalAlignment="Top" Fill="Black" HorizontalAlignment="Left" /> 
-                    <Ellipse Margin="85.3553,14.6447,0,0" Name="ellipse2" Stroke="Black" HorizontalAlignment="Left" Width="10" Height="10" VerticalAlignment="Top" Fill="Black" /> 
-                    <Ellipse Margin="100,50,0,0" Name="ellipse3" Stroke="Black" Fill="Black" HorizontalAlignment="Left" Height="10" Width="10" VerticalAlignment="Top" /> 
-                    <Ellipse Margin="85.3553,85.3553,0,0" Name="ellipse4" Stroke="Black" HorizontalAlignment="Left" Width="10" Height="10" VerticalAlignment="Top" Fill="Black" /> 
-                    <Ellipse Margin="50,100,0,0" Name="ellipse5" Stroke="Black" Fill="Black" HorizontalAlignment="Left" Width="10" Height="10" VerticalAlignment="Top" /> 
-                    <Ellipse Margin="14.6447,85.3553,0,0" Name="ellipse6" Stroke="Black" HorizontalAlignment="Left" Width="10" Height="10" VerticalAlignment="Top" Fill="Black" /> 
-                    <Ellipse Margin="0,50,0,0" Name="ellipse7" Stroke="Black" HorizontalAlignment="Left" Width="10" Fill="Black" Height="10" VerticalAlignment="Top" /> 
-                    <Ellipse Margin="12.1447,12.1447,0,0" Name="ellipseMedium" Width="15" Height="15" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Fill="Black" /> 
-                </Canvas> 
-                <Canvas.RenderTransform> 
-                    <RotateTransform x:Name="spin" Angle="0" CenterX="65" CenterY="65"/> 
-                </Canvas.RenderTransform> 
-                <Canvas.Triggers> 
-                    <EventTrigger RoutedEvent="Canvas.Loaded"> 
-                        <BeginStoryboard> 
-                            <Storyboard> 
-                                <DoubleAnimationUsingKeyFrames 
-                                Storyboard.TargetName="spinningProgress"  
-                                Storyboard.TargetProperty="(Canvas.RenderTransform).(RotateTransform.Angle)" 
-                                RepeatBehavior="Forever" Duration="0:0:1"> 
-                                    <DiscreteDoubleKeyFrame Value="45" KeyTime="0:0:0.125" /> 
-                                    <DiscreteDoubleKeyFrame Value="90" KeyTime="0:0:0.25" /> 
-                                    <DiscreteDoubleKeyFrame Value="135" KeyTime="0:0:0.375" /> 
-                                    <DiscreteDoubleKeyFrame Value="180" KeyTime="0:0:0.5" /> 
-                                    <DiscreteDoubleKeyFrame Value="225" KeyTime="0:0:0.675" /> 
-                                    <DiscreteDoubleKeyFrame Value="270" KeyTime="0:0:0.75" /> 
-                                    <DiscreteDoubleKeyFrame Value="315" KeyTime="0:0:0.875" /> 
-                                </DoubleAnimationUsingKeyFrames> 
-                            </Storyboard> 
-                        </BeginStoryboard> 
-                    </EventTrigger> 
-                </Canvas.Triggers> 
-            </Canvas> 
-            <Canvas.RenderTransform> 
-                <ScaleTransform ScaleX="0.3" ScaleY="0.3"/> 
-            </Canvas.RenderTransform> 
-        </Canvas>
-        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="51,158,0,0" Name="outputStatus" VerticalAlignment="Top" Width="291" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="51,161,0,0" Name="outputStatus" VerticalAlignment="Top" Width="291" />
+        <Image HorizontalAlignment="Left" Margin="3,154,0,0" Name="imageLoading" Height="48" Width="48" VerticalAlignment="Top" Source="pack://application:,,,/img/loading.png" >
+            <Image.RenderTransform>
+                <RotateTransform Angle="0" CenterX="25" CenterY="25" />
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="imageLoading" 
+                                             Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)"
+                                             From="0" To="-360" Duration="0:0:1" 
+                                             AutoReverse="False" RepeatBehavior="Forever" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
     </Grid>
 </Window>
