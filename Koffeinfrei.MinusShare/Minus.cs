@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using BiasedBit.MinusEngine;
 
 namespace Koffeinfrei.MinusShare
@@ -73,24 +74,24 @@ namespace Koffeinfrei.MinusShare
             CreateGalleryResult galleryCreated = null;
 
             // set up the listeners for CREATE
-            api.CreateGalleryFailed += (sender, e) => LogError("Failed to create gallery..." + e.Message);
+            api.CreateGalleryFailed += (sender, e) => LogError("Failed to create gallery. " + e.Message);
 
             api.CreateGalleryComplete += (sender, result) =>
             {
                 // gallery created, trigger upload of the first file
                 galleryCreated = result;
-                LogInfo("Gallery created! " + result);
+                LogInfo("Gallery created. " + result);
                 LogInfo("Uploading files...");
                 api.UploadItem(result.EditorId, result.Key, queuedFiles[0]);
             };
 
             // set up the listeners for UPLOAD
-            api.UploadItemFailed += (sender, e) => { LogError("Upload failed: " + e.Message); };
+            api.UploadItemFailed += (sender, e) => LogError("Upload failed. " + e.Message);
 
             api.UploadItemComplete += (sender, result) =>
             {
                 // upload complete, either trigger another upload or save the gallery if all files have been uploaded
-                LogInfo("Upload successful: " + result);
+                LogInfo("Upload successful. " + result);
                 uploadedFiles.Add(result.Id);
                 if (uploadedFiles.Count == queuedFiles.Count)
                 {
@@ -101,20 +102,21 @@ namespace Koffeinfrei.MinusShare
                 else
                 {
                     // otherwise just keep uploading
-                    LogInfo("Uploading item " + (uploadedFiles.Count + 1));
-                    api.UploadItem(galleryCreated.EditorId, galleryCreated.Key, queuedFiles[uploadedFiles.Count]);
+                    FileInfo file = new FileInfo(queuedFiles[uploadedFiles.Count]);
+                    LogInfo("Uploading item " + file.Name + "...");
+                    api.UploadItem(galleryCreated.EditorId, galleryCreated.Key, file.FullName);
                 }
             };
 
             // set up the listeners for SAVE
-            api.SaveGalleryFailed += (sender, e) => LogInfo("Failed to save gallery... " + e.Message);
+            api.SaveGalleryFailed += (sender, e) => LogInfo("Failed to save gallery. " + e.Message);
 
             api.SaveGalleryComplete += sender =>
             {
                 string readUrl = BaseUrl + galleryCreated.ReaderId;
                 string editUrl = BaseUrl + galleryCreated.EditorId;
 
-                LogInfo("Gallery saved!");
+                LogInfo("Gallery saved.");
                 if (GalleryCreated != null)
                 {
                     GalleryCreated(new MinusResult

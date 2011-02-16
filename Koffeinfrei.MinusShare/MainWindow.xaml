@@ -82,10 +82,10 @@
         <StackPanel HorizontalAlignment="Stretch" Name="stackFiles" Margin="0,5,0,0"></StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
-            <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonCancel" Click="buttonCancel_Click" Padding="0" ToolTip="Start sharing" Style="{StaticResource MainButton}">
+            <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonCancel" Click="buttonCancel_Click" Padding="0" ToolTip="Cancel" Style="{StaticResource MainButton}">
                 <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/cancel.png" Height="24" Width="24" />
             </Button>
-            <Button HorizontalAlignment="Left" Margin="15,0,0,0" Name="buttonShare" Click="buttonShare_Click" Padding="0" ToolTip="Cancel" Style="{StaticResource MainButton}">
+            <Button HorizontalAlignment="Left" Margin="15,0,0,0" Name="buttonShare" Click="buttonShare_Click" Padding="0" ToolTip="Start sharing" Style="{StaticResource MainButton}">
                 <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/start.png" Height="24" Width="24" />
             </Button>
         </StackPanel>

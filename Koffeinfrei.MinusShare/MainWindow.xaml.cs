@@ -83,7 +83,8 @@ namespace Koffeinfrei.MinusShare
                         Source = deleteIcon,
                         Width = 24
                     },
-                    Style = (Style) FindResource("MainButton")
+                    Style = (Style) FindResource("MainButton"),
+                    ToolTip = "Remove this file"
                 };
                 string s1 = s;
                 button.Click += (sender, e) =>
@@ -91,6 +92,10 @@ namespace Koffeinfrei.MinusShare
                     panel.Children.Remove(button);
                     panel.Children.Remove(label);
                     files.Remove(s1);
+                    if (files.Count == 0)
+                    {
+                        Application.Current.Shutdown();
+                    }
                 };
 
 
@@ -134,9 +139,21 @@ namespace Koffeinfrei.MinusShare
 
         private void buttonShare_Click(object sender, RoutedEventArgs e)
         {
+            string title = inputTitle.Text == Properties.Resources.InputTitleDefaultText
+                               ? ""
+                               : inputTitle.Text;
             minus.AddFiles(files);
-            minus.SetTitle(inputTitle.Text);
+            minus.SetTitle(title);
             minus.Create();
+
+            // disable controls
+            inputTitle.IsEnabled = false;
+            buttonShare.IsEnabled = false;
+            buttonCancel.IsEnabled = false;
+            foreach (UIElement child in stackFiles.Children)
+            {
+                child.IsEnabled = false;
+            }
             sectionProgress.Visibility = Visibility.Visible;
         }
 
