@@ -36,12 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MinusEngine">
-      <HintPath>..\lib\MinusEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -104,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\loading.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib\MinusEngine\MinusEngine\MinusEngine.csproj">
+      <Project>{03D1AA9A-FFCC-4807-87C7-833FC8CA394A}</Project>
+      <Name>MinusEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
