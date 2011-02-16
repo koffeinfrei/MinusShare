@@ -24,7 +24,7 @@ using System.Windows.Controls;
 namespace Koffeinfrei.MinusShare
 {
     /// <summary>
-    ///   Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -37,6 +37,9 @@ namespace Koffeinfrei.MinusShare
 
             InitializeComponent();
 
+            sectionProgress.Visibility = Visibility.Collapsed;
+            sectionDone.Visibility = Visibility.Collapsed;
+            
             files = Environment.GetCommandLineArgs().Skip(1).ToList();
 
             InsertFileList();
@@ -54,7 +57,7 @@ namespace Koffeinfrei.MinusShare
         {
             foreach (string s in files)
             {
-                Label label = new Label {Content = s};
+                Label label = new Label { Content = s, Padding = new Thickness(0, 0, 0, 0), Margin = new Thickness(0, 0, 0, 0) };
                 stackFiles.Children.Add(label);
             }
         }
@@ -65,6 +68,8 @@ namespace Koffeinfrei.MinusShare
             {
                 buttonEditLink.Content = result.EditUrl;
                 buttonShareLink.Content = result.ShareUrl;
+                sectionProgress.Visibility = Visibility.Collapsed;
+                sectionDone.Visibility = Visibility.Visible;
             }));
         }
 
@@ -93,6 +98,7 @@ namespace Koffeinfrei.MinusShare
         {
             minus.SetTitle(inputTitle.Text);
             minus.Create();
+            sectionProgress.Visibility = Visibility.Visible;
         }
 
         private void buttonCancel_Click(object sender, RoutedEventArgs e)
