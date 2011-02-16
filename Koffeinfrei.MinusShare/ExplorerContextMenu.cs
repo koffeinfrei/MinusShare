@@ -23,7 +23,7 @@ namespace Koffeinfrei.MinusShare
     public static class ExplorerContextMenu
     {
         private static readonly string LinkFileName =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SendTo), "minu.us.lnk");
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SendTo), "min.us.lnk");
 
         public static void Add()
         {
@@ -32,7 +32,7 @@ namespace Koffeinfrei.MinusShare
                 Symlink symlink = new Symlink(Symlink.LinkType.File);
                 symlink.SetPath(Assembly.GetExecutingAssembly().Location);
                 symlink.SetDescription("Share on min.us");
-                //Symlink.SetArguments("\"%1\"");
+                symlink.SetIconLocation(Assembly.GetExecutingAssembly().Location, 0);
                 symlink.Save(LinkFileName);
             }
         }

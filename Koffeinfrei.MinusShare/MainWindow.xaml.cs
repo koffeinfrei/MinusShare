@@ -20,6 +20,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Koffeinfrei.MinusShare
 {
@@ -39,7 +41,10 @@ namespace Koffeinfrei.MinusShare
 
             sectionProgress.Visibility = Visibility.Collapsed;
             sectionDone.Visibility = Visibility.Collapsed;
-            
+
+            inputTitle.Focus();
+            inputTitle.Text = Properties.Resources.InputTitleDefaultText;
+
             files = Environment.GetCommandLineArgs().Skip(1).ToList();
 
             InsertFileList();
@@ -50,15 +55,48 @@ namespace Koffeinfrei.MinusShare
                 InfoLogger = OnInfoMessage,
                 ErrorLogger = OnErrorMessage
             };
-            minus.AddFiles(files);
         }
 
         private void InsertFileList()
         {
+            BitmapImage deleteIcon = new BitmapImage();
+            deleteIcon.BeginInit();
+            deleteIcon.UriSource = new Uri("pack://application:,,,/img/delete.png");
+            deleteIcon.EndInit();
+
             foreach (string s in files)
             {
-                Label label = new Label { Content = s, Padding = new Thickness(0, 0, 0, 0), Margin = new Thickness(0, 0, 0, 0) };
-                stackFiles.Children.Add(label);
+                StackPanel panel = new StackPanel {Orientation = Orientation.Horizontal};
+
+                Label label = new Label
+                {
+                    Content = s,
+                    Padding = new Thickness(0, 0, 0, 0),
+                    Margin = new Thickness(0, 0, 0, 0),
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                Button button = new Button
+                {
+                    Content = new Image
+                    {
+                        Source = deleteIcon,
+                        Width = 24
+                    },
+                    Style = (Style) FindResource("MainButton")
+                };
+                string s1 = s;
+                button.Click += (sender, e) =>
+                {
+                    panel.Children.Remove(button);
+                    panel.Children.Remove(label);
+                    files.Remove(s1);
+                };
+
+
+                panel.Children.Add(button);
+                panel.Children.Add(label);
+                stackFiles.Children.Add(panel);
             }
         }
 
@@ -96,6 +134,7 @@ namespace Koffeinfrei.MinusShare
 
         private void buttonShare_Click(object sender, RoutedEventArgs e)
         {
+            minus.AddFiles(files);
             minus.SetTitle(inputTitle.Text);
             minus.Create();
             sectionProgress.Visibility = Visibility.Visible;
@@ -119,6 +158,14 @@ namespace Koffeinfrei.MinusShare
             if (string.IsNullOrEmpty(inputTitle.Text))
             {
                 inputTitle.Text = Properties.Resources.InputTitleDefaultText;
+            }
+        }
+
+        private void inputTitle_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (inputTitle.Text == Properties.Resources.InputTitleDefaultText)
+            {
+                inputTitle.Text = "";
             }
         }
     }
