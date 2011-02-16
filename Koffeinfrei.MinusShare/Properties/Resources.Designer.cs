@@ -61,11 +61,101 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All uploads complete, saving gallery....
+        /// </summary>
+        public static string AllUploadSuccessful {
+            get {
+                return ResourceManager.GetString("AllUploadSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to create gallery. .
+        /// </summary>
+        public static string CreateGalleryFailed {
+            get {
+                return ResourceManager.GetString("CreateGalleryFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gallery created. .
+        /// </summary>
+        public static string GalleryCreated {
+            get {
+                return ResourceManager.GetString("GalleryCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gallery saved..
+        /// </summary>
+        public static string GallerySaved {
+            get {
+                return ResourceManager.GetString("GallerySaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Title&gt;.
         /// </summary>
         public static string InputTitleDefaultText {
             get {
                 return ResourceManager.GetString("InputTitleDefaultText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove this file.
+        /// </summary>
+        public static string RemoveFile {
+            get {
+                return ResourceManager.GetString("RemoveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to save gallery. .
+        /// </summary>
+        public static string SaveGalleryFailed {
+            get {
+                return ResourceManager.GetString("SaveGalleryFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload failed. .
+        /// </summary>
+        public static string UploadFailed {
+            get {
+                return ResourceManager.GetString("UploadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploading file .
+        /// </summary>
+        public static string UploadingFile {
+            get {
+                return ResourceManager.GetString("UploadingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploading files....
+        /// </summary>
+        public static string UploadingFiles {
+            get {
+                return ResourceManager.GetString("UploadingFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload successful. .
+        /// </summary>
+        public static string UploadSuccessful {
+            get {
+                return ResourceManager.GetString("UploadSuccessful", resourceCulture);
             }
         }
     }

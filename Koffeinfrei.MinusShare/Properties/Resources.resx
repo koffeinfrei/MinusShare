@@ -120,4 +120,34 @@
   <data name="InputTitleDefaultText" xml:space="preserve">
     <value>&lt;Title&gt;</value>
   </data>
+  <data name="RemoveFile" xml:space="preserve">
+    <value>Remove this file</value>
+  </data>
+  <data name="CreateGalleryFailed" xml:space="preserve">
+    <value>Failed to create gallery. </value>
+  </data>
+  <data name="UploadFailed" xml:space="preserve">
+    <value>Upload failed. </value>
+  </data>
+  <data name="SaveGalleryFailed" xml:space="preserve">
+    <value>Failed to save gallery. </value>
+  </data>
+  <data name="GallerySaved" xml:space="preserve">
+    <value>Gallery saved.</value>
+  </data>
+  <data name="UploadSuccessful" xml:space="preserve">
+    <value>Upload successful. </value>
+  </data>
+  <data name="AllUploadSuccessful" xml:space="preserve">
+    <value>All uploads complete, saving gallery...</value>
+  </data>
+  <data name="UploadingFile" xml:space="preserve">
+    <value>Uploading file </value>
+  </data>
+  <data name="UploadingFiles" xml:space="preserve">
+    <value>Uploading files...</value>
+  </data>
+  <data name="GalleryCreated" xml:space="preserve">
+    <value>Gallery created. </value>
+  </data>
 </root>

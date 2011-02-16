@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using BiasedBit.MinusEngine;
+using Koffeinfrei.MinusShare.Properties;
 
 namespace Koffeinfrei.MinusShare
 {
@@ -74,49 +75,49 @@ namespace Koffeinfrei.MinusShare
             CreateGalleryResult galleryCreated = null;
 
             // set up the listeners for CREATE
-            api.CreateGalleryFailed += (sender, e) => LogError("Failed to create gallery. " + e.Message);
+            api.CreateGalleryFailed += (sender, e) => LogError(Resources.CreateGalleryFailed + e.Message);
 
             api.CreateGalleryComplete += (sender, result) =>
             {
                 // gallery created, trigger upload of the first file
                 galleryCreated = result;
-                LogInfo("Gallery created. " + result);
-                LogInfo("Uploading files...");
+                LogInfo(Resources.GalleryCreated + result);
+                LogInfo(Resources.UploadingFiles);
                 api.UploadItem(result.EditorId, result.Key, queuedFiles[0]);
             };
 
             // set up the listeners for UPLOAD
-            api.UploadItemFailed += (sender, e) => LogError("Upload failed. " + e.Message);
+            api.UploadItemFailed += (sender, e) => LogError(Resources.UploadFailed + e.Message);
 
             api.UploadItemComplete += (sender, result) =>
             {
                 // upload complete, either trigger another upload or save the gallery if all files have been uploaded
-                LogInfo("Upload successful. " + result);
+                LogInfo(Resources.UploadSuccessful + result);
                 uploadedFiles.Add(result.Id);
                 if (uploadedFiles.Count == queuedFiles.Count)
                 {
                     // if all the elements are uploaded, then save the gallery
-                    LogInfo("All uploads complete, saving gallery...");
+                    LogInfo(Resources.AllUploadSuccessful);
                     api.SaveGallery(title ?? "", galleryCreated.EditorId, galleryCreated.Key, uploadedFiles.ToArray());
                 }
                 else
                 {
                     // otherwise just keep uploading
                     FileInfo file = new FileInfo(queuedFiles[uploadedFiles.Count]);
-                    LogInfo("Uploading item " + file.Name + "...");
+                    LogInfo(Resources.UploadingFile + file.Name + "...");
                     api.UploadItem(galleryCreated.EditorId, galleryCreated.Key, file.FullName);
                 }
             };
 
             // set up the listeners for SAVE
-            api.SaveGalleryFailed += (sender, e) => LogInfo("Failed to save gallery. " + e.Message);
+            api.SaveGalleryFailed += (sender, e) => LogInfo(Resources.SaveGalleryFailed + e.Message);
 
             api.SaveGalleryComplete += sender =>
             {
                 string readUrl = BaseUrl + galleryCreated.ReaderId;
                 string editUrl = BaseUrl + galleryCreated.EditorId;
 
-                LogInfo("Gallery saved.");
+                LogInfo(Resources.GallerySaved);
                 if (GalleryCreated != null)
                 {
                     GalleryCreated(new MinusResult

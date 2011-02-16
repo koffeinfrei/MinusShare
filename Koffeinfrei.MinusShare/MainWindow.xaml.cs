@@ -21,6 +21,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Koffeinfrei.MinusShare
@@ -28,7 +29,7 @@ namespace Koffeinfrei.MinusShare
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private readonly List<string> files;
         private readonly Minus minus;
@@ -84,7 +85,7 @@ namespace Koffeinfrei.MinusShare
                         Width = 24
                     },
                     Style = (Style) FindResource("MainButton"),
-                    ToolTip = "Remove this file"
+                    ToolTip = Properties.Resources.RemoveFile
                 };
                 string s1 = s;
                 button.Click += (sender, e) =>
@@ -97,7 +98,6 @@ namespace Koffeinfrei.MinusShare
                         Application.Current.Shutdown();
                     }
                 };
-
 
                 panel.Children.Add(button);
                 panel.Children.Add(label);
@@ -118,13 +118,20 @@ namespace Koffeinfrei.MinusShare
 
         private void OnInfoMessage(string message)
         {
-            Dispatcher.Invoke(new Action(() => outputStatus.Content = message));
+            Dispatcher.Invoke(new Action(() =>
+            {
+                outputStatus.Foreground = new SolidColorBrush(Colors.Black);
+                outputStatus.Content = message;
+            }));
         }
 
         private void OnErrorMessage(string message)
         {
-            // TODO colorize instead of "ERROR: "
-            Dispatcher.Invoke(new Action(() => outputStatus.Content = "ERROR: " + message));
+            Dispatcher.Invoke(new Action(() =>
+            {
+                outputStatus.Foreground = new SolidColorBrush(Colors.Red);
+                outputStatus.Content = message;
+            }));
         }
 
         private void buttonEditLink_Click(object sender, RoutedEventArgs e)
