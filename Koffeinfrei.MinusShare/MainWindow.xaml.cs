@@ -99,5 +99,21 @@ namespace Koffeinfrei.MinusShare
         {
             Application.Current.Shutdown();
         }
+
+        private void inputTitle_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (inputTitle.Text == Properties.Resources.InputTitleDefaultText)
+            {
+                inputTitle.Text = "";
+            }
+        }
+
+        private void inputTitle_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(inputTitle.Text))
+            {
+                inputTitle.Text = Properties.Resources.InputTitleDefaultText;
+            }
+        }
     }
 }
