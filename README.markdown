@@ -4,10 +4,10 @@
 
 Share files with min.us from your windows explorer send to context menu.
 
-Explorer context menu:
+Explorer context menu:  
 ![Send to menu](http://www.koffeinfrei.org/uploads/images/projects/minus-share-screen1.png "Send to context menu")  
 
-Main window, done sharing:
+Main window, done sharing:  
 ![Main window](http://www.koffeinfrei.org/uploads/images/projects/minus-share-screen2.png "Main window")
 
 ## License
