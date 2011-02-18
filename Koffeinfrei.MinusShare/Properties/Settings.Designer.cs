@@ -34,7 +34,7 @@ namespace Koffeinfrei.MinusShare.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/koffeinfrei/zueribad-wintray/raw/master/version.txt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/koffeinfrei/MinusShare/raw/master/version.txt")]
         public string VersionUrl {
             get {
                 return ((string)(this["VersionUrl"]));

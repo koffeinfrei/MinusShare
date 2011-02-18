@@ -6,7 +6,7 @@
       <Value Profile="(Default)">https://github.com/downloads/koffeinfrei/MinusShare/minus-share_setup_{0}.msi</Value>
     </Setting>
     <Setting Name="VersionUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://github.com/koffeinfrei/zueribad-wintray/raw/master/version.txt</Value>
+      <Value Profile="(Default)">https://github.com/koffeinfrei/MinusShare/raw/master/version.txt</Value>
     </Setting>
   </Settings>
 </SettingsFile>
