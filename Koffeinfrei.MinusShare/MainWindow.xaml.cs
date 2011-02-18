@@ -17,45 +17,78 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Koffeinfrei.Base;
+using Koffeinfrei.MinusShare.Properties;
 
 namespace Koffeinfrei.MinusShare
 {
     /// <summary>
-    ///     Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {
         private readonly List<string> files;
-        private readonly Minus minus;
 
         public MainWindow()
         {
-            ExplorerContextMenu.Add();
+            //ExplorerContextMenu.Add();
 
             InitializeComponent();
 
+            // setup the UI
             sectionProgress.Visibility = Visibility.Collapsed;
             sectionDone.Visibility = Visibility.Collapsed;
 
             inputTitle.Focus();
             inputTitle.Text = Properties.Resources.InputTitleDefaultText;
 
-            files = Environment.GetCommandLineArgs().Skip(1).ToList();
-
+            // setup the file list
+            files = new List<string>();
+            GetFileList();
             InsertFileList();
 
-            minus = new Minus
+            // update check
+            KfUpdater updater = new KfUpdater(Settings.Default.VersionUrl, Settings.Default.DownloadUrlFormat);
+            updater.CheckCompleted = () =>
             {
-                GalleryCreated = OnGalleryCreated,
-                InfoLogger = OnInfoMessage,
-                ErrorLogger = OnErrorMessage
+                if (updater.HasNewerVersion)
+                {
+                    MessageBoxResult dialogResult = MessageBox.Show(string.Format(Base.Resources.DialogVersionUpdateQuestionFormat,
+                                                                                  updater.NewerVersion),
+                                                                    Base.Resources.DialogVersionUpdate,
+                                                                    MessageBoxButton.YesNo);
+
+                    if (dialogResult == MessageBoxResult.Yes)
+                    {
+                        updater.Update();
+                    }
+                }
             };
+
+            updater.Check();
+        }
+
+        private void GetFileList()
+        {
+            List<string> fileArgs = Environment.GetCommandLineArgs().Skip(1).ToList();
+            foreach (string file in fileArgs)
+            {
+                if (File.GetAttributes(file).HasFlag(FileAttributes.Directory))
+                {
+                    files.AddRange(Directory.EnumerateFiles(file, "*.*", SearchOption.AllDirectories));
+                }
+                else
+                {
+                    files.Add(file);
+                }
+            }
         }
 
         private void InsertFileList()
@@ -149,9 +182,16 @@ namespace Koffeinfrei.MinusShare
             string title = inputTitle.Text == Properties.Resources.InputTitleDefaultText
                                ? ""
                                : inputTitle.Text;
-            minus.AddFiles(files);
-            minus.SetTitle(title);
-            minus.Create();
+
+            Minus minus1 = new Minus
+            {
+                GalleryCreated = OnGalleryCreated,
+                InfoLogger = OnInfoMessage,
+                ErrorLogger = OnErrorMessage
+            };
+            minus1.AddFiles(files);
+            minus1.SetTitle(title);
+            minus1.Create();
 
             // disable controls
             inputTitle.IsEnabled = false;

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinusEngine", "lib\MinusEng
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Koffeinfrei.MinusShare.Setup", "Koffeinfrei.MinusShare.Setup\Koffeinfrei.MinusShare.Setup.vdproj", "{1945F294-7D57-42DE-A493-3123244F8AD4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Koffeinfrei.Base", "lib\Koffeinfrei.Base\Koffeinfrei.Base\Koffeinfrei.Base.csproj", "{449EB60D-49F6-4A93-A326-C306BAEAF0CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,16 @@ Global
 		{1945F294-7D57-42DE-A493-3123244F8AD4}.Release|Any CPU.ActiveCfg = Release
 		{1945F294-7D57-42DE-A493-3123244F8AD4}.Release|Mixed Platforms.ActiveCfg = Release
 		{1945F294-7D57-42DE-A493-3123244F8AD4}.Release|x86.ActiveCfg = Release
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{449EB60D-49F6-4A93-A326-C306BAEAF0CE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

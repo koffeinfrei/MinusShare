@@ -99,6 +99,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -109,6 +110,10 @@
     <Resource Include="img\loading.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\lib\Koffeinfrei.Base\Koffeinfrei.Base\Koffeinfrei.Base.csproj">
+      <Project>{449EB60D-49F6-4A93-A326-C306BAEAF0CE}</Project>
+      <Name>Koffeinfrei.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\lib\MinusEngine\MinusEngine\MinusEngine.csproj">
       <Project>{03D1AA9A-FFCC-4807-87C7-833FC8CA394A}</Project>
       <Name>MinusEngine</Name>

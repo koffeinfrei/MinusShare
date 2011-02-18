@@ -22,5 +22,23 @@ namespace Koffeinfrei.MinusShare.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/downloads/koffeinfrei/MinusShare/minus-share_setup_{0}.msi")]
+        public string DownloadUrlFormat {
+            get {
+                return ((string)(this["DownloadUrlFormat"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/koffeinfrei/zueribad-wintray/raw/master/version.txt")]
+        public string VersionUrl {
+            get {
+                return ((string)(this["VersionUrl"]));
+            }
+        }
     }
 }

@@ -1,0 +1,8 @@
+--- 
+repository_url: git@github.com:koffeinfrei/base-dotnet.git
+lock: false
+repository_class: Piston::Git::Repository
+format: 1
+handler: 
+  commit: f6b6783ef9d0a72cc46c0d27a494eb36c18f3028
+  branch: master
