@@ -237,16 +237,24 @@
 		<Setter Property="SnapsToDevicePixels" Value="True" />
 		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Style.Triggers>
-			<Trigger Property="Orientation" Value="Horizontal">
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Orientation" Value="Horizontal" />
+                    <Condition Property="IsEnabled" Value="True" />
+                </MultiTrigger.Conditions>
 				<Setter Property="Width" Value="Auto" />
 				<Setter Property="Height" Value="18" />
 				<Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
-			</Trigger>
-			<Trigger Property="Orientation" Value="Vertical">
+			</MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Orientation" Value="Vertical" />
+                    <Condition Property="IsEnabled" Value="True" />
+                </MultiTrigger.Conditions>
 				<Setter Property="Width" Value="18" />
 				<Setter Property="Height" Value="Auto" />
 				<Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
-			</Trigger>
+			</MultiTrigger>
 		</Style.Triggers>
 	</Style>
 
