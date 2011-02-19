@@ -81,7 +81,7 @@ namespace Koffeinfrei.MinusShare
             {
                 // gallery created, trigger upload of the first file
                 galleryCreated = result;
-                LogInfo(Resources.GalleryCreated + result);
+                LogInfo(Resources.GalleryCreated);
                 LogInfo(Resources.UploadingFiles);
                 api.UploadItem(result.EditorId, result.Key, queuedFiles[0]);
             };
@@ -92,7 +92,7 @@ namespace Koffeinfrei.MinusShare
             api.UploadItemComplete += (sender, result) =>
             {
                 // upload complete, either trigger another upload or save the gallery if all files have been uploaded
-                LogInfo(Resources.UploadSuccessful + result);
+                LogInfo(Resources.UploadSuccessful);
                 uploadedFiles.Add(result.Id);
                 if (uploadedFiles.Count == queuedFiles.Count)
                 {

@@ -117,7 +117,8 @@ namespace Koffeinfrei.MinusShare
                     Content = new Image
                     {
                         Source = deleteIcon,
-                        Width = 24
+                        Width = 16,
+                        Height = 16
                     },
                     Style = (Style) FindResource("MainButton"),
                     ToolTip = Properties.Resources.RemoveFile
@@ -148,6 +149,8 @@ namespace Koffeinfrei.MinusShare
                 buttonShareLink.Content = result.ShareUrl;
                 sectionProgress.Visibility = Visibility.Collapsed;
                 sectionDone.Visibility = Visibility.Visible;
+                buttonCancel.Visibility = Visibility.Collapsed;
+                buttonShare.Visibility = Visibility.Collapsed;
             }));
         }
 
@@ -233,6 +236,41 @@ namespace Koffeinfrei.MinusShare
             {
                 inputTitle.Text = "";
             }
+        }
+
+        private void buttonClipboard_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetData(DataFormats.Text, buttonShareLink.Content);
+        }
+
+        private void buttonEditClipboard_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetData(DataFormats.Text, buttonEditLink.Content);
+        }
+
+        private void buttonTwitter_Click(object sender, RoutedEventArgs e)
+        {
+            OpenShareUrl("http://twitter.com/home?status={0}");
+        }
+
+        private void buttonFacebook_Click(object sender, RoutedEventArgs e)
+        {
+            OpenShareUrl("http://www.facebook.com/sharer.php?u={0}");
+        }
+
+        private void buttonIdentica_Click(object sender, RoutedEventArgs e)
+        {
+            OpenShareUrl("http://identi.ca//index.php?action=bookmarklet&status_textarea={0}");
+        }
+
+        private void buttonEmail_Click(object sender, RoutedEventArgs e)
+        {
+            OpenShareUrl("mailto:?subject={0}");
+        }
+
+        private void OpenShareUrl(string urlFormat)
+        {
+            Process.Start(string.Format(urlFormat, buttonShareLink.Content));
         }
     }
 }
