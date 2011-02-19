@@ -68,7 +68,7 @@ namespace Koffeinfrei.Base
 
         private void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            string serverVersion = e.Result;
+            string serverVersion = e.Result.Trim();
 
             if (Application.ProductVersion != serverVersion)
             {
