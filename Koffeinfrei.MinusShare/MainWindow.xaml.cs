@@ -126,8 +126,7 @@ namespace Koffeinfrei.MinusShare
                 };
                 button.Click += (sender, e) =>
                 {
-                    panel.Children.Remove(button);
-                    panel.Children.Remove(label);
+                    stackFiles.Children.Remove(panel);
                     files.Remove(file);
                     if (files.Count == 0)
                     {
@@ -188,15 +187,15 @@ namespace Koffeinfrei.MinusShare
                                ? ""
                                : inputTitle.Text;
 
-            Minus minus1 = new Minus
+            Minus minus = new Minus
             {
                 GalleryCreated = OnGalleryCreated,
                 InfoLogger = OnInfoMessage,
                 ErrorLogger = OnErrorMessage
             };
-            minus1.AddFiles(files);
-            minus1.SetTitle(title);
-            minus1.Create();
+            minus.AddFiles(files);
+            minus.SetTitle(title);
+            minus.Create();
 
             // disable controls
             inputTitle.IsEnabled = false;
