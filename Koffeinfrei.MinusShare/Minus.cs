@@ -83,6 +83,8 @@ namespace Koffeinfrei.MinusShare
                 galleryCreated = result;
                 LogInfo(Resources.GalleryCreated);
                 LogInfo(Resources.UploadingFiles);
+                FileInfo file = new FileInfo(queuedFiles[uploadedFiles.Count]);
+                LogInfo(Resources.UploadingFile + file.Name + "...");
                 api.UploadItem(result.EditorId, result.Key, queuedFiles[0]);
             };
 
