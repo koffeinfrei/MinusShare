@@ -1,9 +1,11 @@
 * add account support
-* drag n drop files to UI
 * save history, view history
+* add config (check updates, save history, login data)
+* extract i18n strings
 
 /* support directories
 /* make file list scrollable if getting too long
 /* externalize styles/themes (keep only UI structure in main.xaml)
 /* maybe only show file name, not whole path
-* add direct links to *clipboard*, email, twitter, etc...
+/* add direct links to *clipboard*, email, twitter, etc...
+/* drag n drop files to UI

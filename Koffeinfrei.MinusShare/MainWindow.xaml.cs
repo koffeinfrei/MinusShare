@@ -35,6 +35,7 @@ namespace Koffeinfrei.MinusShare
     public partial class MainWindow
     {
         private readonly List<string> files;
+        private readonly BitmapImage deleteIcon;
 
         public MainWindow()
         {
@@ -52,9 +53,14 @@ namespace Koffeinfrei.MinusShare
             stackFilesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
 
             // setup the file list
+            deleteIcon = new BitmapImage();
+            deleteIcon.BeginInit();
+            deleteIcon.UriSource = new Uri("pack://application:,,,/img/delete.png");
+            deleteIcon.EndInit();
+
             files = new List<string>();
-            GetFileList();
-            InsertFileList();
+            AddFileList(Environment.GetCommandLineArgs().Skip(1).ToList());
+            PopulateFileList();
 
             // update check
             KfUpdater updater = new KfUpdater(Settings.Default.VersionUrl, Settings.Default.DownloadUrlFormat);
@@ -77,10 +83,9 @@ namespace Koffeinfrei.MinusShare
             updater.Check();
         }
 
-        private void GetFileList()
+        private void AddFileList(IEnumerable<string> fileList)
         {
-            List<string> fileArgs = Environment.GetCommandLineArgs().Skip(1).ToList();
-            foreach (string file in fileArgs)
+            foreach (string file in fileList)
             {
                 if (File.GetAttributes(file).HasFlag(FileAttributes.Directory))
                 {
@@ -93,20 +98,17 @@ namespace Koffeinfrei.MinusShare
             }
         }
 
-        private void InsertFileList()
+        private void PopulateFileList()
         {
-            BitmapImage deleteIcon = new BitmapImage();
-            deleteIcon.BeginInit();
-            deleteIcon.UriSource = new Uri("pack://application:,,,/img/delete.png");
-            deleteIcon.EndInit();
-
-            foreach (string s in files)
+            // add only newly added files
+            for (int i = stackFiles.Children.Count; i < files.Count; ++i)
             {
+                string file = files[i];
                 StackPanel panel = new StackPanel {Orientation = Orientation.Horizontal};
 
                 Label label = new Label
                 {
-                    Content = Path.GetFileName(s),
+                    Content = Path.GetFileName(file),
                     Padding = new Thickness(0, 0, 0, 0),
                     Margin = new Thickness(0, 0, 0, 0),
                     VerticalAlignment = VerticalAlignment.Center
@@ -122,12 +124,11 @@ namespace Koffeinfrei.MinusShare
                     },
                     ToolTip = Properties.Resources.RemoveFile
                 };
-                string s1 = s;
                 button.Click += (sender, e) =>
                 {
                     panel.Children.Remove(button);
                     panel.Children.Remove(label);
-                    files.Remove(s1);
+                    files.Remove(file);
                     if (files.Count == 0)
                     {
                         Application.Current.Shutdown();
@@ -270,6 +271,16 @@ namespace Koffeinfrei.MinusShare
         private void OpenShareUrl(string urlFormat)
         {
             Process.Start(string.Format(urlFormat, buttonShareLink.Content));
+        }
+
+        private void stackFilesScrollViewer_Drop(object sender, DragEventArgs e)
+        {
+            string[] droppedFiles = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (droppedFiles != null)
+            {
+                AddFileList(droppedFiles);
+                PopulateFileList();
+            }
         }
     }
 }
