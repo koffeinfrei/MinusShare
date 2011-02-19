@@ -49,6 +49,8 @@ namespace Koffeinfrei.MinusShare
             inputTitle.Focus();
             inputTitle.Text = Properties.Resources.InputTitleDefaultText;
 
+            stackFilesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
+
             // setup the file list
             files = new List<string>();
             GetFileList();
@@ -104,7 +106,7 @@ namespace Koffeinfrei.MinusShare
 
                 Label label = new Label
                 {
-                    Content = s,
+                    Content = Path.GetFileName(s),
                     Padding = new Thickness(0, 0, 0, 0),
                     Margin = new Thickness(0, 0, 0, 0),
                     VerticalAlignment = VerticalAlignment.Center

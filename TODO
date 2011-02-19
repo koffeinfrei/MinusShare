@@ -1,7 +1,8 @@
-* make file list scrollable if getting too long
-* maybe only show file name, not whole path
 * add direct links to *clipboard*, email, twitter, etc...
 * add account support
 * drag n drop files to UI
 
 /* support directories
+/* make file list scrollable if getting too long
+/* externalize styles/themes (keep only UI structure in main.xaml)
+/* maybe only show file name, not whole path
