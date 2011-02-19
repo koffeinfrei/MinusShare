@@ -120,7 +120,6 @@ namespace Koffeinfrei.MinusShare
                         Width = 16,
                         Height = 16
                     },
-                    Style = (Style) FindResource("MainButton"),
                     ToolTip = Properties.Resources.RemoveFile
                 };
                 string s1 = s;
