@@ -13,10 +13,10 @@
         </ScrollViewer>
         
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
-            <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonCancel" Click="buttonCancel_Click" Padding="0" ToolTip="Cancel">
+            <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonCancel" Click="buttonCancel_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipCancelButton}">
                 <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/cancel.png" Height="24" Width="24" />
             </Button>
-            <Button HorizontalAlignment="Left" Margin="15,0,0,0" Name="buttonShare" Click="buttonShare_Click" Padding="0" ToolTip="Start sharing">
+            <Button HorizontalAlignment="Left" Margin="15,0,0,0" Name="buttonShare" Click="buttonShare_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipStartButton}">
                 <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/start.png" Height="24" Width="24" />
             </Button>
         </StackPanel>
@@ -98,29 +98,29 @@
             </Button>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="5,0,0,0" Grid.Row="0" Grid.Column="2">
-                <Button Margin="0,0,2,0" ToolTip="Copy to clipboard" Click="buttonClipboard_Click">
+                <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipCopyToClipboard}" Click="buttonClipboard_Click">
                     <Image Source="pack://application:,,,/img/clipboard.png" Height="16" Width="16" />
                 </Button>
 
-                <Button Margin="0,0,2,0" ToolTip="Tweet it" Click="buttonTwitter_Click">
+                <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipTwitter}" Click="buttonTwitter_Click">
                     <Image Source="pack://application:,,,/img/twitter.png" Height="16" Width="16" />
                 </Button>
 
-                <Button Margin="0,0,2,0" ToolTip="Post on identi.ca" Click="buttonIdentica_Click">
+                <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipIdentica}" Click="buttonIdentica_Click">
                     <Image Source="pack://application:,,,/img/identica.png" Height="16" Width="16" />
                 </Button>
 
-                <Button Margin="0,0,2,0" ToolTip="Share on facebook" Click="buttonFacebook_Click">
+                <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipFacebook}" Click="buttonFacebook_Click">
                     <Image Source="pack://application:,,,/img/facebook.png" Height="16" Width="16" />
                 </Button>
 
-                <Button Margin="0,0,2,0" ToolTip="Email" Click="buttonEmail_Click">
+                <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipEmail}" Click="buttonEmail_Click">
                     <Image Source="pack://application:,,,/img/email.png" Height="16" Width="16" />
                 </Button>
 
             </StackPanel>
 
-            <Button HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="1" Grid.Column="2" ToolTip="Copy editor link to clipboard" Click="buttonEditClipboard_Click">
+            <Button HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="1" Grid.Column="2" ToolTip="{x:Static p:Resources.TooltipCopyEditToClipboard}" Click="buttonEditClipboard_Click">
                 <Image Source="pack://application:,,,/img/clipboard.png" Height="16" Width="16" />
             </Button>
 

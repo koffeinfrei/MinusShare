@@ -1,7 +1,6 @@
 * add account support
 * save history, view history
 * add config (check updates, save history, login data)
-* extract i18n strings
 
 /* support directories
 /* make file list scrollable if getting too long
@@ -9,3 +8,4 @@
 /* maybe only show file name, not whole path
 /* add direct links to *clipboard*, email, twitter, etc...
 /* drag n drop files to UI
+/* extract i18n strings

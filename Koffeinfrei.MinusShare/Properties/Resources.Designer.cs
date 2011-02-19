@@ -124,6 +124,78 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string TooltipCancelButton {
+            get {
+                return ResourceManager.GetString("TooltipCancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy editor link to clipboard.
+        /// </summary>
+        public static string TooltipCopyEditToClipboard {
+            get {
+                return ResourceManager.GetString("TooltipCopyEditToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy to clipboard.
+        /// </summary>
+        public static string TooltipCopyToClipboard {
+            get {
+                return ResourceManager.GetString("TooltipCopyToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string TooltipEmail {
+            get {
+                return ResourceManager.GetString("TooltipEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share on facebook.
+        /// </summary>
+        public static string TooltipFacebook {
+            get {
+                return ResourceManager.GetString("TooltipFacebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Post on identi.ca.
+        /// </summary>
+        public static string TooltipIdentica {
+            get {
+                return ResourceManager.GetString("TooltipIdentica", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start sharing.
+        /// </summary>
+        public static string TooltipStartButton {
+            get {
+                return ResourceManager.GetString("TooltipStartButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tweet it.
+        /// </summary>
+        public static string TooltipTwitter {
+            get {
+                return ResourceManager.GetString("TooltipTwitter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload failed. .
         /// </summary>
         public static string UploadFailed {

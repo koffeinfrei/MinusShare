@@ -150,4 +150,28 @@
   <data name="GalleryCreated" xml:space="preserve">
     <value>Gallery created. </value>
   </data>
+  <data name="TooltipCancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="TooltipCopyEditToClipboard" xml:space="preserve">
+    <value>Copy editor link to clipboard</value>
+  </data>
+  <data name="TooltipCopyToClipboard" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="TooltipEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="TooltipFacebook" xml:space="preserve">
+    <value>Share on facebook</value>
+  </data>
+  <data name="TooltipIdentica" xml:space="preserve">
+    <value>Post on identi.ca</value>
+  </data>
+  <data name="TooltipStartButton" xml:space="preserve">
+    <value>Start sharing</value>
+  </data>
+  <data name="TooltipTwitter" xml:space="preserve">
+    <value>Tweet it</value>
+  </data>
 </root>
