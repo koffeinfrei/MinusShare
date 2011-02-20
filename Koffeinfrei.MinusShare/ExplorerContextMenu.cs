@@ -17,6 +17,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Koffeinfrei.Base;
 
 namespace Koffeinfrei.MinusShare
 {
@@ -29,7 +30,7 @@ namespace Koffeinfrei.MinusShare
         {
             if (!File.Exists(LinkFileName))
             {
-                Symlink symlink = new Symlink(Symlink.LinkType.File);
+                KfSymlink symlink = new KfSymlink(KfSymlink.LinkType.File);
                 symlink.SetPath(Assembly.GetExecutingAssembly().Location);
                 symlink.SetDescription("Share on min.us");
                 symlink.SetIconLocation(Assembly.GetExecutingAssembly().Location, 0);
