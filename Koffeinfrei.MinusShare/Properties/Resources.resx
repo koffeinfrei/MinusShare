@@ -174,4 +174,22 @@
   <data name="TooltipTwitter" xml:space="preserve">
     <value>Tweet it</value>
   </data>
+  <data name="TooltipCheckForUpdates" xml:space="preserve">
+    <value>Check for updates now</value>
+  </data>
+  <data name="TooltipDiscardSettingsButton" xml:space="preserve">
+    <value>Discard changes</value>
+  </data>
+  <data name="TooltipSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="DialogVersionUpdateNoUpdates" xml:space="preserve">
+    <value>You are up to date!</value>
+  </data>
+  <data name="SignInFailed" xml:space="preserve">
+    <value>Failed to Sign In.</value>
+  </data>
+  <data name="SignedIn" xml:space="preserve">
+    <value>Signed In.</value>
+  </data>
 </root>

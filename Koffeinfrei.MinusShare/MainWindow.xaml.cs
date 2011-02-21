@@ -63,6 +63,14 @@ namespace Koffeinfrei.MinusShare
             PopulateFileList();
 
             // update check
+            if (Settings.Default.AutoUpdateCheck)
+            {
+                CheckForUpdates(false);
+            }
+        }
+
+        private static void CheckForUpdates(bool showResultsAlways)
+        {
             KfUpdater updater = new KfUpdater(Settings.Default.VersionUrl, Settings.Default.DownloadUrlFormat);
             updater.CheckCompleted = () =>
             {
@@ -77,6 +85,10 @@ namespace Koffeinfrei.MinusShare
                     {
                         updater.Update();
                     }
+                }
+                else if (showResultsAlways)
+                {
+                    MessageBox.Show(Properties.Resources.DialogVersionUpdateNoUpdates, Base.Resources.DialogVersionUpdate, MessageBoxButton.OK);
                 }
             };
 
@@ -175,6 +187,7 @@ namespace Koffeinfrei.MinusShare
             {
                 outputStatus.Foreground = new SolidColorBrush(Colors.Red);
                 outputStatus.Content = message;
+                imageLoading.Visibility = Visibility.Collapsed;
             }));
         }
 
@@ -295,6 +308,22 @@ namespace Koffeinfrei.MinusShare
                 AddFileList(droppedFiles);
                 PopulateFileList();
             }
+        }
+
+        private void buttonCheckUpdates_Click(object sender, RoutedEventArgs e)
+        {
+            CheckForUpdates(true);
+        }
+
+        private void buttonSaveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.Save();
+            mainTabControl.SelectedIndex = 0;
+        }
+
+        private void buttonDiscardSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.Reload();
         }
     }
 }

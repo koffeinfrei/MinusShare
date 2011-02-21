@@ -79,6 +79,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are up to date!.
+        /// </summary>
+        public static string DialogVersionUpdateNoUpdates {
+            get {
+                return ResourceManager.GetString("DialogVersionUpdateNoUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gallery created. .
         /// </summary>
         public static string GalleryCreated {
@@ -124,11 +133,38 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Signed In..
+        /// </summary>
+        public static string SignedIn {
+            get {
+                return ResourceManager.GetString("SignedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to Sign In..
+        /// </summary>
+        public static string SignInFailed {
+            get {
+                return ResourceManager.GetString("SignInFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string TooltipCancelButton {
             get {
                 return ResourceManager.GetString("TooltipCancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for updates now.
+        /// </summary>
+        public static string TooltipCheckForUpdates {
+            get {
+                return ResourceManager.GetString("TooltipCheckForUpdates", resourceCulture);
             }
         }
         
@@ -147,6 +183,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         public static string TooltipCopyToClipboard {
             get {
                 return ResourceManager.GetString("TooltipCopyToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard changes.
+        /// </summary>
+        public static string TooltipDiscardSettingsButton {
+            get {
+                return ResourceManager.GetString("TooltipDiscardSettingsButton", resourceCulture);
             }
         }
         
@@ -174,6 +219,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         public static string TooltipIdentica {
             get {
                 return ResourceManager.GetString("TooltipIdentica", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string TooltipSave {
+            get {
+                return ResourceManager.GetString("TooltipSave", resourceCulture);
             }
         }
         

@@ -18,7 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using BiasedBit.MinusEngine;
+using Koffeinfrei.Base;
 using Koffeinfrei.MinusShare.Properties;
+using Resources = Koffeinfrei.MinusShare.Properties.Resources;
 
 namespace Koffeinfrei.MinusShare
 {
@@ -75,7 +77,7 @@ namespace Koffeinfrei.MinusShare
             CreateGalleryResult galleryCreated = null;
 
             // set up the listeners for CREATE
-            api.CreateGalleryFailed += (sender, e) => LogError(Resources.CreateGalleryFailed + e.Message);
+            api.CreateGalleryFailed += (sender, e) => LogError(Resources.CreateGalleryFailed, e);
 
             api.CreateGalleryComplete += (sender, result) =>
             {
@@ -89,7 +91,7 @@ namespace Koffeinfrei.MinusShare
             };
 
             // set up the listeners for UPLOAD
-            api.UploadItemFailed += (sender, e) => LogError(Resources.UploadFailed + e.Message);
+            api.UploadItemFailed += (sender, e) => LogError(Resources.UploadFailed, e);
 
             api.UploadItemComplete += (sender, result) =>
             {
@@ -112,7 +114,7 @@ namespace Koffeinfrei.MinusShare
             };
 
             // set up the listeners for SAVE
-            api.SaveGalleryFailed += (sender, e) => LogInfo(Resources.SaveGalleryFailed + e.Message);
+            api.SaveGalleryFailed += (sender, e) => LogError(Resources.SaveGalleryFailed, e);
 
             api.SaveGalleryComplete += sender =>
             {
@@ -130,8 +132,26 @@ namespace Koffeinfrei.MinusShare
                 }
             };
 
-            // this is the call that actually triggers the whole program
-            api.CreateGallery();
+            // set up the listeners for SIGNIN
+            api.SignInFailed += (sender, e) => LogError(Resources.SignInFailed, e);
+            api.SignInComplete += (sender, result) =>
+            {
+                LogInfo(Resources.SignedIn);
+                //api.MyGalleries(result.CookieHeaders);
+
+                // this is the call that actually triggers the whole program
+                api.CreateGallery();
+            };
+
+            if (!string.IsNullOrEmpty(Settings.Default.Username) && !string.IsNullOrEmpty(Settings.Default.Password))
+            {
+                api.SignIn(Settings.Default.Username, KfEncryption.DecryptString(Settings.Default.Password).ToInsecureString());
+            }
+            else
+            {
+                // this is the call that actually triggers the whole program
+                api.CreateGallery();
+            }
         }
 
         private void LogInfo(string message)
@@ -142,11 +162,11 @@ namespace Koffeinfrei.MinusShare
             }
         }
 
-        private void LogError(string message)
+        private void LogError(string message, Exception exception)
         {
             if (ErrorLogger != null)
             {
-                ErrorLogger(message);
+                ErrorLogger(message + " " + exception.Message);
             }
         }
     }

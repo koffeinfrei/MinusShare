@@ -63,6 +63,7 @@
     <Compile Include="ApplicationInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PasswordBoxBinder.cs" />
     <Compile Include="MinusResult.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -104,7 +105,7 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
@@ -151,6 +152,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\email.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\update.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
