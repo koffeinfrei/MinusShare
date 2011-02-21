@@ -1,6 +1,8 @@
 * add account support
 * save history, view history
 * add config (check updates, save history, login data)
+* show size in list
+* check for 10MB limit
 
 /* support directories
 /* make file list scrollable if getting too long

@@ -140,6 +140,13 @@ namespace Koffeinfrei.MinusShare
             }
         }
 
+        private string GetTitle()
+        {
+            return inputTitle.Text == Properties.Resources.InputTitleDefaultText
+                       ? ""
+                       : inputTitle.Text;
+        }
+
         private void OnGalleryCreated(MinusResult result)
         {
             Dispatcher.Invoke(new Action(() =>
@@ -183,10 +190,6 @@ namespace Koffeinfrei.MinusShare
 
         private void buttonShare_Click(object sender, RoutedEventArgs e)
         {
-            string title = inputTitle.Text == Properties.Resources.InputTitleDefaultText
-                               ? ""
-                               : inputTitle.Text;
-
             Minus minus = new Minus
             {
                 GalleryCreated = OnGalleryCreated,
@@ -194,7 +197,7 @@ namespace Koffeinfrei.MinusShare
                 ErrorLogger = OnErrorMessage
             };
             minus.AddFiles(files);
-            minus.SetTitle(title);
+            minus.SetTitle(GetTitle());
             minus.Create();
 
             // disable controls
@@ -249,27 +252,39 @@ namespace Koffeinfrei.MinusShare
 
         private void buttonTwitter_Click(object sender, RoutedEventArgs e)
         {
-            OpenShareUrl("http://twitter.com/home?status={0}");
+            const string baseUrl = "http://twitter.com/home?status=";
+            OpenShareUrl(baseUrl + "{0}",
+                baseUrl + "{1}: {0}");
         }
 
         private void buttonFacebook_Click(object sender, RoutedEventArgs e)
         {
-            OpenShareUrl("http://www.facebook.com/sharer.php?u={0}");
+            const string baseURl = "http://www.facebook.com/sharer.php?u=";
+            OpenShareUrl(baseURl + "{0}",
+                baseURl + "{1}: {0}");
         }
 
         private void buttonIdentica_Click(object sender, RoutedEventArgs e)
         {
-            OpenShareUrl("http://identi.ca//index.php?action=bookmarklet&status_textarea={0}");
+            const string baseUrl = "http://identi.ca//index.php?action=bookmarklet&status_textarea=";
+            OpenShareUrl(baseUrl + "{0}",
+                baseUrl + "{1}: {0}");
         }
 
         private void buttonEmail_Click(object sender, RoutedEventArgs e)
         {
-            OpenShareUrl("mailto:?subject={0}");
+            OpenShareUrl("mailto:?body={0}",
+                "mailto:?subject={1}&body={0}");
         }
 
-        private void OpenShareUrl(string urlFormat)
+        private void OpenShareUrl(string urlFormat, string urlWithTitleFormat)
         {
-            Process.Start(string.Format(urlFormat, buttonShareLink.Content));
+            string title = GetTitle();
+            string url = string.IsNullOrEmpty(title) 
+                ? string.Format(urlFormat, buttonShareLink.Content)
+                : string.Format(urlWithTitleFormat, buttonShareLink.Content, title);
+
+            Process.Start(url);
         }
 
         private void stackFilesScrollViewer_Drop(object sender, DragEventArgs e)
