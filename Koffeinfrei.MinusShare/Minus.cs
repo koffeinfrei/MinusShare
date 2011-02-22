@@ -137,10 +137,9 @@ namespace Koffeinfrei.MinusShare
             api.SignInComplete += (sender, result) =>
             {
                 LogInfo(Resources.SignedIn);
-                //api.MyGalleries(result.CookieHeaders);
 
                 // this is the call that actually triggers the whole program
-                api.CreateGallery();
+                api.CreateGallery(result.CookieHeaders);
             };
 
             if (!string.IsNullOrEmpty(Settings.Default.Username) && !string.IsNullOrEmpty(Settings.Default.Password))

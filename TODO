@@ -1,5 +1,7 @@
 * save history, view history
 * show size in list
+* add about dialog (show version!)
+
 (* check for 10MB limit (not necessary, uploads don't seem to be limited))
 
 /* support directories
