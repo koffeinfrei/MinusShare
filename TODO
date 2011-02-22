@@ -1,8 +1,6 @@
-* add account support
 * save history, view history
-* add config (check updates, save history, login data)
 * show size in list
-* check for 10MB limit
+(* check for 10MB limit (not necessary, uploads don't seem to be limited))
 
 /* support directories
 /* make file list scrollable if getting too long
@@ -11,3 +9,5 @@
 /* add direct links to *clipboard*, email, twitter, etc...
 /* drag n drop files to UI
 /* extract i18n strings
+/* add account support
+/* add config (check updates, save history, login data)
