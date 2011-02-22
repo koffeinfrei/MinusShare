@@ -21,25 +21,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2AAEE388908A07D52226E9A66438E0A7"
+        "OwnerKey" = "8:_CAEDE31FB8A645F0A2AC58FAB0BC61C3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2D6C9CFBB72647B5971F899553714106"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_74629826237BB1B2070C33340B016159"
-        "OwnerKey" = "8:_CAEDE31FB8A645F0A2AC58FAB0BC61C3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_74629826237BB1B2070C33340B016159"
-        "OwnerKey" = "8:_C82DB7B1E57F9228C03A4DB05DE216A4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C82DB7B1E57F9228C03A4DB05DE216A4"
+        "MsmKey" = "8:_C337FA80EB21020567EE76660B970D5C"
         "OwnerKey" = "8:_CAEDE31FB8A645F0A2AC58FAB0BC61C3"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -51,8 +45,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C82DB7B1E57F9228C03A4DB05DE216A4"
+        "MsmKey" = "8:_F31AF46F0D2BC5744A101AF888254420"
+        "OwnerKey" = "8:_2AAEE388908A07D52226E9A66438E0A7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F31AF46F0D2BC5744A101AF888254420"
+        "OwnerKey" = "8:_CAEDE31FB8A645F0A2AC58FAB0BC61C3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -64,7 +64,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_74629826237BB1B2070C33340B016159"
+        "OwnerKey" = "8:_2AAEE388908A07D52226E9A66438E0A7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F31AF46F0D2BC5744A101AF888254420"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C337FA80EB21020567EE76660B970D5C"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -85,6 +97,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -101,6 +121,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -178,6 +206,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2AAEE388908A07D52226E9A66438E0A7"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MinusEngine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_2AAEE388908A07D52226E9A66438E0A7"
+                    {
+                    "Name" = "8:MinusEngine.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MinusEngine.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F7CF7A99147A405897443C94FFCFCF36"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2D6C9CFBB72647B5971F899553714106"
             {
             "SourcePath" = "8:..\\gpl-3.0.txt"
@@ -198,20 +257,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_74629826237BB1B2070C33340B016159"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C337FA80EB21020567EE76660B970D5C"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Koffeinfrei.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_74629826237BB1B2070C33340B016159"
+                    "_C337FA80EB21020567EE76660B970D5C"
                     {
-                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Name" = "8:Koffeinfrei.Base.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Newtonsoft.Json.dll"
+            "SourcePath" = "8:Koffeinfrei.Base.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F7CF7A99147A405897443C94FFCFCF36"
@@ -229,20 +288,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C82DB7B1E57F9228C03A4DB05DE216A4"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F31AF46F0D2BC5744A101AF888254420"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MinusEngine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C82DB7B1E57F9228C03A4DB05DE216A4"
+                    "_F31AF46F0D2BC5744A101AF888254420"
                     {
-                    "Name" = "8:MinusEngine.dll"
+                    "Name" = "8:Newtonsoft.Json.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:MinusEngine.dll"
+            "SourcePath" = "8:Newtonsoft.Json.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F7CF7A99147A405897443C94FFCFCF36"
@@ -355,7 +414,7 @@
         "ARPCONTACT" = "8:Koffeinfrei"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPURLINFOABOUT" = "8:http://www.koffeinfrei.org"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
@@ -949,7 +1008,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CAEDE31FB8A645F0A2AC58FAB0BC61C3"
             {
-            "SourcePath" = "8:..\\Koffeinfrei.MinusShare\\obj\\x86\\Debug\\Koffeinfrei.MinusShare.exe"
+            "SourcePath" = "8:..\\Koffeinfrei.MinusShare\\obj\\x86\\Release\\Koffeinfrei.MinusShare.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F7CF7A99147A405897443C94FFCFCF36"
