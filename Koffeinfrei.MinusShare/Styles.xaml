@@ -131,7 +131,7 @@
 	<!-- Miscellaneous Brushes -->
 	<SolidColorBrush x:Key="GlyphBrush" Color="#444" />
 
-	<SolidColorBrush x:Key="LightColorBrush" Color="#DDD" />
+    <SolidColorBrush x:Key="LightColorBrush" Color="#282828" />
 
 
 	<Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">

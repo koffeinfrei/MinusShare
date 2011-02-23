@@ -32,10 +32,10 @@
                 <TextBox HorizontalAlignment="Stretch" Name="inputTitle" Text="{x:Static p:Resources.InputTitleDefaultText}" GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" />
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" Name="stackFilesScrollViewer" Margin="0,5,0,0" AllowDrop="True" Drop="stackFilesScrollViewer_Drop">
-                    <ListBox Name="listFiles" HorizontalAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=Files}">
+                    <ListBox Name="listFiles" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=Files}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="0" HorizontalAlignment="Right">
+                                <Grid Margin="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
@@ -46,7 +46,9 @@
                                         <Image Source="pack://application:,,,/img/delete.png" Width="16" Height="16"></Image>
                                     </Button>
                                     <Label Content="{Binding Path=Name}" Grid.Column="1" Margin="0" />
-                                    <Label Content="{Binding Path=FileSize}" Grid.ColumnSpan="1" Grid.Column="2" Margin="0" HorizontalAlignment="Stretch" />
+                                    <Label Content="{Binding Path=FileSize}" Grid.Column="2" Margin="0" 
+                                           HorizontalAlignment="Right" Foreground="{StaticResource LightColorBrush}"
+                                           FontSize="11"/>
                                     
                                 </Grid>
                             </DataTemplate>

@@ -1,6 +1,6 @@
 * save history, view history
-* show size in list
 * add about dialog (show version!)
+* check login button
 
 (* check for 10MB limit (not necessary, uploads don't seem to be limited))
 
@@ -13,3 +13,4 @@
 /* extract i18n strings
 /* add account support
 /* add config (check updates, save history, login data)
+/* show size in list
