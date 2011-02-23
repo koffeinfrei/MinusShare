@@ -20,6 +20,7 @@ Main window, done sharing:
   * Identi.ca
   * Facebook
   * Email
+* Authentication with min.us account
 
 ## License
 
