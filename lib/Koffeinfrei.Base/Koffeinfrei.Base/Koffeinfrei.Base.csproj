@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KfFileSizeFormatProvider.cs" />
     <Compile Include="KfColor.cs" />
     <Compile Include="KfCultureInfo.cs" />
     <Compile Include="KfEncryption.cs" />
     <Compile Include="KfInteger.cs" />
+    <Compile Include="LongExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KfUpdater.cs" />
     <Compile Include="Resources.Designer.cs">
