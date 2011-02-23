@@ -63,6 +63,7 @@
     <Compile Include="ApplicationInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="FileListItem.cs" />
     <Compile Include="PasswordBoxBinder.cs" />
     <Compile Include="MinusResult.cs" />
     <Page Include="MainWindow.xaml">

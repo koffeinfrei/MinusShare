@@ -14,7 +14,8 @@
         Foreground="Black" 
         AllowsTransparency="False" 
         OverridesDefaultStyle="False" 
-        Icon="/Koffeinfrei.MinusShare;component/img/icon.png">
+        Icon="/Koffeinfrei.MinusShare;component/img/icon.png"
+        x:Name="ucName">
 
     <Window.Resources>
         <ResourceDictionary Source="Styles.xaml" />
@@ -31,9 +32,28 @@
                 <TextBox HorizontalAlignment="Stretch" Name="inputTitle" Text="{x:Static p:Resources.InputTitleDefaultText}" GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" />
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" Name="stackFilesScrollViewer" Margin="0,5,0,0" AllowDrop="True" Drop="stackFilesScrollViewer_Drop">
-                    <StackPanel HorizontalAlignment="Stretch" Name="stackFiles"></StackPanel>
-                </ScrollViewer>
+                    <ListBox Name="listFiles" HorizontalAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=Files}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0" HorizontalAlignment="Right">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
+                                    <Button Grid.Column="0" Margin="0" Click="buttonRemoveItem_Click" DataContext="{Binding}">
+                                        <Image Source="pack://application:,,,/img/delete.png" Width="16" Height="16"></Image>
+                                    </Button>
+                                    <Label Content="{Binding Path=Name}" Grid.Column="1" Margin="0" />
+                                    <Label Content="{Binding Path=FileSize}" Grid.ColumnSpan="1" Grid.Column="2" Margin="0" HorizontalAlignment="Stretch" />
+                                    
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
                     <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonCancel" Click="buttonCancel_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipCancelButton}">
                         <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/cancel.png" Height="24" Width="24" />

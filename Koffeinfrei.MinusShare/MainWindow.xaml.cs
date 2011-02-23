@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -23,7 +24,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Koffeinfrei.Base;
 using Koffeinfrei.MinusShare.Properties;
 
@@ -34,12 +34,18 @@ namespace Koffeinfrei.MinusShare
     /// </summary>
     public partial class MainWindow
     {
-        private readonly List<string> files;
-        private readonly BitmapImage deleteIcon;
+        public ObservableCollection<FileListItem> Files
+        {
+            get { return (ObservableCollection<FileListItem>) GetValue(ApplicationsProperty); }
+            set { SetValue(ApplicationsProperty, value); }
+        }
+
+        public static readonly DependencyProperty ApplicationsProperty =
+            DependencyProperty.Register("Files", typeof (ObservableCollection<FileListItem>), typeof (MainWindow), new UIPropertyMetadata(null));
 
         public MainWindow()
         {
-            //ExplorerContextMenu.Add();
+            Files = new ObservableCollection<FileListItem>();
 
             InitializeComponent();
 
@@ -52,15 +58,8 @@ namespace Koffeinfrei.MinusShare
 
             stackFilesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
 
-            // setup the file list
-            deleteIcon = new BitmapImage();
-            deleteIcon.BeginInit();
-            deleteIcon.UriSource = new Uri("pack://application:,,,/img/delete.png");
-            deleteIcon.EndInit();
-
-            files = new List<string>();
+            // get the files from the passed arguments
             AddFileList(Environment.GetCommandLineArgs().Skip(1).ToList());
-            PopulateFileList();
 
             // update check
             if (Settings.Default.AutoUpdateCheck)
@@ -99,56 +98,18 @@ namespace Koffeinfrei.MinusShare
         {
             foreach (string file in fileList)
             {
+                // recursively get files from directory
                 if (File.GetAttributes(file).HasFlag(FileAttributes.Directory))
                 {
-                    files.AddRange(Directory.EnumerateFiles(file, "*.*", SearchOption.AllDirectories));
+                    foreach (string enumeratedFile in Directory.EnumerateFiles(file, "*.*", SearchOption.AllDirectories))
+                    {
+                        Files.Add(new FileListItem(enumeratedFile));
+                    }
                 }
                 else
                 {
-                    files.Add(file);
+                    Files.Add(new FileListItem(file));
                 }
-            }
-        }
-
-        private void PopulateFileList()
-        {
-            // add only newly added files
-            for (int i = stackFiles.Children.Count; i < files.Count; ++i)
-            {
-                string file = files[i];
-                StackPanel panel = new StackPanel {Orientation = Orientation.Horizontal};
-
-                Label label = new Label
-                {
-                    Content = Path.GetFileName(file),
-                    Padding = new Thickness(0, 0, 0, 0),
-                    Margin = new Thickness(0, 0, 0, 0),
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-
-                Button button = new Button
-                {
-                    Content = new Image
-                    {
-                        Source = deleteIcon,
-                        Width = 16,
-                        Height = 16
-                    },
-                    ToolTip = Properties.Resources.RemoveFile
-                };
-                button.Click += (sender, e) =>
-                {
-                    stackFiles.Children.Remove(panel);
-                    files.Remove(file);
-                    if (files.Count == 0)
-                    {
-                        Application.Current.Shutdown();
-                    }
-                };
-
-                panel.Children.Add(button);
-                panel.Children.Add(label);
-                stackFiles.Children.Add(panel);
             }
         }
 
@@ -209,7 +170,7 @@ namespace Koffeinfrei.MinusShare
                 InfoLogger = OnInfoMessage,
                 ErrorLogger = OnErrorMessage
             };
-            minus.AddFiles(files);
+            minus.AddFiles(Files.Select(x => x.FullName).ToList());
             minus.SetTitle(GetTitle());
             minus.Create();
 
@@ -217,10 +178,8 @@ namespace Koffeinfrei.MinusShare
             inputTitle.IsEnabled = false;
             buttonShare.IsEnabled = false;
             buttonCancel.IsEnabled = false;
-            foreach (UIElement child in stackFiles.Children)
-            {
-                child.IsEnabled = false;
-            }
+            listFiles.IsEnabled = false;
+
             sectionProgress.Visibility = Visibility.Visible;
         }
 
@@ -267,35 +226,35 @@ namespace Koffeinfrei.MinusShare
         {
             const string baseUrl = "http://twitter.com/home?status=";
             OpenShareUrl(baseUrl + "{0}",
-                baseUrl + "{1}: {0}");
+                         baseUrl + "{1}: {0}");
         }
 
         private void buttonFacebook_Click(object sender, RoutedEventArgs e)
         {
             const string baseURl = "http://www.facebook.com/sharer.php?u=";
             OpenShareUrl(baseURl + "{0}",
-                baseURl + "{1}: {0}");
+                         baseURl + "{1}: {0}");
         }
 
         private void buttonIdentica_Click(object sender, RoutedEventArgs e)
         {
             const string baseUrl = "http://identi.ca//index.php?action=bookmarklet&status_textarea=";
             OpenShareUrl(baseUrl + "{0}",
-                baseUrl + "{1}: {0}");
+                         baseUrl + "{1}: {0}");
         }
 
         private void buttonEmail_Click(object sender, RoutedEventArgs e)
         {
             OpenShareUrl("mailto:?body={0}",
-                "mailto:?subject={1}&body={0}");
+                         "mailto:?subject={1}&body={0}");
         }
 
         private void OpenShareUrl(string urlFormat, string urlWithTitleFormat)
         {
             string title = GetTitle();
-            string url = string.IsNullOrEmpty(title) 
-                ? string.Format(urlFormat, buttonShareLink.Content)
-                : string.Format(urlWithTitleFormat, buttonShareLink.Content, title);
+            string url = string.IsNullOrEmpty(title)
+                             ? string.Format(urlFormat, buttonShareLink.Content)
+                             : string.Format(urlWithTitleFormat, buttonShareLink.Content, title);
 
             Process.Start(url);
         }
@@ -306,8 +265,8 @@ namespace Koffeinfrei.MinusShare
             if (droppedFiles != null)
             {
                 AddFileList(droppedFiles);
-                PopulateFileList();
             }
+            inputTitle.Focus();
         }
 
         private void buttonCheckUpdates_Click(object sender, RoutedEventArgs e)
@@ -324,6 +283,20 @@ namespace Koffeinfrei.MinusShare
         private void buttonDiscardSettings_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.Reload();
+        }
+
+        private void buttonRemoveItem_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button) sender;
+            FileListItem item = button.DataContext as FileListItem;
+            if (item != null)
+            {
+                Files.Remove(item);
+                if (Files.Count == 0)
+                {
+                    Application.Current.Shutdown();
+                }
+            }
         }
     }
 }
