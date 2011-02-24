@@ -76,5 +76,17 @@ namespace Koffeinfrei.MinusShare.Properties {
                 this["AutoUpdateCheck"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowFileSize {
+            get {
+                return ((bool)(this["ShowFileSize"]));
+            }
+            set {
+                this["ShowFileSize"] = value;
+            }
+        }
     }
 }

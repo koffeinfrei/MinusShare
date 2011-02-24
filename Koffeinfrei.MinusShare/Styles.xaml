@@ -1,5 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    
     <!-- buttons -->
 	<Style x:Key="MainButtonFocus">
 		<Setter Property="Control.Template">
@@ -131,7 +133,7 @@
 	<!-- Miscellaneous Brushes -->
 	<SolidColorBrush x:Key="GlyphBrush" Color="#444" />
 
-    <SolidColorBrush x:Key="LightColorBrush" Color="#282828" />
+    <SolidColorBrush x:Key="LightColorBrush" Color="#aa282828" />
 
 
 	<Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">

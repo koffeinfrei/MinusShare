@@ -1,7 +1,6 @@
 * save history, view history
 * add about dialog (show version!)
 * check login button
-* config to display file size (defaults to false, i think many people don't want that)
 * option to cancel an upload in progress (-> deleting created gallery)
 
 (* check for 10MB limit (not necessary, uploads don't seem to be limited))
@@ -16,3 +15,4 @@
 /* add account support
 /* add config (check updates, save history, login data)
 /* show size in list
+/* config to display file size (defaults to false, i think many people don't want that)

@@ -48,7 +48,7 @@
                                     <Label Content="{Binding Path=Name}" Grid.Column="1" Margin="0" />
                                     <Label Content="{Binding Path=FileSize}" Grid.Column="2" Margin="0" 
                                            HorizontalAlignment="Right" Foreground="{StaticResource LightColorBrush}"
-                                           FontSize="11"/>
+                                           FontSize="11" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=ShowFileSize, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     
                                 </Grid>
                             </DataTemplate>
@@ -183,6 +183,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -209,7 +210,10 @@
                     </Button>
                 </Grid>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0" Grid.Row="3" Grid.Column="1" >
+                <CheckBox Grid.ColumnSpan="2" Grid.Row="3" Margin="0,5,0,0" Content="Display file size" VerticalAlignment="Center" 
+                          IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowFileSize, Mode=TwoWay}" />
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0" Grid.Row="4" Grid.Column="1" >
                     <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonDiscardSettings" Click="buttonDiscardSettings_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipDiscardSettingsButton}">
                         <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/cancel.png" Height="24" Width="24" />
                     </Button>
