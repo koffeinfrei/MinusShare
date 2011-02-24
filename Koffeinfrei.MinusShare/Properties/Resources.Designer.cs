@@ -70,6 +70,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check for updates automatically.
+        /// </summary>
+        public static string CheckForUpdates {
+            get {
+                return ResourceManager.GetString("CheckForUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to create gallery. .
         /// </summary>
         public static string CreateGalleryFailed {
@@ -84,6 +93,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         public static string DialogVersionUpdateNoUpdates {
             get {
                 return ResourceManager.GetString("DialogVersionUpdateNoUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display file size.
+        /// </summary>
+        public static string DisplayFileSize {
+            get {
+                return ResourceManager.GetString("DisplayFileSize", resourceCulture);
             }
         }
         
@@ -111,6 +129,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         public static string InputTitleDefaultText {
             get {
                 return ResourceManager.GetString("InputTitleDefaultText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
             }
         }
         
@@ -282,6 +309,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         public static string UploadSuccessful {
             get {
                 return ResourceManager.GetString("UploadSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string Username {
+            get {
+                return ResourceManager.GetString("Username", resourceCulture);
             }
         }
     }

@@ -192,4 +192,16 @@
   <data name="SignedIn" xml:space="preserve">
     <value>Signed In.</value>
   </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Check for updates automatically</value>
+  </data>
+  <data name="DisplayFileSize" xml:space="preserve">
+    <value>Display file size</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
 </root>
