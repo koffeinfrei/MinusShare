@@ -67,7 +67,6 @@
     <Compile Include="LoginStatus.cs" />
     <Compile Include="NoTitleConverter.cs" />
     <Compile Include="NullToBooleanConverter.cs" />
-    <Compile Include="NullToInvertedVisibilityConverter.cs" />
     <Compile Include="PasswordBoxBinder.cs" />
     <Compile Include="MinusResult.cs" />
     <Compile Include="Throbber.xaml.cs">
