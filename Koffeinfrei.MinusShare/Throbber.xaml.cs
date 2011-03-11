@@ -14,28 +14,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.IO;
-using Koffeinfrei.Base;
+using System.Windows.Controls;
 
 namespace Koffeinfrei.MinusShare
 {
     /// <summary>
-    /// The UI file liste consists of these items.
+    /// Interaction logic for Throbber.xaml
     /// </summary>
-    public class FileListItem
+    public partial class Throbber : UserControl
     {
-        public string Name { get; private set; }
-
-        public string FullName { get; private set; }
-
-        public string FileSize { get; private set; }
-
-        public FileListItem(string file)
+        public Throbber()
         {
-            FileInfo info = new FileInfo(file);
-            Name = info.Name;
-            FullName = info.FullName;
-            FileSize = info.Length.ToFileSize();
+            InitializeComponent();
         }
     }
 }

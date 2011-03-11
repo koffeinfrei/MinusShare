@@ -1,7 +1,8 @@
-* save history, view history
 * add about dialog (show version!)
 * check login button
 * option to cancel an upload in progress (-> deleting created gallery)
+* use existing gallery
+* display login status somewhere (anonymous / logged in as ..."
 
 (* check for 10MB limit (not necessary, uploads don't seem to be limited))
 
@@ -16,3 +17,8 @@
 /* add config (check updates, save history, login data)
 /* show size in list
 /* config to display file size (defaults to false, i think many people don't want that)
+/* save history, view history
+/* gallery: restrict height (as in file list)
+/* set loginstatus in minus instance after modifying settings
+/* set loading animation in galleries
+/* set "you need to login" in galleries if anonymous

@@ -106,6 +106,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You need to login in order to display your galleries..
+        /// </summary>
+        public static string GalleriesNeedsLogin {
+            get {
+                return ResourceManager.GetString("GalleriesNeedsLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gallery created. .
         /// </summary>
         public static string GalleryCreated {
@@ -124,11 +133,47 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Getting galleries failed..
+        /// </summary>
+        public static string GetGalleriesFailed {
+            get {
+                return ResourceManager.GetString("GetGalleriesFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Getting galleries successful..
+        /// </summary>
+        public static string GetGalleriesSuccessful {
+            get {
+                return ResourceManager.GetString("GetGalleriesSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide deleted galleries.
+        /// </summary>
+        public static string HideDeletedGalleries {
+            get {
+                return ResourceManager.GetString("HideDeletedGalleries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Title&gt;.
         /// </summary>
         public static string InputTitleDefaultText {
             get {
                 return ResourceManager.GetString("InputTitleDefaultText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to items.
+        /// </summary>
+        public static string Items {
+            get {
+                return ResourceManager.GetString("Items", resourceCulture);
             }
         }
         
@@ -273,6 +318,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         public static string TooltipTwitter {
             get {
                 return ResourceManager.GetString("TooltipTwitter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Untitled&gt;.
+        /// </summary>
+        public static string Untitled {
+            get {
+                return ResourceManager.GetString("Untitled", resourceCulture);
             }
         }
         

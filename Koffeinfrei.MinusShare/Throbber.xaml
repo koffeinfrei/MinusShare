@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Koffeinfrei.MinusShare.Throbber"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Image HorizontalAlignment="Left" Name="imageLoading" Source="pack://application:,,,/img/loading.png" Width="36">
+        <Image.RenderTransform>
+            <RotateTransform Angle="0" CenterX="19" CenterY="19" />
+        </Image.RenderTransform>
+        <Image.Triggers>
+            <EventTrigger RoutedEvent="Image.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="imageLoading" Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)" From="0" To="-360" Duration="0:0:0:2" AutoReverse="False" RepeatBehavior="Forever" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Image.Triggers>
+    </Image>
+</UserControl>

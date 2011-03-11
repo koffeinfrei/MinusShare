@@ -204,4 +204,22 @@
   <data name="Username" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="GetGalleriesFailed" xml:space="preserve">
+    <value>Getting galleries failed.</value>
+  </data>
+  <data name="GetGalleriesSuccessful" xml:space="preserve">
+    <value>Getting galleries successful.</value>
+  </data>
+  <data name="HideDeletedGalleries" xml:space="preserve">
+    <value>Hide deleted galleries</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>items</value>
+  </data>
+  <data name="Untitled" xml:space="preserve">
+    <value>&lt;Untitled&gt;</value>
+  </data>
+  <data name="GalleriesNeedsLogin" xml:space="preserve">
+    <value>You need to login in order to display your galleries.</value>
+  </data>
 </root>

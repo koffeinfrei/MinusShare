@@ -18,7 +18,20 @@ namespace Koffeinfrei.MinusShare
 {
     public class MinusResult
     {
-        public string EditUrl { get; set; }
-        public string ShareUrl { get; set; }
+        public class Share
+        {
+            public string EditUrl { get; set; }
+            public string ShareUrl { get; set; }
+        }
+
+        public class Galleries
+        {
+            public string EditUrl { get; set; }
+            public string ShareUrl { get; set; }
+            public int ItemCount { get; set; }
+            public string Name { get; set; }
+            public bool Deleted { get; set; }
+            public bool NotDeleted { get { return !Deleted; } }
+        }
     }
 }

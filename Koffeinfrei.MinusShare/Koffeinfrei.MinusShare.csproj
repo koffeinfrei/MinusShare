@@ -64,8 +64,15 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="FileListItem.cs" />
+    <Compile Include="LoginStatus.cs" />
+    <Compile Include="NoTitleConverter.cs" />
+    <Compile Include="NullToBooleanConverter.cs" />
+    <Compile Include="NullToInvertedVisibilityConverter.cs" />
     <Compile Include="PasswordBoxBinder.cs" />
     <Compile Include="MinusResult.cs" />
+    <Compile Include="Throbber.xaml.cs">
+      <DependentUpon>Throbber.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,6 +87,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Throbber.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,6 +176,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\galleries.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

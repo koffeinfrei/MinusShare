@@ -47,8 +47,8 @@
                                     </Button>
                                     <Label Content="{Binding Path=Name}" Grid.Column="1" Margin="0" />
                                     <Label Content="{Binding Path=FileSize}" Grid.Column="2" Margin="0" 
-                                           HorizontalAlignment="Right" Foreground="{StaticResource LightColorBrush}"
-                                           FontSize="11" Visibility="{Binding Source={x:Static p:Settings.Default}, Path=ShowFileSize, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                           HorizontalAlignment="Right" Style="{StaticResource WeakerLabel}"
+                                           Visibility="{Binding Source={x:Static p:Settings.Default}, Path=ShowFileSize, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     
                                 </Grid>
                             </DataTemplate>
@@ -68,20 +68,7 @@
 
                 <StackPanel Name="sectionProgress" HorizontalAlignment="Stretch" Margin="0,5,0,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                        <Image HorizontalAlignment="Left" Name="imageLoading" Source="pack://application:,,,/img/loading.png">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="0" CenterX="25" CenterY="25" />
-                            </Image.RenderTransform>
-                            <Image.Triggers>
-                                <EventTrigger RoutedEvent="Image.Loaded">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="imageLoading" Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)" From="0" To="-360" Duration="0:0:0:2" AutoReverse="False" RepeatBehavior="Forever" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Image.Triggers>
-                        </Image>
+                        <kf:Throbber x:Name="imageLoading"/>
 
                         <Label Content="" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,0,0" Name="outputStatus" />
                     </StackPanel>
@@ -172,6 +159,58 @@
 
             </StackPanel>
         </TabItem>
+
+        <TabItem Name="tabItemGalleries" BorderBrush="DarkGray" GotFocus="tabItemGalleries_GotFocus">
+            <TabItem.Header>
+                <Image Source="/Koffeinfrei.MinusShare;component/img/galleries.png" Width="16" Height="16" />
+            </TabItem.Header>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,5,0,0" AllowDrop="True" Name="stackGalleriesScrollViewer">
+                <StackPanel Margin="0">
+                    <Label Name="galleriesNeedLogin" Content="{x:Static p:Resources.GalleriesNeedsLogin}" Visibility="Collapsed" />
+
+                    <kf:Throbber x:Name="galleriesProgress" HorizontalAlignment="Center" />
+                    
+                    <ListBox Name="listGalleries" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=Galleries}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel IsEnabled="{Binding Path=NotDeleted}">
+                                    <Grid Margin="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Content="{Binding Path=Name, Converter={StaticResource NoTitleConverter}}" Grid.Column="0" Margin="0" />
+
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                            <Label Content="{Binding Path=ItemCount}" Margin="0" Style="{StaticResource WeakerLabel}" />
+                                            <Label Content="{x:Static p:Resources.Items}" Margin="0" Style="{StaticResource WeakerLabel}" />
+                                        </StackPanel>
+
+                                        <Button Margin="0,0,2,0" Grid.Column="2"
+                                                Click="buttonGalleriesEditLink_Click" DataContext="{Binding}"
+                                                IsEnabled="{Binding Path=EditUrl, Converter={StaticResource NullToBooleanConverter}}">
+                                            <Image Source="/Koffeinfrei.MinusShare;component/img/edit.png" Height="16" Width="16" />
+                                        </Button>
+
+                                        <Button Margin="0,0,2,0" Grid.Column="3"
+                                                Click="buttonGalleriesShareLink_Click" DataContext="{Binding}"
+                                                IsEnabled="{Binding Path=ShareUrl, Converter={StaticResource NullToBooleanConverter}}">
+                                            <Image Source="/Koffeinfrei.MinusShare;component/img/share.png" Height="16" Width="16" />
+                                        </Button>
+
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
         <TabItem Name="tabItemSettings" BorderBrush="DarkGray">
             <TabItem.Header>
                 <Image Source="/Koffeinfrei.MinusShare;component/img/settings.png" Width="16" Height="16" />
@@ -179,6 +218,7 @@
             
             <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,5,5,5">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -206,14 +246,17 @@
 
                     <CheckBox Grid.Column="0" Content="{x:Static p:Resources.CheckForUpdates}" Margin="0" Name="checkBoxUpdates" VerticalAlignment="Center" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=AutoUpdateCheck, Mode=TwoWay}" />
                     <Button Grid.Column="1" HorizontalAlignment="Right" Margin="0" ToolTip="{x:Static p:Resources.TooltipCheckForUpdates}" Click="buttonCheckUpdates_Click">
-                        <Image Source="pack://application:,,,/img/update.png" Height="24" Width="24" />
+                        <Image Source="pack://application:,,,/img/update.png" Height="16" Width="16" />
                     </Button>
                 </Grid>
 
-                <CheckBox Grid.ColumnSpan="2" Grid.Row="3" Margin="0,5,0,0" Content="{x:Static p:Resources.DisplayFileSize}" VerticalAlignment="Center" 
+                <CheckBox Grid.ColumnSpan="2" Grid.Row="3" Margin="0,2,0,0" Content="{x:Static p:Resources.DisplayFileSize}" VerticalAlignment="Center" 
                           IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowFileSize, Mode=TwoWay}" />
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0" Grid.Row="4" Grid.Column="1" >
+                <CheckBox Grid.ColumnSpan="2" Grid.Row="4" Margin="0,5,0,0" Content="{x:Static p:Resources.HideDeletedGalleries}" VerticalAlignment="Center" 
+                          IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=HideDeletedGalleries, Mode=TwoWay}" />
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0" Grid.Row="5" Grid.Column="1" >
                     <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonDiscardSettings" Click="buttonDiscardSettings_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipDiscardSettingsButton}">
                         <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/cancel.png" Height="24" Width="24" />
                     </Button>
@@ -224,7 +267,7 @@
                 
             </Grid>
         </TabItem>
-
+        
     </TabControl>
 
 </Window>

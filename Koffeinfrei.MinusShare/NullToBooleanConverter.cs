@@ -14,28 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.IO;
-using Koffeinfrei.Base;
+using System;
+using System.Globalization;
+using System.Windows.Data;
 
 namespace Koffeinfrei.MinusShare
 {
-    /// <summary>
-    /// The UI file liste consists of these items.
-    /// </summary>
-    public class FileListItem
+    public class NullToBooleanConverter : IValueConverter
     {
-        public string Name { get; private set; }
-
-        public string FullName { get; private set; }
-
-        public string FileSize { get; private set; }
-
-        public FileListItem(string file)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            FileInfo info = new FileInfo(file);
-            Name = info.Name;
-            FullName = info.FullName;
-            FileSize = info.Length.ToFileSize();
+            return value != null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
         }
     }
 }

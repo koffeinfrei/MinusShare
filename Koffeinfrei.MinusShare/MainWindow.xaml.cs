@@ -36,12 +36,25 @@ namespace Koffeinfrei.MinusShare
     {
         public ObservableCollection<FileListItem> Files
         {
-            get { return (ObservableCollection<FileListItem>) GetValue(ApplicationsProperty); }
-            set { SetValue(ApplicationsProperty, value); }
+            get { return (ObservableCollection<FileListItem>) GetValue(FilesProperty); }
+            set { SetValue(FilesProperty, value); }
         }
 
-        public static readonly DependencyProperty ApplicationsProperty =
+        public static readonly DependencyProperty FilesProperty =
             DependencyProperty.Register("Files", typeof (ObservableCollection<FileListItem>), typeof (MainWindow), new UIPropertyMetadata(null));
+
+        public ObservableCollection<MinusResult.Galleries> Galleries
+        {
+            get { return (ObservableCollection<MinusResult.Galleries>)GetValue(GalleriesProperty); }
+            set { SetValue(GalleriesProperty, value); }
+        }
+
+        public static readonly DependencyProperty GalleriesProperty =
+            DependencyProperty.Register("Galleries", typeof(ObservableCollection<MinusResult.Galleries>), typeof(MainWindow), new UIPropertyMetadata(null));
+
+        private readonly Minus minus;
+        private bool authenticationSettingsChanged;
+        private bool galleriesSettingsChanged;
 
         public MainWindow()
         {
@@ -57,6 +70,7 @@ namespace Koffeinfrei.MinusShare
             inputTitle.Text = Properties.Resources.InputTitleDefaultText;
 
             stackFilesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
+            stackGalleriesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
 
             // get the files from the passed arguments
             AddFileList(Environment.GetCommandLineArgs().Skip(1).ToList());
@@ -65,6 +79,33 @@ namespace Koffeinfrei.MinusShare
             if (Settings.Default.AutoUpdateCheck)
             {
                 CheckForUpdates(false);
+            }
+
+            // setup minus handling
+            minus = new Minus
+            {
+                InfoLogger = OnInfoMessage,
+                ErrorLogger = OnErrorMessage
+            };
+
+            // settings change listener
+            Settings.Default.PropertyChanged += Default_PropertyChanged;
+            authenticationSettingsChanged = true;
+            galleriesSettingsChanged = true;
+        }
+
+        // TODO: find a nicer way to track settings changes
+        void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Username":
+                case "Password":
+                    authenticationSettingsChanged = true;
+                    break;
+                case "HideDeletedGalleries":
+                    galleriesSettingsChanged = true;
+                    break;
             }
         }
 
@@ -120,7 +161,7 @@ namespace Koffeinfrei.MinusShare
                        : inputTitle.Text;
         }
 
-        private void OnGalleryCreated(MinusResult result)
+        private void OnGalleryCreated(MinusResult.Share result)
         {
             Dispatcher.Invoke(new Action(() =>
             {
@@ -132,7 +173,7 @@ namespace Koffeinfrei.MinusShare
                 buttonShare.Visibility = Visibility.Collapsed;
             }));
         }
-
+        
         private void OnInfoMessage(string message)
         {
             Dispatcher.Invoke(new Action(() =>
@@ -164,16 +205,6 @@ namespace Koffeinfrei.MinusShare
 
         private void buttonShare_Click(object sender, RoutedEventArgs e)
         {
-            Minus minus = new Minus
-            {
-                GalleryCreated = OnGalleryCreated,
-                InfoLogger = OnInfoMessage,
-                ErrorLogger = OnErrorMessage
-            };
-            minus.AddFiles(Files.Select(x => x.FullName).ToList());
-            minus.SetTitle(GetTitle());
-            minus.Create();
-
             // disable controls
             inputTitle.IsEnabled = false;
             buttonShare.IsEnabled = false;
@@ -181,6 +212,17 @@ namespace Koffeinfrei.MinusShare
             listFiles.IsEnabled = false;
 
             sectionProgress.Visibility = Visibility.Visible;
+
+            // share
+            minus.Login(loginResult =>
+            {
+                if (loginResult == LoginStatus.Anonymous || loginResult == LoginStatus.Successful)
+                {
+                    minus.AddFiles(Files.Select(x => x.FullName).ToList());
+                    minus.SetTitle(GetTitle());
+                    minus.Share(OnGalleryCreated);
+                }
+            });
         }
 
         private void buttonCancel_Click(object sender, RoutedEventArgs e)
@@ -276,12 +318,29 @@ namespace Koffeinfrei.MinusShare
 
         private void buttonSaveSettings_Click(object sender, RoutedEventArgs e)
         {
+            if (authenticationSettingsChanged)
+            {
+                minus.LoginStatus = LoginStatus.None;
+            }
+
+            if (galleriesSettingsChanged || authenticationSettingsChanged)
+            {
+                Galleries = null;
+            }
+
             Settings.Default.Save();
             mainTabControl.SelectedIndex = 0;
+
+            // reset change flags
+            authenticationSettingsChanged = false;
+            galleriesSettingsChanged = false;
         }
 
         private void buttonDiscardSettings_Click(object sender, RoutedEventArgs e)
         {
+            authenticationSettingsChanged = false;
+            galleriesSettingsChanged = false;
+
             Settings.Default.Reload();
         }
 
@@ -296,6 +355,57 @@ namespace Koffeinfrei.MinusShare
                 {
                     Application.Current.Shutdown();
                 }
+            }
+        }
+
+        private void tabItemGalleries_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (Galleries == null)
+            {
+                galleriesNeedLogin.Visibility = Visibility.Collapsed;
+                galleriesProgress.Visibility = Visibility.Visible;
+
+                minus.Login(loginResult =>
+                {
+                    if (loginResult == LoginStatus.Successful)
+                    {
+                        minus.GetGalleries(galleries => Dispatcher.Invoke(
+                            new Action(() =>
+                            {
+                                Galleries = new ObservableCollection<MinusResult.Galleries>(
+                                    Settings.Default.HideDeletedGalleries
+                                        ? galleries.Where(gallery => gallery.NotDeleted)
+                                        : galleries);
+
+                                galleriesProgress.Visibility = Visibility.Collapsed;
+                            })));
+                    }
+                    else
+                    {
+                        galleriesProgress.Visibility = Visibility.Collapsed;
+                        galleriesNeedLogin.Visibility = Visibility.Visible;
+                    }
+                });
+            }
+        }
+
+        private void buttonGalleriesEditLink_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            MinusResult.Galleries item = button.DataContext as MinusResult.Galleries;
+            if (item != null)
+            {
+                Process.Start(item.EditUrl);
+            }
+        }
+
+        private void buttonGalleriesShareLink_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            MinusResult.Galleries item = button.DataContext as MinusResult.Galleries;
+            if (item != null)
+            {
+                Process.Start(item.ShareUrl);
             }
         }
     }

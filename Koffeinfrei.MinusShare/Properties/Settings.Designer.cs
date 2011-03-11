@@ -88,5 +88,17 @@ namespace Koffeinfrei.MinusShare.Properties {
                 this["ShowFileSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HideDeletedGalleries {
+            get {
+                return ((bool)(this["HideDeletedGalleries"]));
+            }
+            set {
+                this["HideDeletedGalleries"] = value;
+            }
+        }
     }
 }
