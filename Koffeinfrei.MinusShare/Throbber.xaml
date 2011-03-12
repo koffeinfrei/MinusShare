@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Image HorizontalAlignment="Left" Name="imageLoading" Source="pack://application:,,,/img/loading.png" Width="36">
+    <Image HorizontalAlignment="Left" Name="imageLoading" Source="pack://application:,,,/img/loading.png" Width="16">
         <Image.RenderTransform>
-            <RotateTransform Angle="0" CenterX="19" CenterY="19" />
+            <RotateTransform Angle="0" CenterX="8" CenterY="8" />
         </Image.RenderTransform>
         <Image.Triggers>
             <EventTrigger RoutedEvent="Image.Loaded">
                 <BeginStoryboard>
                     <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="imageLoading" Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)" From="0" To="-360" Duration="0:0:0:2" AutoReverse="False" RepeatBehavior="Forever" />
+                        <DoubleAnimation Storyboard.TargetName="imageLoading" Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:0:1" AutoReverse="False" RepeatBehavior="Forever" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>

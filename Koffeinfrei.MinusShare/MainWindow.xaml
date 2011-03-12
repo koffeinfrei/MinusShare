@@ -66,15 +66,15 @@
                 </StackPanel>
 
 
-                <StackPanel Name="sectionProgress" HorizontalAlignment="Stretch" Margin="0,5,0,0">
+                <StackPanel Name="sectionProgress" HorizontalAlignment="Stretch" Margin="0,5,0,0" Visibility="Collapsed">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                        <kf:Throbber x:Name="imageLoading"/>
+                        <kf:Throbber x:Name="imageLoading" />
 
                         <Label Content="" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,0,0" Name="outputStatus" />
                     </StackPanel>
                 </StackPanel>
 
-                <Grid Name="sectionDone" HorizontalAlignment="Stretch" Margin="0,5,0,0">
+                <Grid Name="sectionDone" HorizontalAlignment="Stretch" Margin="0,5,0,0" Visibility="Collapsed">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -191,15 +191,15 @@
                                         </StackPanel>
 
                                         <Button Margin="0,0,2,0" Grid.Column="2"
-                                                Click="buttonGalleriesEditLink_Click" DataContext="{Binding}"
-                                                IsEnabled="{Binding Path=EditUrl, Converter={StaticResource NullToBooleanConverter}}">
-                                            <Image Source="/Koffeinfrei.MinusShare;component/img/edit.png" Height="16" Width="16" />
-                                        </Button>
-
-                                        <Button Margin="0,0,2,0" Grid.Column="3"
                                                 Click="buttonGalleriesShareLink_Click" DataContext="{Binding}"
                                                 IsEnabled="{Binding Path=ShareUrl, Converter={StaticResource NullToBooleanConverter}}">
                                             <Image Source="/Koffeinfrei.MinusShare;component/img/share.png" Height="16" Width="16" />
+                                        </Button>
+
+                                        <Button Margin="0,0,2,0" Grid.Column="3"
+                                                Click="buttonGalleriesEditLink_Click" DataContext="{Binding}"
+                                                IsEnabled="{Binding Path=EditUrl, Converter={StaticResource NullToBooleanConverter}}">
+                                            <Image Source="/Koffeinfrei.MinusShare;component/img/edit.png" Height="16" Width="16" />
                                         </Button>
 
                                     </Grid>

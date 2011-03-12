@@ -25,7 +25,8 @@ namespace Koffeinfrei.MinusShare
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value ?? "").ToString() == "" ? Resources.Untitled : value;
+            string stringValue = (value ?? "").ToString();
+            return stringValue == "" || stringValue == "Untitled" ? Resources.Untitled : value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

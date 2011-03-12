@@ -63,9 +63,6 @@ namespace Koffeinfrei.MinusShare
             InitializeComponent();
 
             // setup the UI
-            sectionProgress.Visibility = Visibility.Collapsed;
-            sectionDone.Visibility = Visibility.Collapsed;
-
             inputTitle.Focus();
             inputTitle.Text = Properties.Resources.InputTitleDefaultText;
 
@@ -221,6 +218,8 @@ namespace Koffeinfrei.MinusShare
                     minus.AddFiles(Files.Select(x => x.FullName).ToList());
                     minus.SetTitle(GetTitle());
                     minus.Share(OnGalleryCreated);
+                    // reset galleries -> need reload
+                    Galleries = null;
                 }
             });
         }
