@@ -222,4 +222,10 @@
   <data name="GalleriesNeedsLogin" xml:space="preserve">
     <value>You need to login in order to display your galleries.</value>
   </data>
+  <data name="TooltipOpenEditLink" xml:space="preserve">
+    <value>Open edit link</value>
+  </data>
+  <data name="TooltipOpenShareLink" xml:space="preserve">
+    <value>Open share link</value>
+  </data>
 </root>

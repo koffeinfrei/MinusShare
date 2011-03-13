@@ -295,6 +295,24 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open edit link.
+        /// </summary>
+        public static string TooltipOpenEditLink {
+            get {
+                return ResourceManager.GetString("TooltipOpenEditLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open share link.
+        /// </summary>
+        public static string TooltipOpenShareLink {
+            get {
+                return ResourceManager.GetString("TooltipOpenShareLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string TooltipSave {

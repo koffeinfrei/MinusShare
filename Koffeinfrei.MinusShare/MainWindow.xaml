@@ -42,7 +42,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Button Grid.Column="0" Margin="0" Click="buttonRemoveItem_Click" DataContext="{Binding}">
+                                    <Button Grid.Column="0" Margin="0" Click="buttonRemoveItem_Click" DataContext="{Binding}" ToolTip="{x:Static p:Resources.RemoveFile}">
                                         <Image Source="pack://application:,,,/img/delete.png" Width="16" Height="16"></Image>
                                     </Button>
                                     <Label Content="{Binding Path=Name}" Grid.Column="1" Margin="0" />
@@ -88,7 +88,9 @@
                     <Image HorizontalAlignment="Left" Height="24" Width="24" Source="pack://application:,,,/img/share.png" Grid.Row="0" Grid.Column="0" />
                     <Image Margin="0,5,0,0" HorizontalAlignment="Left" Height="24" Width="24" Source="pack://application:,,,/img/edit.png" Grid.Row="1" Grid.Column="0" />
 
-                    <Button Margin="5,0,0,0" Name="buttonShareLink" Cursor="Hand" HorizontalAlignment="Stretch" VerticalAlignment="Center" Click="buttonShareLink_Click" Grid.Row="0" Grid.Column="1">
+                    <Button Margin="5,0,0,0" Name="buttonShareLink" Cursor="Hand" HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Center" Click="buttonShareLink_Click" Grid.Row="0" Grid.Column="1"
+                            ToolTip="{x:Static p:Resources.TooltipOpenShareLink}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <TextBlock TextDecorations="Underline">
@@ -108,7 +110,9 @@
                         </Button.Style>
                     </Button>
 
-                    <Button Margin="5,5,0,0" Name="buttonEditLink" Cursor="Hand" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Click="buttonEditLink_Click">
+                    <Button Margin="5,5,0,0" Name="buttonEditLink" Cursor="Hand" HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Click="buttonEditLink_Click"
+                            ToolTip="{x:Static p:Resources.TooltipOpenEditLink}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <TextBlock TextDecorations="Underline">
@@ -192,13 +196,15 @@
 
                                         <Button Margin="0,0,2,0" Grid.Column="2"
                                                 Click="buttonGalleriesShareLink_Click" DataContext="{Binding}"
-                                                IsEnabled="{Binding Path=ShareUrl, Converter={StaticResource NullToBooleanConverter}}">
+                                                IsEnabled="{Binding Path=ShareUrl, Converter={StaticResource NullToBooleanConverter}}"
+                                                ToolTip="{x:Static p:Resources.TooltipOpenShareLink}">
                                             <Image Source="/Koffeinfrei.MinusShare;component/img/share.png" Height="16" Width="16" />
                                         </Button>
 
                                         <Button Margin="0,0,2,0" Grid.Column="3"
                                                 Click="buttonGalleriesEditLink_Click" DataContext="{Binding}"
-                                                IsEnabled="{Binding Path=EditUrl, Converter={StaticResource NullToBooleanConverter}}">
+                                                IsEnabled="{Binding Path=EditUrl, Converter={StaticResource NullToBooleanConverter}}"
+                                                ToolTip="{x:Static p:Resources.TooltipOpenEditLink}">
                                             <Image Source="/Koffeinfrei.MinusShare;component/img/edit.png" Height="16" Width="16" />
                                         </Button>
 
