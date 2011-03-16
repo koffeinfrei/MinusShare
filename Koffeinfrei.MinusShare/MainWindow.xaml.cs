@@ -20,8 +20,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Koffeinfrei.Base;
@@ -405,6 +407,27 @@ namespace Koffeinfrei.MinusShare
             if (item != null)
             {
                 Process.Start(item.ShareUrl);
+            }
+        }
+
+        private void tabItemAbout_GotFocus(object sender, RoutedEventArgs e)
+        {
+            KfProductInfo info = new KfProductInfo();
+            aboutVersionText.Text = info.ProductAndVersion;
+            aboutCopyrightText.Text = info.Copyright;
+        }
+
+        /// <summary>
+        /// Genereal link button which has an url as its text (= content)
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void buttonLink_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button != null)
+            {
+                Process.Start(button.Content.ToString());
             }
         }
     }

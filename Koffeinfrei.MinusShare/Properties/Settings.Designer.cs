@@ -100,5 +100,32 @@ namespace Koffeinfrei.MinusShare.Properties {
                 this["HideDeletedGalleries"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/koffeinfrei/MinusShare")]
+        public string ProjectUrl {
+            get {
+                return ((string)(this["ProjectUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://min.us")]
+        public string MinusUrl {
+            get {
+                return ((string)(this["MinusUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://koffeinfrei.org")]
+        public string AuthorUrl {
+            get {
+                return ((string)(this["AuthorUrl"]));
+            }
+        }
     }
 }
