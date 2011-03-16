@@ -2,7 +2,9 @@
 * check login button
 * option to cancel an upload in progress (-> deleting created gallery)
 * use existing gallery
+* link button -> styles.xml
 * display login status somewhere (anonymous / logged in as ..."
+
 
 (* check for 10MB limit (not necessary, uploads don't seem to be limited))
 
