@@ -21,6 +21,8 @@ Main window, done sharing:
   * Facebook
   * Email
 * Authentication with min.us account
+* Display my galleries aka. share history
+* Optionally display file size in list
 
 ## License
 
