@@ -217,11 +217,14 @@ namespace Koffeinfrei.MinusShare
             {
                 if (loginResult == LoginStatus.Anonymous || loginResult == LoginStatus.Successful)
                 {
-                    minus.AddFiles(Files.Select(x => x.FullName).ToList());
-                    minus.SetTitle(GetTitle());
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        minus.AddFiles(Files.Select(x => x.FullName).ToList());
+                        minus.SetTitle(GetTitle());
+                        // reset galleries -> need reload
+                        Galleries = null;
+                    }));
                     minus.Share(OnGalleryCreated);
-                    // reset galleries -> need reload
-                    Galleries = null;
                 }
             });
         }

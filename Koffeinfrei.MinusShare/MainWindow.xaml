@@ -170,7 +170,7 @@
             </TabItem.Header>
 
             <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,5,0,0" AllowDrop="True" Name="stackGalleriesScrollViewer">
-                <StackPanel Margin="0">
+                <StackPanel Margin="0" AllowDrop="False">
                     <Label Name="galleriesNeedLogin" Content="{x:Static p:Resources.GalleriesNeedsLogin}" Visibility="Collapsed" />
 
                     <kf:Throbber x:Name="galleriesProgress" HorizontalAlignment="Center" />

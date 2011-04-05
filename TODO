@@ -1,9 +1,9 @@
-* add about dialog (show version!)
 * check login button
 * option to cancel an upload in progress (-> deleting created gallery)
 * use existing gallery
 * link button -> styles.xml
 * display login status somewhere (anonymous / logged in as ..."
+* context menu icon (use default)
 
 
 (* check for 10MB limit (not necessary, uploads don't seem to be limited))
@@ -24,3 +24,4 @@
 /* set loginstatus in minus instance after modifying settings
 /* set loading animation in galleries
 /* set "you need to login" in galleries if anonymous
+/* add about dialog (show version!)
