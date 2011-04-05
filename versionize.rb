@@ -1,10 +1,14 @@
 require 'fileutils'
 require 'uuidtools'
 
+# current version
+puts %Q(> current version: #{File.read("version.txt")[/\d+\.\d+\.\d+/]})
+
 # ask for version
 puts "> enter version (format x.x.x)..."
-version = STDIN.gets.chomp + '.0'
-fail "error: '#{version}' is not in the format 'x.x.x'." unless version.match(/\d\.\d\.\d/)
+version = STDIN.gets.chomp
+fail "error: '#{version}' is not in the format 'x.x.x'." unless version.match(/^\d+\.\d+\.\d+$/)
+version += '.0'
 
 # generate required new guids
 ProductCodeGuid = UUIDTools::UUID.random_create.to_s.upcase
@@ -17,7 +21,7 @@ PackageCodeGuid = UUIDTools::UUID.random_create.to_s.upcase
     contents = File.read(filename)
     File.open(filename, 'w') do |file|
         file.puts contents
-                    .gsub(/\d\.\d\.\d\.\d/, "#{version}")
+                    .gsub(/\d+\.\d+\.\d+\.\d+/, "#{version}")
     end
 end
 
@@ -26,11 +30,11 @@ end
     contents = File.read(filename)
     File.open(filename, 'w') do |file|
         file.puts contents
-                    .gsub(/("ProductVersion" = "8:)\d\.\d\.\d"/, "\\1#{version[/\d\.\d\.\d/]}\"")
+                    .gsub(/("ProductVersion" = "8:)\d+\.\d+\.\d+"/, "\\1#{version[/\d+\.\d+\.\d+/]}\"")
                     .gsub(/("ProductCode" = "8:){[^}]+}"/, "\\1{#{ProductCodeGuid}}\"")
                     .gsub(/("PackageCode" = "8:){[^}]+}"/, "\\1{#{PackageCodeGuid}}\"")
     end
 end
 
 # done
-puts '> done.'
+puts '> done.', "> increase the base library's version if the library was updated!!"
