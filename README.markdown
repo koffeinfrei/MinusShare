@@ -41,3 +41,7 @@ Minus: [http://min.us/](http://min.us/)
 
 Iconset: [Devine Icons by iPapun](http://ipapun.deviantart.com/art/Devine-Icons-137555756)  
 Iconset: [Token by ~brsev](http://brsev.deviantart.com/art/Token-128429570)
+
+## Incitement
+
+<a href='http://www.pledgie.com/campaigns/15618'><img alt='Click here to lend your support to: MinusShare and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15618.png?skin_name=chrome' border='0' /></a>
