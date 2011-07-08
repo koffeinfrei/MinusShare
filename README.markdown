@@ -44,4 +44,4 @@ Iconset: [Token by ~brsev](http://brsev.deviantart.com/art/Token-128429570)
 
 ## Incitement
 
-<a href='http://www.pledgie.com/campaigns/15618'><img alt='Click here to lend your support to: MinusShare and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15618.png?skin_name=chrome' border='0' /></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mail%40koffeinfrei%2eorg&lc=CH&item_name=MinusShare&currency_code=CHF&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted"><img src="https://www.paypalobjects.com/en_US/CH/i/btn/btn_donateCC_LG.gif" border="0" alt="PayPal - The safer, easier way to pay online!" /></a>
