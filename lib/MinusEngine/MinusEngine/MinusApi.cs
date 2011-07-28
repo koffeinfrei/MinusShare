@@ -51,7 +51,7 @@ namespace BiasedBit.MinusEngine
     {
         #region Constants
         public static readonly String USER_AGENT = "MinusEngine_0.2";
-        public static readonly String BASE_URL = "http://204.236.229.205/api/";
+        public static readonly String BASE_URL = "http://minus.com/api/";
         public static readonly Uri CREATE_GALLERY_URL = new Uri(BASE_URL + "CreateGallery");
         public static readonly Uri UPLOAD_ITEM_URL = new Uri(BASE_URL + "UploadItem");
         public static readonly Uri SAVE_GALLERY_URL = new Uri(BASE_URL + "SaveGallery");
