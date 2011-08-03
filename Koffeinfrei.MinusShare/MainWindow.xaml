@@ -23,13 +23,22 @@
 
 
     <TabControl Name="mainTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="DarkGray" Background="White">
-        <TabItem Name="tabItemHome" BorderBrush="DarkGray">
+        <TabItem Name="tabItemHome" BorderBrush="DarkGray" GotFocus="tabItemHome_GotFocus">
             <TabItem.Header>
                 <Image Source="/Koffeinfrei.MinusShare;component/img/home.png" Width="16" Height="16" />
             </TabItem.Header>
             <StackPanel Margin="5,5,5,5">
 
-                <TextBox HorizontalAlignment="Stretch" Name="inputTitle" Text="{x:Static p:Resources.InputTitleDefaultText}" GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" />
+                <ComboBox HorizontalAlignment="Stretch" Name="inputTitle" Text="{x:Static p:Resources.InputTitleDefaultText}" 
+                          GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" 
+                          Background="White" BorderBrush="DarkGray" IsEditable="True" 
+                          ItemsSource="{Binding ElementName=ucName, Path=GalleriesForDropdown}" TextSearch.TextPath="Name" IsEnabled="True" IsReadOnly="False">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name, Converter={StaticResource NoTitleConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" Name="stackFilesScrollViewer" Margin="0,5,0,0" AllowDrop="True" Drop="stackFilesScrollViewer_Drop">
                     <ListBox Name="listFiles" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=Files}">
@@ -175,7 +184,7 @@
 
                     <kf:Throbber x:Name="galleriesProgress" HorizontalAlignment="Center" />
                     
-                    <ListBox Name="listGalleries" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=Galleries}">
+                    <ListBox Name="listGalleries" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=GalleriesForHistoryView}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel IsEnabled="{Binding Path=NotDeleted}">

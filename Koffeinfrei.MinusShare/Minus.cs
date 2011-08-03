@@ -78,10 +78,13 @@ namespace Koffeinfrei.MinusShare
             this.title = title;
         }
 
-        public void Share(Action<MinusResult.Share> galleryCreated)
+        public void Share(Action<MinusResult.Share> galleryCreated, MinusResult.Gallery existingGallery)
         {
-            // create a couple of things we're going to need between requests
-            CreateGalleryResult galleryCreatedResult = null;
+            // setup gallery result if we've got an existing one
+            CreateGalleryResult galleryCreatedResult = 
+                existingGallery != null && existingGallery.EditorId != null 
+                ? new CreateGalleryResult(existingGallery.EditorId, existingGallery.ReaderId, null)
+                : null;
 
             // set up the listeners for CREATE
             api.CreateGalleryFailed += (sender, e) => LogError(Resources.CreateGalleryFailed, e);
@@ -138,7 +141,14 @@ namespace Koffeinfrei.MinusShare
 
             if (LoginStatus == LoginStatus.Successful)
             {
-                api.CreateGallery(cookie);
+                if (galleryCreatedResult != null)
+                {
+                    api.UploadItem(galleryCreatedResult.EditorId, galleryCreatedResult.Key, queuedFiles[0]);
+                }
+                else
+                {
+                    api.CreateGallery(cookie);
+                }
             }
             else
             {
@@ -146,7 +156,7 @@ namespace Koffeinfrei.MinusShare
             }
         }
 
-        public void GetGalleries(Action<List<MinusResult.Galleries>> gotGalleries)
+        public void GetGalleries(Action<List<MinusResult.Gallery>> gotGalleries)
         {
             if (LoginStatus == LoginStatus.Successful)
             {
@@ -156,13 +166,21 @@ namespace Koffeinfrei.MinusShare
                 {
                     LogInfo(Resources.GetGalleriesSuccessful);
 
-                    List<MinusResult.Galleries> galleries = result.Galleries.Select(gallery => new MinusResult.Galleries
+                    List<MinusResult.Gallery> galleries = result.Galleries.Select(gallery =>
                     {
-                        EditUrl = gallery.EditorId == UrlUnavailable || gallery.EditorId == GalleryDeleted ? null : BaseUrl + gallery.EditorId,
-                        ItemCount = gallery.ItemCount,
-                        Name = gallery.Name,
-                        ShareUrl = gallery.ReaderId == UrlUnavailable || gallery.ReaderId == GalleryDeleted ? null : BaseUrl + gallery.ReaderId,
-                        Deleted = gallery.ReaderId == GalleryDeleted
+                        bool hasEditorId = gallery.EditorId == UrlUnavailable || gallery.EditorId == GalleryDeleted;
+                        bool hasReaderId = gallery.ReaderId == UrlUnavailable || gallery.ReaderId == GalleryDeleted;
+
+                        return new MinusResult.Gallery
+                        {
+                            EditorId = hasEditorId ? null : gallery.EditorId,
+                            EditUrl = hasEditorId ? null : BaseUrl + gallery.EditorId,
+                            ItemCount = gallery.ItemCount,
+                            Name = gallery.Name,
+                            ReaderId = hasReaderId ? null : gallery.ReaderId,
+                            ShareUrl = hasReaderId ? null : BaseUrl + gallery.ReaderId,
+                            Deleted = gallery.ReaderId == GalleryDeleted
+                        };
                     }).ToList();
 
                     gotGalleries(galleries);
@@ -172,7 +190,7 @@ namespace Koffeinfrei.MinusShare
             }
             else
             {
-                gotGalleries(new List<MinusResult.Galleries>());
+                gotGalleries(new List<MinusResult.Gallery>());
             }
         }
 

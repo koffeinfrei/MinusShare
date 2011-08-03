@@ -41,18 +41,26 @@ namespace Koffeinfrei.MinusShare
             get { return (ObservableCollection<FileListItem>) GetValue(FilesProperty); }
             set { SetValue(FilesProperty, value); }
         }
-
         public static readonly DependencyProperty FilesProperty =
             DependencyProperty.Register("Files", typeof (ObservableCollection<FileListItem>), typeof (MainWindow), new UIPropertyMetadata(null));
 
-        public ObservableCollection<MinusResult.Galleries> Galleries
+        public ObservableCollection<MinusResult.Gallery> GalleriesForHistoryView
         {
-            get { return (ObservableCollection<MinusResult.Galleries>)GetValue(GalleriesProperty); }
-            set { SetValue(GalleriesProperty, value); }
+            get { return (ObservableCollection<MinusResult.Gallery>)GetValue(GalleriesForHistoryViewProperty); }
+            set { SetValue(GalleriesForHistoryViewProperty, value); }
         }
+        public static readonly DependencyProperty GalleriesForHistoryViewProperty =
+            DependencyProperty.Register("GalleriesForHistoryView", typeof(ObservableCollection<MinusResult.Gallery>), typeof(MainWindow), new UIPropertyMetadata(null));
 
-        public static readonly DependencyProperty GalleriesProperty =
-            DependencyProperty.Register("Galleries", typeof(ObservableCollection<MinusResult.Galleries>), typeof(MainWindow), new UIPropertyMetadata(null));
+        public ObservableCollection<MinusResult.Gallery> GalleriesForDropdown
+        {
+            get { return (ObservableCollection<MinusResult.Gallery>)GetValue(GalleriesForDropdownProperty); }
+            set { SetValue(GalleriesForDropdownProperty, value); }
+        }
+        public static readonly DependencyProperty GalleriesForDropdownProperty =
+            DependencyProperty.Register("GalleriesForDropdown", typeof(ObservableCollection<MinusResult.Gallery>), typeof(MainWindow), new UIPropertyMetadata(null));
+
+        
 
         private readonly Minus minus;
         private bool authenticationSettingsChanged;
@@ -66,7 +74,7 @@ namespace Koffeinfrei.MinusShare
 
             // setup the UI
             inputTitle.Focus();
-            inputTitle.Text = Properties.Resources.InputTitleDefaultText;
+            //inputTitle.Text = Properties.Resources.InputTitleDefaultText;
 
             stackFilesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
             stackGalleriesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
@@ -87,10 +95,32 @@ namespace Koffeinfrei.MinusShare
                 ErrorLogger = OnErrorMessage
             };
 
+            // fill the existing galleries dropdown
+            FillGalleriesDropdown();
+
             // settings change listener
             Settings.Default.PropertyChanged += Default_PropertyChanged;
             authenticationSettingsChanged = true;
             galleriesSettingsChanged = true;
+        }
+
+        private void FillGalleriesDropdown()
+        {
+            minus.Login(loginResult =>
+            {
+                if (loginResult == LoginStatus.Successful)
+                {
+                    minus.GetGalleries(galleries => Dispatcher.Invoke(
+                        new Action(() =>
+                        {
+                            GalleriesForDropdown = new ObservableCollection<MinusResult.Gallery>(
+                                galleries.Where(gallery => 
+                                    gallery.NotDeleted && 
+                                    gallery.EditorId != null &&
+                                    new NoTitleConverter().Convert(gallery.Name, null, null, null).ToString() != Properties.Resources.Untitled));
+                        })));
+                }
+            });
         }
 
         // TODO: find a nicer way to track settings changes
@@ -222,9 +252,10 @@ namespace Koffeinfrei.MinusShare
                         minus.AddFiles(Files.Select(x => x.FullName).ToList());
                         minus.SetTitle(GetTitle());
                         // reset galleries -> need reload
-                        Galleries = null;
+                        GalleriesForHistoryView = null;
+                        GalleriesForDropdown = null;
                     }));
-                    minus.Share(OnGalleryCreated);
+                    minus.Share(OnGalleryCreated, (MinusResult.Gallery)inputTitle.SelectedItem);
                 }
             });
         }
@@ -329,7 +360,8 @@ namespace Koffeinfrei.MinusShare
 
             if (galleriesSettingsChanged || authenticationSettingsChanged)
             {
-                Galleries = null;
+                GalleriesForHistoryView = null;
+                GalleriesForDropdown = null;
             }
 
             Settings.Default.Save();
@@ -364,7 +396,7 @@ namespace Koffeinfrei.MinusShare
 
         private void tabItemGalleries_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (Galleries == null)
+            if (GalleriesForHistoryView == null)
             {
                 galleriesNeedLogin.Visibility = Visibility.Collapsed;
                 galleriesProgress.Visibility = Visibility.Visible;
@@ -376,7 +408,7 @@ namespace Koffeinfrei.MinusShare
                         minus.GetGalleries(galleries => Dispatcher.Invoke(
                             new Action(() =>
                             {
-                                Galleries = new ObservableCollection<MinusResult.Galleries>(
+                                GalleriesForHistoryView = new ObservableCollection<MinusResult.Gallery>(
                                     Settings.Default.HideDeletedGalleries
                                         ? galleries.Where(gallery => gallery.NotDeleted)
                                         : galleries);
@@ -396,7 +428,7 @@ namespace Koffeinfrei.MinusShare
         private void buttonGalleriesEditLink_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            MinusResult.Galleries item = button.DataContext as MinusResult.Galleries;
+            MinusResult.Gallery item = button.DataContext as MinusResult.Gallery;
             if (item != null)
             {
                 Process.Start(item.EditUrl);
@@ -406,7 +438,7 @@ namespace Koffeinfrei.MinusShare
         private void buttonGalleriesShareLink_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            MinusResult.Galleries item = button.DataContext as MinusResult.Galleries;
+            MinusResult.Gallery item = button.DataContext as MinusResult.Gallery;
             if (item != null)
             {
                 Process.Start(item.ShareUrl);
@@ -431,6 +463,14 @@ namespace Koffeinfrei.MinusShare
             if (button != null)
             {
                 Process.Start(button.Content.ToString());
+            }
+        }
+
+        private void tabItemHome_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (minus != null && GalleriesForDropdown == null)
+            {
+                FillGalleriesDropdown();
             }
         }
     }
