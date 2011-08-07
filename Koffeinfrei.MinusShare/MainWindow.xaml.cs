@@ -20,10 +20,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Koffeinfrei.Base;
@@ -60,7 +58,11 @@ namespace Koffeinfrei.MinusShare
         public static readonly DependencyProperty GalleriesForDropdownProperty =
             DependencyProperty.Register("GalleriesForDropdown", typeof(ObservableCollection<MinusResult.Gallery>), typeof(MainWindow), new UIPropertyMetadata(null));
 
-        
+
+        protected dynamic CurrentInputTitle
+        {
+            get { return inputTitleCombo.Visibility == Visibility.Visible ? (dynamic)inputTitleCombo : (dynamic)inputTitleText; }
+        }
 
         private readonly Minus minus;
         private bool authenticationSettingsChanged;
@@ -73,7 +75,7 @@ namespace Koffeinfrei.MinusShare
             InitializeComponent();
 
             // setup the UI
-            inputTitle.Focus();
+            CurrentInputTitle.Focus();
             //inputTitle.Text = Properties.Resources.InputTitleDefaultText;
 
             stackFilesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
@@ -185,9 +187,9 @@ namespace Koffeinfrei.MinusShare
 
         private string GetTitle()
         {
-            return inputTitle.Text == Properties.Resources.InputTitleDefaultText
+            return CurrentInputTitle.Text == Properties.Resources.InputTitleDefaultText
                        ? ""
-                       : inputTitle.Text;
+                       : CurrentInputTitle.Text;
         }
 
         private void OnGalleryCreated(MinusResult.Share result)
@@ -235,7 +237,8 @@ namespace Koffeinfrei.MinusShare
         private void buttonShare_Click(object sender, RoutedEventArgs e)
         {
             // disable controls
-            inputTitle.IsEnabled = false;
+            inputTitleCombo.IsEnabled = false;
+            inputTitleText.IsEnabled = false;
             buttonShare.IsEnabled = false;
             buttonCancel.IsEnabled = false;
             listFiles.IsEnabled = false;
@@ -253,9 +256,8 @@ namespace Koffeinfrei.MinusShare
                         minus.SetTitle(GetTitle());
                         // reset galleries -> need reload
                         GalleriesForHistoryView = null;
-                        GalleriesForDropdown = null;
                     }));
-                    minus.Share(OnGalleryCreated, (MinusResult.Gallery)inputTitle.SelectedItem);
+                    minus.Share(OnGalleryCreated, loginResult == LoginStatus.Successful ? (MinusResult.Gallery)inputTitleCombo.SelectedItem : null);
                 }
             });
         }
@@ -267,25 +269,25 @@ namespace Koffeinfrei.MinusShare
 
         private void inputTitle_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (inputTitle.Text == Properties.Resources.InputTitleDefaultText)
+            if (CurrentInputTitle.Text == Properties.Resources.InputTitleDefaultText)
             {
-                inputTitle.Text = "";
+                CurrentInputTitle.Text = "";
             }
         }
 
         private void inputTitle_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(inputTitle.Text))
+            if (string.IsNullOrEmpty(CurrentInputTitle.Text))
             {
-                inputTitle.Text = Properties.Resources.InputTitleDefaultText;
+                CurrentInputTitle.Text = Properties.Resources.InputTitleDefaultText;
             }
         }
 
         private void inputTitle_KeyDown(object sender, KeyEventArgs e)
         {
-            if (inputTitle.Text == Properties.Resources.InputTitleDefaultText)
+            if (CurrentInputTitle.Text == Properties.Resources.InputTitleDefaultText)
             {
-                inputTitle.Text = "";
+                CurrentInputTitle.Text = "";
             }
         }
 
@@ -343,7 +345,7 @@ namespace Koffeinfrei.MinusShare
             {
                 AddFileList(droppedFiles);
             }
-            inputTitle.Focus();
+            CurrentInputTitle.Focus();
         }
 
         private void buttonCheckUpdates_Click(object sender, RoutedEventArgs e)

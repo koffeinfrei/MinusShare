@@ -28,10 +28,13 @@
                 <Image Source="/Koffeinfrei.MinusShare;component/img/home.png" Width="16" Height="16" />
             </TabItem.Header>
             <StackPanel Margin="5,5,5,5">
-
-                <ComboBox HorizontalAlignment="Stretch" Name="inputTitle" Text="{x:Static p:Resources.InputTitleDefaultText}" 
+                <TextBox HorizontalAlignment="Stretch" Style="{StaticResource TitleTextBox}" Name="inputTitleText" Text="{x:Static p:Resources.InputTitleDefaultText}" 
+                         GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" 
+                          Background="White" BorderBrush="DarkGray" />
+                
+                <ComboBox HorizontalAlignment="Stretch" Name="inputTitleCombo" Text="{x:Static p:Resources.InputTitleDefaultText}" 
                           GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" 
-                          Background="White" BorderBrush="DarkGray" IsEditable="True" 
+                          Background="White" BorderBrush="DarkGray" IsEditable="True" Style="{StaticResource TitleComboBox}"
                           ItemsSource="{Binding ElementName=ucName, Path=GalleriesForDropdown}" TextSearch.TextPath="Name" IsEnabled="True" IsReadOnly="False">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
