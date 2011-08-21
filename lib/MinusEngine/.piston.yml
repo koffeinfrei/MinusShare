@@ -1,8 +1,8 @@
 --- 
-repository_url: https://github.com/Miners/MinusEngine.git
+repository_url: git://github.com/koffeinfrei/MinusEngine.git
 lock: false
 repository_class: Piston::Git::Repository
 format: 1
 handler: 
-  commit: dcd7942245c330eb167b0c0cc617c9c29213e498
+  commit: 1f1f7bf56f8bebdb2d5c7cd547ddfa78313cbe0f
   branch: master
