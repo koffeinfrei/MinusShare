@@ -63,7 +63,7 @@ namespace Koffeinfrei.MinusShare
         {
             get { return inputTitleCombo.Visibility == Visibility.Visible ? (dynamic)inputTitleCombo : (dynamic)inputTitleText; }
         }
-
+        
         private readonly Minus minus;
         private bool authenticationSettingsChanged;
         private bool galleriesSettingsChanged;
@@ -72,6 +72,18 @@ namespace Koffeinfrei.MinusShare
         {
             Files = new ObservableCollection<FileListItem>();
 
+            // setup minus handling
+            minus = new Minus
+            {
+                InfoLogger = OnInfoMessage,
+                ErrorLogger = OnErrorMessage
+            };
+            
+            minus.Login(loginResult => Dispatcher.Invoke(new Action(Initialize)));
+        }
+
+        private void Initialize()
+        {
             InitializeComponent();
 
             // setup the UI
@@ -89,13 +101,6 @@ namespace Koffeinfrei.MinusShare
             {
                 CheckForUpdates(false);
             }
-
-            // setup minus handling
-            minus = new Minus
-            {
-                InfoLogger = OnInfoMessage,
-                ErrorLogger = OnErrorMessage
-            };
 
             // fill the existing galleries dropdown
             FillGalleriesDropdown();
@@ -207,21 +212,27 @@ namespace Koffeinfrei.MinusShare
         
         private void OnInfoMessage(string message)
         {
-            Dispatcher.Invoke(new Action(() =>
+            if (outputStatus != null)
             {
-                outputStatus.Foreground = new SolidColorBrush(Colors.Black);
-                outputStatus.Content = message;
-            }));
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    outputStatus.Foreground = new SolidColorBrush(Colors.Black);
+                    outputStatus.Content = message;
+                }));
+            }
         }
 
         private void OnErrorMessage(string message)
         {
-            Dispatcher.Invoke(new Action(() =>
+            if (outputStatus != null)
             {
-                outputStatus.Foreground = new SolidColorBrush(Colors.Red);
-                outputStatus.Content = message;
-                imageLoading.Visibility = Visibility.Collapsed;
-            }));
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    outputStatus.Foreground = new SolidColorBrush(Colors.Red);
+                    outputStatus.Content = message;
+                    imageLoading.Visibility = Visibility.Collapsed;
+                }));
+            }
         }
 
         private void buttonEditLink_Click(object sender, RoutedEventArgs e)
@@ -470,9 +481,20 @@ namespace Koffeinfrei.MinusShare
 
         private void tabItemHome_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (minus != null && GalleriesForDropdown == null)
+            if (GalleriesForDropdown == null)
             {
                 FillGalleriesDropdown();
+            }
+
+            if (minus.LoginStatus == LoginStatus.Successful)
+            {
+                loginInfoYes.Visibility = Visibility.Visible;
+                loginInfoNo.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                loginInfoYes.Visibility = Visibility.Collapsed;
+                loginInfoNo.Visibility = Visibility.Visible;
             }
         }
     }

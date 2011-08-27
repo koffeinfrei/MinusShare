@@ -21,342 +21,334 @@
         <ResourceDictionary Source="Styles.xaml" />
     </Window.Resources>
 
-
-    <TabControl Name="mainTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="DarkGray" Background="White">
-        <TabItem Name="tabItemHome" BorderBrush="DarkGray" GotFocus="tabItemHome_GotFocus">
-            <TabItem.Header>
-                <Image Source="/Koffeinfrei.MinusShare;component/img/home.png" Width="16" Height="16" />
-            </TabItem.Header>
-            <StackPanel Margin="5,5,5,5">
-                <TextBox HorizontalAlignment="Stretch" Style="{StaticResource TitleTextBox}" Name="inputTitleText" Text="{x:Static p:Resources.InputTitleDefaultText}" 
-                         GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" 
-                          Background="White" BorderBrush="DarkGray" />
+    <StackPanel>
                 
-                <ComboBox HorizontalAlignment="Stretch" Name="inputTitleCombo" Text="{x:Static p:Resources.InputTitleDefaultText}" 
-                          GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" 
-                          Background="White" BorderBrush="DarkGray" IsEditable="True" Style="{StaticResource TitleComboBox}"
-                          ItemsSource="{Binding ElementName=ucName, Path=GalleriesForDropdown}" TextSearch.TextPath="Name" IsEnabled="True" IsReadOnly="False">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Name, Converter={StaticResource NoTitleConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" Name="stackFilesScrollViewer" Margin="0,5,0,0" AllowDrop="True" Drop="stackFilesScrollViewer_Drop">
-                    <ListBox Name="listFiles" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=Files}">
-                        <ListBox.ItemTemplate>
+        <TabControl Name="mainTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="DarkGray" Background="White">
+            <TabItem Name="tabItemHome" BorderBrush="DarkGray" GotFocus="tabItemHome_GotFocus">
+                <TabItem.Header>
+                    <Image Source="/Koffeinfrei.MinusShare;component/img/home.png" Width="16" Height="16" />
+                </TabItem.Header>
+                <StackPanel Margin="5,5,5,5">
+                    <TextBox HorizontalAlignment="Stretch" Style="{StaticResource TitleTextBox}" Name="inputTitleText" Text="{x:Static p:Resources.InputTitleDefaultText}" 
+                             GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" 
+                             Background="White" BorderBrush="DarkGray" />
+                
+                    <ComboBox HorizontalAlignment="Stretch" Name="inputTitleCombo" Text="{x:Static p:Resources.InputTitleDefaultText}" 
+                              GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" 
+                              Background="White" BorderBrush="DarkGray" IsEditable="True" Style="{StaticResource TitleComboBox}"
+                              ItemsSource="{Binding ElementName=ucName, Path=GalleriesForDropdown}" TextSearch.TextPath="Name" IsEnabled="True" IsReadOnly="False">
+                        <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Button Grid.Column="0" Margin="0" Click="buttonRemoveItem_Click" DataContext="{Binding}" ToolTip="{x:Static p:Resources.RemoveFile}">
-                                        <Image Source="pack://application:,,,/img/delete.png" Width="16" Height="16"></Image>
-                                    </Button>
-                                    <Label Content="{Binding Path=Name}" Grid.Column="1" Margin="0" />
-                                    <Label Content="{Binding Path=FileSize}" Grid.Column="2" Margin="0" 
-                                           HorizontalAlignment="Right" Style="{StaticResource WeakerLabel}"
-                                           Visibility="{Binding Source={x:Static p:Settings.Default}, Path=ShowFileSize, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                    
-                                </Grid>
+                                <TextBlock Text="{Binding Path=Name, Converter={StaticResource NoTitleConverter}}" />
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </ScrollViewer>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Name="stackFilesScrollViewer" Margin="0,5,0,0" AllowDrop="True" Drop="stackFilesScrollViewer_Drop">
+                        <ListBox Name="listFiles" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=Files}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Grid.Column="0" Margin="0" Click="buttonRemoveItem_Click" DataContext="{Binding}" ToolTip="{x:Static p:Resources.RemoveFile}">
+                                            <Image Source="pack://application:,,,/img/delete.png" Width="16" Height="16"></Image>
+                                        </Button>
+                                        <Label Content="{Binding Path=Name}" Grid.Column="1" Margin="0" />
+                                        <Label Content="{Binding Path=FileSize}" Grid.Column="2" Margin="0" 
+                                               HorizontalAlignment="Right" Style="{StaticResource WeakerLabel}"
+                                               Visibility="{Binding Source={x:Static p:Settings.Default}, Path=ShowFileSize, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
                 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
-                    <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonCancel" Click="buttonCancel_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipCancelButton}">
-                        <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/cancel.png" Height="24" Width="24" />
-                    </Button>
-                    <Button HorizontalAlignment="Left" Margin="15,0,0,0" Name="buttonShare" Click="buttonShare_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipStartButton}">
-                        <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/start.png" Height="24" Width="24" />
-                    </Button>
-                </StackPanel>
-
-
-                <StackPanel Name="sectionProgress" HorizontalAlignment="Stretch" Margin="0,5,0,0" Visibility="Collapsed">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                        <kf:Throbber x:Name="imageLoading" />
-
-                        <Label Content="" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,0,0" Name="outputStatus" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+                        <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonCancel" Click="buttonCancel_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipCancelButton}">
+                            <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/cancel.png" Height="24" Width="24" />
+                        </Button>
+                        <Button HorizontalAlignment="Left" Margin="15,0,0,0" Name="buttonShare" Click="buttonShare_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipStartButton}">
+                            <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/start.png" Height="24" Width="24" />
+                        </Button>
                     </StackPanel>
-                </StackPanel>
 
-                <Grid Name="sectionDone" HorizontalAlignment="Stretch" Margin="0,5,0,0" Visibility="Collapsed">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
-                    <Image HorizontalAlignment="Left" Height="24" Width="24" Source="pack://application:,,,/img/share.png" Grid.Row="0" Grid.Column="0" />
-                    <Image Margin="0,5,0,0" HorizontalAlignment="Left" Height="24" Width="24" Source="pack://application:,,,/img/edit.png" Grid.Row="1" Grid.Column="0" />
+                    <StackPanel Name="sectionProgress" HorizontalAlignment="Stretch" Margin="0,5,0,0" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <kf:Throbber x:Name="imageLoading" />
 
-                    <Button Margin="5,0,0,0" Name="buttonShareLink" Cursor="Hand" HorizontalAlignment="Stretch" 
-                            VerticalAlignment="Center" Click="buttonShareLink_Click" Grid.Row="0" Grid.Column="1"
-                            ToolTip="{x:Static p:Resources.TooltipOpenShareLink}">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <TextBlock TextDecorations="Underline">
-							<ContentPresenter />
-                                </TextBlock>
-                            </ControlTemplate>
-                        </Button.Template>
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Foreground" Value="Black" />
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Foreground" Value="Red" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                            <Label Content="" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,0,0" Name="outputStatus" />
+                        </StackPanel>
+                    </StackPanel>
 
-                    <Button Margin="5,5,0,0" Name="buttonEditLink" Cursor="Hand" HorizontalAlignment="Stretch" 
-                            VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Click="buttonEditLink_Click"
-                            ToolTip="{x:Static p:Resources.TooltipOpenEditLink}">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <TextBlock TextDecorations="Underline">
-							<ContentPresenter />
-                                </TextBlock>
-                            </ControlTemplate>
-                        </Button.Template>
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Foreground" Value="Black" />
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Foreground" Value="Red" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    <Grid Name="sectionDone" HorizontalAlignment="Stretch" Margin="0,5,0,0" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="5,0,0,0" Grid.Row="0" Grid.Column="2">
-                        <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipCopyToClipboard}" Click="buttonClipboard_Click">
+                        <Image HorizontalAlignment="Left" Height="24" Width="24" Source="pack://application:,,,/img/share.png" Grid.Row="0" Grid.Column="0" />
+                        <Image Margin="0,5,0,0" HorizontalAlignment="Left" Height="24" Width="24" Source="pack://application:,,,/img/edit.png" Grid.Row="1" Grid.Column="0" />
+
+                        <Button Margin="5,0,0,0" Name="buttonShareLink" Cursor="Hand" HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Center" Click="buttonShareLink_Click" Grid.Row="0" Grid.Column="1"
+                                ToolTip="{x:Static p:Resources.TooltipOpenShareLink}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <TextBlock TextDecorations="Underline">
+                                <ContentPresenter />
+                                    </TextBlock>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button Margin="5,5,0,0" Name="buttonEditLink" Cursor="Hand" HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Click="buttonEditLink_Click"
+                                ToolTip="{x:Static p:Resources.TooltipOpenEditLink}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <TextBlock TextDecorations="Underline">
+                                <ContentPresenter />
+                                    </TextBlock>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="5,0,0,0" Grid.Row="0" Grid.Column="2">
+                            <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipCopyToClipboard}" Click="buttonClipboard_Click">
+                                <Image Source="pack://application:,,,/img/clipboard.png" Height="16" Width="16" />
+                            </Button>
+
+                            <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipTwitter}" Click="buttonTwitter_Click">
+                                <Image Source="pack://application:,,,/img/twitter.png" Height="16" Width="16" />
+                            </Button>
+
+                            <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipIdentica}" Click="buttonIdentica_Click">
+                                <Image Source="pack://application:,,,/img/identica.png" Height="16" Width="16" />
+                            </Button>
+
+                            <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipFacebook}" Click="buttonFacebook_Click">
+                                <Image Source="pack://application:,,,/img/facebook.png" Height="16" Width="16" />
+                            </Button>
+
+                            <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipEmail}" Click="buttonEmail_Click">
+                                <Image Source="pack://application:,,,/img/email.png" Height="16" Width="16" />
+                            </Button>
+
+                        </StackPanel>
+
+                        <Button HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="1" Grid.Column="2" ToolTip="{x:Static p:Resources.TooltipCopyEditToClipboard}" Click="buttonEditClipboard_Click">
                             <Image Source="pack://application:,,,/img/clipboard.png" Height="16" Width="16" />
                         </Button>
 
-                        <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipTwitter}" Click="buttonTwitter_Click">
-                            <Image Source="pack://application:,,,/img/twitter.png" Height="16" Width="16" />
-                        </Button>
+                    </Grid>
 
-                        <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipIdentica}" Click="buttonIdentica_Click">
-                            <Image Source="pack://application:,,,/img/identica.png" Height="16" Width="16" />
-                        </Button>
+                </StackPanel>
+            </TabItem>
 
-                        <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipFacebook}" Click="buttonFacebook_Click">
-                            <Image Source="pack://application:,,,/img/facebook.png" Height="16" Width="16" />
-                        </Button>
+            <TabItem Name="tabItemGalleries" BorderBrush="DarkGray" GotFocus="tabItemGalleries_GotFocus">
+                <TabItem.Header>
+                    <Image Source="/Koffeinfrei.MinusShare;component/img/galleries.png" Width="16" Height="16" />
+                </TabItem.Header>
 
-                        <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipEmail}" Click="buttonEmail_Click">
-                            <Image Source="pack://application:,,,/img/email.png" Height="16" Width="16" />
-                        </Button>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,5,0,0" AllowDrop="True" Name="stackGalleriesScrollViewer">
+                    <StackPanel Margin="0" AllowDrop="False">
+                        <Label Name="galleriesNeedLogin" Content="{x:Static p:Resources.GalleriesNeedsLogin}" Visibility="Collapsed" />
 
-                    </StackPanel>
-
-                    <Button HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="1" Grid.Column="2" ToolTip="{x:Static p:Resources.TooltipCopyEditToClipboard}" Click="buttonEditClipboard_Click">
-                        <Image Source="pack://application:,,,/img/clipboard.png" Height="16" Width="16" />
-                    </Button>
-
-                </Grid>
-
-            </StackPanel>
-        </TabItem>
-
-        <TabItem Name="tabItemGalleries" BorderBrush="DarkGray" GotFocus="tabItemGalleries_GotFocus">
-            <TabItem.Header>
-                <Image Source="/Koffeinfrei.MinusShare;component/img/galleries.png" Width="16" Height="16" />
-            </TabItem.Header>
-
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,5,0,0" AllowDrop="True" Name="stackGalleriesScrollViewer">
-                <StackPanel Margin="0" AllowDrop="False">
-                    <Label Name="galleriesNeedLogin" Content="{x:Static p:Resources.GalleriesNeedsLogin}" Visibility="Collapsed" />
-
-                    <kf:Throbber x:Name="galleriesProgress" HorizontalAlignment="Center" />
+                        <kf:Throbber x:Name="galleriesProgress" HorizontalAlignment="Center" />
                     
-                    <ListBox Name="listGalleries" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=GalleriesForHistoryView}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel IsEnabled="{Binding Path=NotDeleted}">
-                                    <Grid Margin="0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
+                        <ListBox Name="listGalleries" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderThickness="0" Margin="0" Padding="0" ItemsSource="{Binding ElementName=ucName, Path=GalleriesForHistoryView}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel IsEnabled="{Binding Path=NotDeleted}">
+                                        <Grid Margin="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
 
-                                        <Label Content="{Binding Path=Name, Converter={StaticResource NoTitleConverter}}" Grid.Column="0" Margin="0" />
+                                            <Label Content="{Binding Path=Name, Converter={StaticResource NoTitleConverter}}" Grid.Column="0" Margin="0" />
 
-                                        <StackPanel Orientation="Horizontal" Grid.Column="1">
-                                            <Label Content="{Binding Path=ItemCount}" Margin="0" Style="{StaticResource WeakerLabel}" />
-                                            <Label Content="{x:Static p:Resources.Items}" Margin="0" Style="{StaticResource WeakerLabel}" />
-                                        </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                                <Label Content="{Binding Path=ItemCount}" Margin="0" Style="{StaticResource WeakerLabel}" />
+                                                <Label Content="{x:Static p:Resources.Items}" Margin="0" Style="{StaticResource WeakerLabel}" />
+                                            </StackPanel>
 
-                                        <Button Margin="0,0,2,0" Grid.Column="2"
-                                                Click="buttonGalleriesShareLink_Click" DataContext="{Binding}"
-                                                IsEnabled="{Binding Path=ShareUrl, Converter={StaticResource NullToBooleanConverter}}"
-                                                ToolTip="{x:Static p:Resources.TooltipOpenShareLink}">
-                                            <Image Source="/Koffeinfrei.MinusShare;component/img/share.png" Height="16" Width="16" />
-                                        </Button>
+                                            <Button Margin="0,0,2,0" Grid.Column="2"
+                                                    Click="buttonGalleriesShareLink_Click" DataContext="{Binding}"
+                                                    IsEnabled="{Binding Path=ShareUrl, Converter={StaticResource NullToBooleanConverter}}"
+                                                    ToolTip="{x:Static p:Resources.TooltipOpenShareLink}">
+                                                <Image Source="/Koffeinfrei.MinusShare;component/img/share.png" Height="16" Width="16" />
+                                            </Button>
 
-                                        <Button Margin="0,0,2,0" Grid.Column="3"
-                                                Click="buttonGalleriesEditLink_Click" DataContext="{Binding}"
-                                                IsEnabled="{Binding Path=EditUrl, Converter={StaticResource NullToBooleanConverter}}"
-                                                ToolTip="{x:Static p:Resources.TooltipOpenEditLink}">
-                                            <Image Source="/Koffeinfrei.MinusShare;component/img/edit.png" Height="16" Width="16" />
-                                        </Button>
+                                            <Button Margin="0,0,2,0" Grid.Column="3"
+                                                    Click="buttonGalleriesEditLink_Click" DataContext="{Binding}"
+                                                    IsEnabled="{Binding Path=EditUrl, Converter={StaticResource NullToBooleanConverter}}"
+                                                    ToolTip="{x:Static p:Resources.TooltipOpenEditLink}">
+                                                <Image Source="/Koffeinfrei.MinusShare;component/img/edit.png" Height="16" Width="16" />
+                                            </Button>
 
-                                    </Grid>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
-            </ScrollViewer>
-        </TabItem>
+                                        </Grid>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
 
-        <TabItem Name="tabItemSettings" BorderBrush="DarkGray">
-            <TabItem.Header>
-                <Image Source="/Koffeinfrei.MinusShare;component/img/settings.png" Width="16" Height="16" />
-            </TabItem.Header>
+            <TabItem Name="tabItemSettings" BorderBrush="DarkGray">
+                <TabItem.Header>
+                    <Image Source="/Koffeinfrei.MinusShare;component/img/settings.png" Width="16" Height="16" />
+                </TabItem.Header>
             
-            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,5,5,5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <Label Content="{x:Static p:Resources.Username}" Grid.Row="0" Grid.Column="0" Margin="0" Padding="0,5,0,5" />
-                <TextBox Name="inputUsername" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,0,0,0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Username, Mode=TwoWay}" />
-
-                <Label Content="{x:Static p:Resources.Password}" Grid.Row="1" Grid.Column="0" Margin="0" Padding="0,5,0,5" />
-                <PasswordBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,0,0,0" Name="inputPassword" 
-                             kf:PasswordBoxBinder.BindPassword="true"  
-                             kf:PasswordBoxBinder.BoundPassword="{Binding Source={x:Static p:Settings.Default}, Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="0,5,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <CheckBox Grid.Column="0" Content="{x:Static p:Resources.CheckForUpdates}" Margin="0" Name="checkBoxUpdates" VerticalAlignment="Center" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=AutoUpdateCheck, Mode=TwoWay}" />
-                    <Button Grid.Column="1" HorizontalAlignment="Right" Margin="0" ToolTip="{x:Static p:Resources.TooltipCheckForUpdates}" Click="buttonCheckUpdates_Click">
-                        <Image Source="pack://application:,,,/img/update.png" Height="16" Width="16" />
-                    </Button>
-                </Grid>
-
-                <CheckBox Grid.ColumnSpan="2" Grid.Row="3" Margin="0,2,0,0" Content="{x:Static p:Resources.DisplayFileSize}" VerticalAlignment="Center" 
-                          IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowFileSize, Mode=TwoWay}" />
-
-                <CheckBox Grid.ColumnSpan="2" Grid.Row="4" Margin="0,5,0,0" Content="{x:Static p:Resources.HideDeletedGalleries}" VerticalAlignment="Center" 
-                          IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=HideDeletedGalleries, Mode=TwoWay}" />
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0" Grid.Row="5" Grid.Column="1" >
-                    <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonDiscardSettings" Click="buttonDiscardSettings_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipDiscardSettingsButton}">
-                        <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/cancel.png" Height="24" Width="24" />
-                    </Button>
-                    <Button HorizontalAlignment="Right" Margin="15,0,0,0"  ToolTip="{x:Static p:Resources.TooltipSave}" Click="buttonSaveSettings_Click">
-                        <Image Source="pack://application:,,,/img/save.png" Height="24" Width="24" />
-                    </Button>
-                </StackPanel>
-                
-            </Grid>
-        </TabItem>
-
-        <TabItem Name="tabItemAbout" BorderBrush="DarkGray" GotFocus="tabItemAbout_GotFocus">
-            <TabItem.Header>
-                <Image Source="/Koffeinfrei.MinusShare;component/img/about.png" Width="16" Height="16" />
-            </TabItem.Header>
-            <StackPanel Margin="5,5,5,5">
-                
-                <TextBlock Name="aboutVersionText" />
-                <TextBlock Name="aboutCopyrightText" Margin="0,5,0,0"/>
-
-                <Grid Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,5,5,5">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                    <Label Content="Project page" Grid.Row="0" Grid.Column="0" Padding="0,5,0,5" />
-                    <Button Margin="5,0,0,0" Name="buttonAuthorsPageLink" Cursor="Hand" HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Center" Click="buttonLink_Click" Grid.Row="0" Grid.Column="1"
-                        Content="{Binding Source={x:Static p:Settings.Default}, Path=ProjectUrl}">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <TextBlock TextDecorations="Underline">
-						        <ContentPresenter />
-                                </TextBlock>
-                            </ControlTemplate>
-                        </Button.Template>
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Foreground" Value="Black" />
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Foreground" Value="Red" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    <Label Content="{x:Static p:Resources.Username}" Grid.Row="0" Grid.Column="0" Margin="0" Padding="0,5,0,5" />
+                    <TextBox Name="inputUsername" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,0,0,0" Text="{Binding Source={x:Static p:Settings.Default}, Path=Username, Mode=TwoWay}" />
 
-                    <Label Content="minus" Grid.Row="1" Grid.Column="0" Padding="0,5,0,5" />
-                    <Button Margin="5,0,0,0" Name="buttonMinusPageLink" Cursor="Hand" HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Center" Click="buttonLink_Click" Grid.Row="1" Grid.Column="1"
-                        Content="{Binding Source={x:Static p:Settings.Default}, Path=MinusUrl}">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <TextBlock TextDecorations="Underline">
-						        <ContentPresenter />
-                                </TextBlock>
-                            </ControlTemplate>
-                        </Button.Template>
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Foreground" Value="Black" />
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Foreground" Value="Red" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    <Label Content="{x:Static p:Resources.Password}" Grid.Row="1" Grid.Column="0" Margin="0" Padding="0,5,0,5" />
+                    <PasswordBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="5,0,0,0" Name="inputPassword" 
+                                 kf:PasswordBoxBinder.BindPassword="true"  
+                                 kf:PasswordBoxBinder.BoundPassword="{Binding Source={x:Static p:Settings.Default}, Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                </Grid>
+                    <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0" Content="{x:Static p:Resources.CheckForUpdates}" Margin="0" Name="checkBoxUpdates" VerticalAlignment="Center" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=AutoUpdateCheck, Mode=TwoWay}" />
+                        <Button Grid.Column="1" HorizontalAlignment="Right" Margin="0" ToolTip="{x:Static p:Resources.TooltipCheckForUpdates}" Click="buttonCheckUpdates_Click">
+                            <Image Source="pack://application:,,,/img/update.png" Height="16" Width="16" />
+                        </Button>
+                    </Grid>
+
+                    <CheckBox Grid.ColumnSpan="2" Grid.Row="3" Margin="0,2,0,0" Content="{x:Static p:Resources.DisplayFileSize}" VerticalAlignment="Center" 
+                              IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ShowFileSize, Mode=TwoWay}" />
+
+                    <CheckBox Grid.ColumnSpan="2" Grid.Row="4" Margin="0,5,0,0" Content="{x:Static p:Resources.HideDeletedGalleries}" VerticalAlignment="Center" 
+                              IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=HideDeletedGalleries, Mode=TwoWay}" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0" Grid.Row="5" Grid.Column="1" >
+                        <Button HorizontalAlignment="Left" Margin="0,0,0,0" Name="buttonDiscardSettings" Click="buttonDiscardSettings_Click" Padding="0" ToolTip="{x:Static p:Resources.TooltipDiscardSettingsButton}">
+                            <Image HorizontalAlignment="Left" Source="pack://application:,,,/img/cancel.png" Height="24" Width="24" />
+                        </Button>
+                        <Button HorizontalAlignment="Right" Margin="15,0,0,0"  ToolTip="{x:Static p:Resources.TooltipSave}" Click="buttonSaveSettings_Click">
+                            <Image Source="pack://application:,,,/img/save.png" Height="24" Width="24" />
+                        </Button>
+                    </StackPanel>
                 
+                </Grid>
+            </TabItem>
+
+            <TabItem Name="tabItemAbout" BorderBrush="DarkGray" GotFocus="tabItemAbout_GotFocus">
+                <TabItem.Header>
+                    <Image Source="/Koffeinfrei.MinusShare;component/img/about.png" Width="16" Height="16" />
+                </TabItem.Header>
+                <StackPanel Margin="5,5,5,5">
+                
+                    <TextBlock Name="aboutVersionText" />
+                    <TextBlock Name="aboutCopyrightText" Margin="0,5,0,0"/>
+
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Project page" Grid.Row="0" Grid.Column="0" Padding="0,5,0,5" />
+                        <Button Margin="5,0,0,0" Name="buttonAuthorsPageLink" HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Center" Click="buttonLink_Click" Grid.Row="0" Grid.Column="1"
+                            Content="{Binding Source={x:Static p:Settings.Default}, Path=ProjectUrl}" Style="{StaticResource HyperlinkButton}" />
+
+                        <Label Content="minus" Grid.Row="1" Grid.Column="0" Padding="0,5,0,5" />
+                        <Button Margin="5,0,0,0" Name="buttonMinusPageLink" HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Center" Click="buttonLink_Click" Grid.Row="1" Grid.Column="1"
+                            Content="{Binding Source={x:Static p:Settings.Default}, Path=MinusUrl}" Style="{StaticResource HyperlinkButton}" />
+
+                    </Grid>
+                
+                </StackPanel>
+
+            </TabItem>
+
+        </TabControl>
+
+        <StackPanel Margin="10,5,10,5">
+            <StackPanel Orientation="Horizontal" Name="loginInfoNo" Visibility="Collapsed">
+                <TextBlock Text="{Binding Source={x:Static p:Resources.NotLoggedIn}}" />
+                <TextBlock>! (</TextBlock>
+                <Button Content="{Binding Source={x:Static p:Resources.NotLoggedInInfo}}" Style="{StaticResource HyperlinkButton}" Cursor="Help"
+                        ToolTipService.InitialShowDelay="0"
+                        ToolTipService.ShowDuration="100000">
+                    <Button.ToolTip>
+                        <ToolTip Placement="RelativePoint" PlacementRectangle="60,0,0,0">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Source={x:Static p:Resources.NotLoggedInInfoText}}" />
+                            </StackPanel>
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+                <TextBlock>)</TextBlock>
             </StackPanel>
-
-        </TabItem>
-
-    </TabControl>
+            <StackPanel Orientation="Horizontal" Name="loginInfoYes" Visibility="Collapsed">
+                <TextBlock Text="{Binding Source={x:Static p:Resources.LoggedInAs}}" />
+                <TextBlock xml:space="preserve"> </TextBlock>
+                <TextBlock Text="{Binding Source={x:Static p:Settings.Default}, Path=Username}"></TextBlock>
+                <TextBlock>!</TextBlock>
+            </StackPanel>
+        </StackPanel>
+                
+    </StackPanel>
 
 </Window>

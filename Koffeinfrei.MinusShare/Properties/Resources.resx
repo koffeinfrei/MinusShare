@@ -186,11 +186,11 @@
   <data name="DialogVersionUpdateNoUpdates" xml:space="preserve">
     <value>You are up to date!</value>
   </data>
-  <data name="SignInFailed" xml:space="preserve">
-    <value>Failed to Sign In.</value>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login failed.</value>
   </data>
-  <data name="SignedIn" xml:space="preserve">
-    <value>Signed In.</value>
+  <data name="LoggedIn" xml:space="preserve">
+    <value>Logged In.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Check for updates automatically</value>
@@ -227,5 +227,21 @@
   </data>
   <data name="TooltipOpenShareLink" xml:space="preserve">
     <value>Open share link</value>
+  </data>
+  <data name="LoggedInAs" xml:space="preserve">
+    <value>You are logged in as</value>
+  </data>
+  <data name="NotLoggedIn" xml:space="preserve">
+    <value>You are not logged in</value>
+  </data>
+  <data name="NotLoggedInInfo" xml:space="preserve">
+    <value>So what?</value>
+  </data>
+  <data name="NotLoggedInInfoText" xml:space="preserve">
+    <value>Guests cannot edit a gallery once uploaded.
+Guest galleries expire after X days.</value>
+  </data>
+  <data name="LoggingIn" xml:space="preserve">
+    <value>Logging in...</value>
   </data>
 </root>

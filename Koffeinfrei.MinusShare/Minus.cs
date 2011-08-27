@@ -198,17 +198,19 @@ namespace Koffeinfrei.MinusShare
         {
             if (LoginStatus == LoginStatus.None)
             {
+                LogInfo(Resources.LoggingIn);
+
                 // set up the listeners for SIGNIN
                 api.SignInFailed += (sender, e) =>
                 {
-                    LogError(Resources.SignInFailed, e);
+                    LogError(Resources.LoginFailed, e);
                     LoginStatus = LoginStatus.Failed;
 
                     loggedIn(LoginStatus);
                 };
                 api.SignInComplete += (sender, result) =>
                 {
-                    LogInfo(Resources.SignedIn);
+                    LogInfo(Resources.LoggedIn);
                     LoginStatus = LoginStatus.Successful;
 
                     cookie = result.CookieHeaders;
