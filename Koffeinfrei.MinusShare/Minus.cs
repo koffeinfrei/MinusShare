@@ -28,7 +28,7 @@ namespace Koffeinfrei.MinusShare
     public class Minus
     {
         private const String ApiKey = "dummyKey";
-        private const string BaseUrl = "http://min.us/m";
+        private const string BaseUrl = "http://minus.com/m";
         private const string UrlUnavailable = "Unavailable";
         private const string GalleryDeleted = "Deleted";
 

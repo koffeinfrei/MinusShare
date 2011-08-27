@@ -24,15 +24,21 @@ namespace Koffeinfrei.MinusShare
     public static class ExplorerContextMenu
     {
         private static readonly string LinkFileName =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SendTo), "minus.lnk");
+
+        private static readonly string LegacyLinkFileName =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SendTo), "min.us.lnk");
+
 
         public static void Add()
         {
+            RemoveLegacy();
+
             if (!File.Exists(LinkFileName))
             {
                 KfSymlink symlink = new KfSymlink(KfSymlink.LinkType.File);
                 symlink.SetPath(Assembly.GetExecutingAssembly().Location);
-                symlink.SetDescription("Share on min.us");
+                symlink.SetDescription("Share on minus");
                 symlink.SetIconLocation(Assembly.GetExecutingAssembly().Location, 0);
                 symlink.Save(LinkFileName);
             }
@@ -40,9 +46,19 @@ namespace Koffeinfrei.MinusShare
 
         public static void Remove()
         {
+            RemoveLegacy();
+
             if (File.Exists(LinkFileName))
             {
                 File.Delete(LinkFileName);
+            }
+        }
+
+        private static void RemoveLegacy()
+        {
+            if (File.Exists(LegacyLinkFileName))
+            {
+                File.Delete(LegacyLinkFileName);
             }
         }
     }

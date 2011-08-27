@@ -27,7 +27,7 @@
       <Value Profile="(Default)">https://github.com/koffeinfrei/MinusShare</Value>
     </Setting>
     <Setting Name="MinusUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://min.us</Value>
+      <Value Profile="(Default)">http://minus.com</Value>
     </Setting>
     <Setting Name="AuthorUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://koffeinfrei.org</Value>

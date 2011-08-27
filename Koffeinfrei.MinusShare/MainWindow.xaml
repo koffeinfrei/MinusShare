@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:p="clr-namespace:Koffeinfrei.MinusShare.Properties" 
         xmlns:kf="clr-namespace:Koffeinfrei.MinusShare"
-        Title="Min.us Share" 
+        Title="minus share" 
         Height="294" 
         Width="376" 
         ResizeMode="NoResize" 
@@ -328,7 +328,7 @@
                         </Button.Style>
                     </Button>
 
-                    <Label Content="Min.us" Grid.Row="1" Grid.Column="0" Padding="0,5,0,5" />
+                    <Label Content="minus" Grid.Row="1" Grid.Column="0" Padding="0,5,0,5" />
                     <Button Margin="5,0,0,0" Name="buttonMinusPageLink" Cursor="Hand" HorizontalAlignment="Stretch" 
                         VerticalAlignment="Center" Click="buttonLink_Click" Grid.Row="1" Grid.Column="1"
                         Content="{Binding Source={x:Static p:Settings.Default}, Path=MinusUrl}">
