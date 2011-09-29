@@ -1,10 +1,14 @@
+* is guest login required? or just provide static cookie?
+* remove bindings for readonly title box for guest mode
+* replace minusengine with https://github.com/johnsheehan/RestSharp
+* reorder methods in xaml code behing (move to other class?)
+* upload quota
 * check login button
+* show upload percentage
 * option to cancel an upload in progress (-> deleting created gallery)
-* use existing gallery
-* link button -> styles.xml
-* display login status somewhere (anonymous / logged in as ..."
 * context menu icon (use default)
 
+* BUG: startup, when no internet connection -> crash
 
 (* check for 10MB limit (not necessary, uploads don't seem to be limited))
 
@@ -25,3 +29,6 @@
 /* set loading animation in galleries
 /* set "you need to login" in galleries if anonymous
 /* add about dialog (show version!)
+/* use existing gallery
+/* display login status somewhere (anonymous / logged in as ..."
+/* link button -> styles.xml
