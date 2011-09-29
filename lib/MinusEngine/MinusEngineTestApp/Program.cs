@@ -36,10 +36,37 @@ namespace BiasedBit.MinusEngineTestApp
             // Pick one of these methods below to test the features independently
             //TestAuth();
             //TestGetItems();
-            TestAll();
+            //TestAll();
+            TestGuestUpload();
 
             // Sleep a bit so you can check the output...
             Thread.Sleep(40000);
+        }
+
+        private static void TestGuestUpload()
+        {
+            // create the API
+            MinusApi api = new MinusApi(API_KEY);
+
+            CreateGalleryResult galleryCreated = null;
+
+            api.SignInComplete += delegate(MinusApi sender, SignInResult result)
+            {
+                api.CreateGallery(result.CookieHeaders);
+            };
+
+            api.CreateGalleryComplete += delegate(MinusApi sender, CreateGalleryResult result)
+            {
+                // gallery created, trigger upload of the first file
+                galleryCreated = result;
+                Console.WriteLine("Gallery created! " + result);
+                Thread.Sleep(1000);
+                Console.WriteLine("Uploading files...");
+                //api.UploadItem(result.EditorId, result.Key, items[0]);
+            };
+
+            // this is the call that actually triggers the whole program
+            api.SignIn();
         }
 
         private static void TestAuth()
@@ -103,9 +130,14 @@ namespace BiasedBit.MinusEngineTestApp
                 Console.WriteLine("Failed to get items from gallery...\n" + e.Message);
             };
 
+            api.SignInComplete += delegate(MinusApi sender, SignInResult result)
+            {
+                api.GetItems(result.CookieHeaders, "mvgkRZC");
+            };
+
             // trigger the GetItems operation - notice the extra "m" in there.
             // while the REAL reader id is "vgkRZC", the API requires you to put the extra "m" in there
-            api.GetItems("mvgkRZC");
+            
         }
 
         /// <summary>
@@ -114,91 +146,89 @@ namespace BiasedBit.MinusEngineTestApp
         /// Make sure you change the values of the items in the "items" array to match actually valid files or this
         /// will fail.
         /// </summary>
-        private static void TestAll()
-        {
-            // The call that triggers the program is the near the end of this method
-            // (the rest is pretty much setup to react to events)
+        //private static void TestAll()
+        //{
+        //    // The call that triggers the program is the near the end of this method
+        //    // (the rest is pretty much setup to react to events)
 
-            // create the API
-            MinusApi api = new MinusApi(API_KEY);
+        //    // create the API
+        //    MinusApi api = new MinusApi(API_KEY);
 
-            // Prepare the items to be uploaded
-            String[] items =
-            {
-                @"C:\Users\bruno\Desktop\clown.png",
-                @"C:\Users\bruno\Desktop\small.png"
-            };
-            IList<String> uploadedItems = new List<String>(items.Length);
+        //    // Prepare the items to be uploaded
+        //    String[] items =
+        //    {
+        //        @"e:\src\cs\Koffeinfrei\MinusShare\lib\MinusEngine\README.md"
+        //    };
+        //    IList<String> uploadedItems = new List<String>(items.Length);
 
-            // create a couple of things we're going to need between requests
-            CreateGalleryResult galleryCreated = null;
+        //    // create a couple of things we're going to need between requests
+        //    CreateGalleryResult galleryCreated = null;
 
-            // set up the listeners for CREATE
-            api.CreateGalleryFailed += delegate(MinusApi sender, Exception e)
-            {
-                // don't do anything else...
-                Console.WriteLine("Failed to create gallery..." + e.Message);
-            };
-            api.CreateGalleryComplete += delegate(MinusApi sender, CreateGalleryResult result)
-            {
-                // gallery created, trigger upload of the first file
-                galleryCreated = result;
-                Console.WriteLine("Gallery created! " + result);
-                Thread.Sleep(1000);
-                Console.WriteLine("Uploading files...");
-                api.UploadItem(result.EditorId, result.Key, items[0]);
-            };
+        //    // set up the listeners for CREATE
+        //    api.CreateGalleryFailed += delegate(MinusApi sender, Exception e)
+        //    {
+        //        // don't do anything else...
+        //        Console.WriteLine("Failed to create gallery..." + e.Message);
+        //    };
+        //    api.CreateGalleryComplete += delegate(MinusApi sender, CreateGalleryResult result)
+        //    {
+        //        // gallery created, trigger upload of the first file
+        //        galleryCreated = result;
+        //        Console.WriteLine("Gallery created! " + result);
+        //        Thread.Sleep(1000);
+        //        Console.WriteLine("Uploading files...");
+        //        api.UploadItem(result.EditorId, result.Key, items[0]);
+        //    };
 
-            // set up the listeners for UPLOAD
-            api.UploadItemFailed += delegate(MinusApi sender, Exception e)
-            {
-                // don't do anything else...
-                Console.WriteLine("Upload failed: " + e.Message);
-            };
-            api.UploadItemComplete += delegate(MinusApi sender, UploadItemResult result)
-            {
-                // upload complete, either trigger another upload or save the gallery if all files have been uploaded
-                Console.WriteLine("Upload successful: " + result);
-                uploadedItems.Add(result.Id);
-                if (uploadedItems.Count == items.Length)
-                {
-                    // if all the elements are uploaded, then save the gallery
-                    Console.WriteLine("All uploads complete, saving gallery...");
-                    api.SaveGallery("testGallery", galleryCreated.EditorId, galleryCreated.Key, uploadedItems.ToArray());
-                }
-                else
-                {
-                    // otherwise just keep uploading
-                    Console.WriteLine("Uploading item " + (uploadedItems.Count + 1));
-                    api.UploadItem(galleryCreated.EditorId, galleryCreated.Key, items[uploadedItems.Count]);
-                }
-            };
+        //    // set up the listeners for UPLOAD
+        //    api.UploadItemFailed += delegate(MinusApi sender, Exception e)
+        //    {
+        //        // don't do anything else...
+        //        Console.WriteLine("Upload failed: " + e.Message);
+        //    };
+        //    api.UploadItemComplete += delegate(MinusApi sender, UploadItemResult result)
+        //    {
+        //        // upload complete, either trigger another upload or save the gallery if all files have been uploaded
+        //        Console.WriteLine("Upload successful: " + result);
+        //        uploadedItems.Add(result.Id);
+        //        if (uploadedItems.Count == items.Length)
+        //        {
+        //            // if all the elements are uploaded, then save the gallery
+        //            Console.WriteLine("All uploads complete, saving gallery...");
+        //            api.SaveGallery("testGallery", galleryCreated.EditorId, galleryCreated.Key, uploadedItems.ToArray());
+        //        }
+        //        else
+        //        {
+        //            // otherwise just keep uploading
+        //            Console.WriteLine("Uploading item " + (uploadedItems.Count + 1));
+        //            api.UploadItem(galleryCreated.EditorId, galleryCreated.Key, items[uploadedItems.Count]);
+        //        }
+        //    };
 
-            // set up the listeners for SAVE
-            api.SaveGalleryFailed += delegate(MinusApi sender, Exception e)
-            {
-                Console.WriteLine("Failed to save gallery... " + e.Message);
-            };
-            api.SaveGalleryComplete += delegate(MinusApi sender)
-            {
-                // The extra "m" is appended because minus uses the first character to determine the type of data
-                // you're accessing (image, gallery, etc) and route you accordingly.
-                Console.WriteLine("Gallery saved! You can now access it at http://min.us/m" + galleryCreated.ReaderId);
-                api.SignIn("123test123", "123test123");
-            };
+        //    // set up the listeners for SAVE
+        //    api.SaveGalleryFailed += delegate(MinusApi sender, Exception e)
+        //    {
+        //        Console.WriteLine("Failed to save gallery... " + e.Message);
+        //    };
+        //    api.SaveGalleryComplete += delegate(MinusApi sender)
+        //    {
+        //        // The extra "m" is appended because minus uses the first character to determine the type of data
+        //        // you're accessing (image, gallery, etc) and route you accordingly.
+        //        Console.WriteLine("Gallery saved! You can now access it at http://min.us/m" + galleryCreated.ReaderId);
+        //    };
 
-            //set up listeners for SignIn
-            api.SignInFailed += delegate(MinusApi sender, Exception e)
-            {
-                Console.WriteLine("Failed to Sign In... " + e.Message);
-            };
-            api.SignInComplete += delegate(MinusApi sender, SignInResult result)
-            {
-                Console.WriteLine("Signed In: " + result.Success);
-            };
+        //    //set up listeners for SignIn
+        //    api.SignInFailed += delegate(MinusApi sender, Exception e)
+        //    {
+        //        Console.WriteLine("Failed to Sign In... " + e.Message);
+        //    };
+        //    api.SignInComplete += delegate(MinusApi sender, SignInResult result)
+        //    {
+        //        api.CreateGallery(result.CookieHeaders);
+        //    };
 
-            // this is the call that actually triggers the whole program
-            api.CreateGallery();
-        }
+        //    // this is the call that actually triggers the whole program
+        //    api.SignIn("123test123", "123test123");
+        //}
     }
 }

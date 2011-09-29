@@ -52,6 +52,8 @@ namespace BiasedBit.MinusEngine
         #region Constants
         public static readonly String USER_AGENT = "MinusEngine_0.2";
         public static readonly String BASE_URL = "http://minus.com/api/";
+        public static readonly String PAGE_BASE_URL = "http://minus.com";
+        public static readonly String PAGE_COOKIE = "__utmc=125622038;";
         public static readonly Uri CREATE_GALLERY_URL = new Uri(BASE_URL + "CreateGallery");
         public static readonly Uri UPLOAD_ITEM_URL = new Uri(BASE_URL + "UploadItem");
         public static readonly Uri SAVE_GALLERY_URL = new Uri(BASE_URL + "SaveGallery");
@@ -107,27 +109,15 @@ namespace BiasedBit.MinusEngine
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Creates an empty new gallery.
-        /// </summary>
-        public void CreateGallery()
-        {
-            CreateGallery(null);
-        }
-
+        
         /// <summary>
         /// Creates an empty new gallery.
         /// </summary>
         public void CreateGallery(String cookieHeader)
         {
 
-            CookieAwareWebClient client = this.CreateAndSetupWebClient();
-            if (!String.IsNullOrEmpty(cookieHeader))
-            {
-                client.setCookieHeader(new Uri(BASE_URL), cookieHeader);
-            }
-
+            CookieAwareWebClient client = this.CreateAndSetupWebClient(cookieHeader);
+            
             client.DownloadStringCompleted += delegate(object sender, DownloadStringCompletedEventArgs e) {
                 if (e.Error != null)
                 {
@@ -197,27 +187,30 @@ namespace BiasedBit.MinusEngine
         /// abort this operation.
         /// </returns>
 #if !WINDOWS_PHONE
-        public void UploadItem(String editorId, String key, String filename, String desiredFilename = null)
+        public void UploadItem(String cookieHeader, String editorId, String key, String filename, String desiredFilename = null)
         {
             // Not worth checking for file existence or other stuff, as either Path.GetFileName or the upload
             // will check & fail
             String name = desiredFilename == null ? Path.GetFileName(filename) : desiredFilename;
             Stream data = new FileStream(filename, FileMode.Open, FileAccess.Read);
-            UploadItem(editorId, key, name, data);
+            UploadItem(cookieHeader, editorId, key, name, data);
         }
 #endif
 
-        public void UploadItem(String editorId, String key, String filename, Stream data)
+        public void UploadItem(String cookieHeader, String editorId, String key, String filename, Stream data)
         {
             UriBuilder ub = new UriBuilder(UPLOAD_ITEM_URL);
-            ub.Query = string.Format("filename={0}&key={1}&editor_id={2}", filename, key, editorId);
+            ub.Query = string.Format("filename={0}&key={1}&editor_id={2}&reader_id={2}", filename, key, editorId);
 
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ub.Uri);
                 request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
-
+                request.ContentType = "application/octet-stream";
+                request.Headers.Add("Content-Disposition", "attachment; filename=" + filename);
+                request.CookieContainer = new CookieContainer();
+                request.CookieContainer.SetCookies(new Uri(BASE_URL), cookieHeader);
+                
                 ThreadPool.QueueUserWorkItem((object state) =>
                 {
 
@@ -273,11 +266,11 @@ namespace BiasedBit.MinusEngine
         /// If you fail to include items that were uploaded to this gallery, those items will be
         /// discarded by the server.
         /// </param>
-        public void SaveGallery(String name, String galleryEditorId, String key, String[] items)
+        public void SaveGallery(String cookieHeader, String name, String galleryEditorId, String key, String[] items)
         {
             // Get a pre-configured web client
-            WebClient client = this.CreateAndSetupWebClient();
-
+            CookieAwareWebClient client = this.CreateAndSetupWebClient(cookieHeader);
+            
             string jsonItems;
 
             // build the item list (the order in which the items will be shown)
@@ -300,7 +293,7 @@ namespace BiasedBit.MinusEngine
             .Append("&items=").Append(UrlEncode(jsonItems));
 
             client.Headers["Content-Type"] = "application/x-www-form-urlencoded";
-
+            
             // register the completion/error listener
             client.UploadStringCompleted += delegate(object sender, UploadStringCompletedEventArgs e)
             {
@@ -354,14 +347,14 @@ namespace BiasedBit.MinusEngine
         /// Retrieve all items in a gallery, along with some other info (url and title).
         /// </summary>
         /// <param name="galleryReaderId">The reader id (public) of the gallery.</param>
-        public void GetItems(String galleryReaderId)
+        public void GetItems(String cookieHeader, String galleryReaderId)
         {
             if (String.IsNullOrEmpty(galleryReaderId))
             {
                 throw new ArgumentException("Gallery Reader Id cannot be null or empty");
             }
 
-            WebClient client = this.CreateAndSetupWebClient();
+            WebClient client = this.CreateAndSetupWebClient(cookieHeader);
             client.DownloadStringCompleted += delegate(object sender, DownloadStringCompletedEventArgs e)
             {
                 if (e.Error != null)
@@ -404,6 +397,62 @@ namespace BiasedBit.MinusEngine
             {
                 Debug.WriteLine("Failed to submit task to thread pool: " + e.Message);
                 this.TriggerGetItemsFailed(e);
+                #if !WINDOWS_PHONE
+                    client.Dispose();
+                #endif
+            }
+        }
+
+        /// <summary>
+        /// Sign in as guest
+        /// </summary>
+        public void SignIn()
+        {
+            CookieAwareWebClient client = CreateAndSetupWebClient();
+            client.setCookieHeader(new Uri(PAGE_BASE_URL), PAGE_COOKIE);
+
+            client.DownloadStringCompleted += delegate(object sender, DownloadStringCompletedEventArgs e)
+            {
+                if (e.Error == null)
+                {
+                    SignInResult result = new SignInResult(true)
+                    {
+                        CookieHeaders = client.getCookieHeader(new Uri(BASE_URL))
+                    };
+                    TriggerSignInComplete(result);
+                }
+                else
+                {
+                    this.TriggerSignInFailed(e.Error);
+                }
+#if !WINDOWS_PHONE
+                client.Dispose();
+#endif
+            };
+
+            // submit as an asynchronous task
+            try
+            {
+                ThreadPool.QueueUserWorkItem((object state) =>
+                {
+                    try
+                    {
+                        client.DownloadStringAsync(new Uri("http://minus.com"));
+                    }
+                    catch (WebException e)
+                    {
+                        Debug.WriteLine("Failed to access SignIn API: " + e.Message);
+                        this.TriggerSignInFailed(e);
+                        #if !WINDOWS_PHONE
+                            client.Dispose();
+                        #endif
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Failed to submit task to thread pool: " + e.Message);
+                this.TriggerSignInFailed(e);
                 #if !WINDOWS_PHONE
                     client.Dispose();
                 #endif
@@ -496,7 +545,7 @@ namespace BiasedBit.MinusEngine
                 throw new ArgumentException("Cookie Header cannot be null or empty");
             }
 
-            CookieAwareWebClient client = this.CreateAndSetupWebClient();
+            CookieAwareWebClient client = this.CreateAndSetupWebClient(cookieHeader);
             client.setCookieHeader(new Uri(BASE_URL), cookieHeader);
             client.DownloadStringCompleted += delegate(object sender, DownloadStringCompletedEventArgs e)
             {
@@ -587,6 +636,10 @@ namespace BiasedBit.MinusEngine
 
         private CookieAwareWebClient CreateAndSetupWebClient()
         {
+            return CreateAndSetupWebClient(null);
+        }
+        private CookieAwareWebClient CreateAndSetupWebClient(String cookieHeader)
+        {
             CookieAwareWebClient client = new CookieAwareWebClient();
             #if !WINDOWS_PHONE
                 if (this.Proxy != null)
@@ -595,6 +648,11 @@ namespace BiasedBit.MinusEngine
                 }
             #endif
             client.Headers["User-Agent"] = USER_AGENT;
+            if(cookieHeader != null)
+            {
+                client.setCookieHeader(new Uri(BASE_URL), cookieHeader);
+            }
+
             return client;
         }
 

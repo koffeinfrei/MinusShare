@@ -123,7 +123,7 @@ namespace Koffeinfrei.MinusShare
                             GalleriesForDropdown = new ObservableCollection<MinusResult.Gallery>(
                                 galleries.Where(gallery => 
                                     gallery.NotDeleted && 
-                                    gallery.EditorId != null &&
+                                    gallery.Id != null &&
                                     new NoTitleConverter().Convert(gallery.Name, null, null, null).ToString() != Properties.Resources.Untitled));
                         })));
                 }
@@ -201,8 +201,7 @@ namespace Koffeinfrei.MinusShare
         {
             Dispatcher.Invoke(new Action(() =>
             {
-                buttonEditLink.Content = result.EditUrl;
-                buttonShareLink.Content = result.ShareUrl;
+                buttonShareLink.Content = result.Url;
                 sectionProgress.Visibility = Visibility.Collapsed;
                 sectionDone.Visibility = Visibility.Visible;
                 buttonCancel.Visibility = Visibility.Collapsed;
@@ -234,12 +233,7 @@ namespace Koffeinfrei.MinusShare
                 }));
             }
         }
-
-        private void buttonEditLink_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start(buttonEditLink.Content.ToString());
-        }
-
+        
         private void buttonShareLink_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(buttonShareLink.Content.ToString());
@@ -306,12 +300,7 @@ namespace Koffeinfrei.MinusShare
         {
             Clipboard.SetData(DataFormats.Text, buttonShareLink.Content);
         }
-
-        private void buttonEditClipboard_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetData(DataFormats.Text, buttonEditLink.Content);
-        }
-
+        
         private void buttonTwitter_Click(object sender, RoutedEventArgs e)
         {
             const string baseUrl = "http://twitter.com/home?status=";
@@ -431,8 +420,12 @@ namespace Koffeinfrei.MinusShare
                     }
                     else
                     {
-                        galleriesProgress.Visibility = Visibility.Collapsed;
-                        galleriesNeedLogin.Visibility = Visibility.Visible;
+                        Dispatcher.Invoke(
+                            new Action(() =>
+                            {
+                                galleriesProgress.Visibility = Visibility.Collapsed;
+                                galleriesNeedLogin.Visibility = Visibility.Visible;
+                            }));
                     }
                 });
             }
@@ -444,7 +437,7 @@ namespace Koffeinfrei.MinusShare
             MinusResult.Gallery item = button.DataContext as MinusResult.Gallery;
             if (item != null)
             {
-                Process.Start(item.EditUrl);
+                Process.Start(item.Url);
             }
         }
 
@@ -454,7 +447,7 @@ namespace Koffeinfrei.MinusShare
             MinusResult.Gallery item = button.DataContext as MinusResult.Gallery;
             if (item != null)
             {
-                Process.Start(item.ShareUrl);
+                Process.Start(item.Url);
             }
         }
 

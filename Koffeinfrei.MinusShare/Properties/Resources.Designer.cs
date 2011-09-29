@@ -169,6 +169,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Untitled.
+        /// </summary>
+        public static string InputTitleReadonlyDefaultText {
+            get {
+                return ResourceManager.GetString("InputTitleReadonlyDefaultText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to items.
         /// </summary>
         public static string Items {
@@ -192,6 +201,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         public static string LoggedInAs {
             get {
                 return ResourceManager.GetString("LoggedInAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logged In as guest..
+        /// </summary>
+        public static string LoggedInAsGuest {
+            get {
+                return ResourceManager.GetString("LoggedInAsGuest", resourceCulture);
             }
         }
         
@@ -232,8 +250,9 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Guests cannot edit a gallery once uploaded.
-        ///Guest galleries expire after X days..
+        ///   Looks up a localized string similar to Guests cannot edit the gallery&apos;s title.
+        ///Guests cannot edit the files once uploaded.
+        ///Guest file uploads expire after 30 days..
         /// </summary>
         public static string NotLoggedInInfoText {
             get {

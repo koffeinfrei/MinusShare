@@ -14,24 +14,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
 namespace Koffeinfrei.MinusShare
 {
     public class MinusResult
     {
         public class Share
         {
-            public string EditUrl { get; set; }
-            public string ShareUrl { get; set; }
+            public string Url { get; set; }
         }
 
         public class Gallery
         {
-            public string EditorId { get; set; }
-            public string EditUrl { get; set; }
-            public string ReaderId { get; set; }
-            public string ShareUrl { get; set; }
+            public string Id { get; set; }
+            public string Url { get; set; }
             public int ItemCount { get; set; }
             public string Name { get; set; }
             public bool Deleted { get; set; }

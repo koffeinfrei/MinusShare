@@ -82,8 +82,8 @@ namespace Koffeinfrei.MinusShare
         {
             // setup gallery result if we've got an existing one
             CreateGalleryResult galleryCreatedResult = 
-                existingGallery != null && existingGallery.EditorId != null 
-                ? new CreateGalleryResult(existingGallery.EditorId, existingGallery.ReaderId, null)
+                existingGallery != null && existingGallery.Id != null 
+                ? new CreateGalleryResult(existingGallery.Id, existingGallery.Id, null)
                 : null;
 
             // set up the listeners for CREATE
@@ -97,7 +97,7 @@ namespace Koffeinfrei.MinusShare
                 LogInfo(Resources.UploadingFiles);
                 FileInfo file = new FileInfo(queuedFiles[uploadedFiles.Count]);
                 LogInfo(Resources.UploadingFile + file.Name + "...");
-                api.UploadItem(result.EditorId, result.Key, queuedFiles[0]);
+                api.UploadItem(cookie, result.EditorId, result.Key, queuedFiles[0]);
             };
 
             // set up the listeners for UPLOAD
@@ -112,14 +112,26 @@ namespace Koffeinfrei.MinusShare
                 {
                     // if all the elements are uploaded, then save the gallery
                     LogInfo(Resources.AllUploadSuccessful);
-                    api.SaveGallery(title ?? "", galleryCreatedResult.EditorId, galleryCreatedResult.Key, uploadedFiles.ToArray());
+
+                    // guests cannot edit the gallery
+                    if (LoginStatus == LoginStatus.Successful)
+                    {
+                        api.SaveGallery(cookie, title ?? "", galleryCreatedResult.ReaderId, galleryCreatedResult.Key, uploadedFiles.ToArray());
+                    }
+                    else
+                    {
+                        galleryCreated(new MinusResult.Share
+                        {
+                            Url = BaseUrl + galleryCreatedResult.ReaderId
+                        });
+                    }
                 }
                 else
                 {
                     // otherwise just keep uploading
                     FileInfo file = new FileInfo(queuedFiles[uploadedFiles.Count]);
                     LogInfo(Resources.UploadingFile + file.Name + "...");
-                    api.UploadItem(galleryCreatedResult.EditorId, galleryCreatedResult.Key, file.FullName);
+                    api.UploadItem(cookie, galleryCreatedResult.EditorId, galleryCreatedResult.Key, file.FullName);
                 }
             };
 
@@ -128,31 +140,21 @@ namespace Koffeinfrei.MinusShare
 
             api.SaveGalleryComplete += sender =>
             {
-                string readUrl = BaseUrl + galleryCreatedResult.ReaderId;
-                string editUrl = BaseUrl + galleryCreatedResult.EditorId;
-
                 LogInfo(Resources.GallerySaved);
+
                 galleryCreated(new MinusResult.Share
                 {
-                    EditUrl = editUrl,
-                    ShareUrl = readUrl
+                    Url = BaseUrl + galleryCreatedResult.ReaderId
                 });
             };
 
-            if (LoginStatus == LoginStatus.Successful)
+            if (galleryCreatedResult != null)
             {
-                if (galleryCreatedResult != null)
-                {
-                    api.UploadItem(galleryCreatedResult.EditorId, galleryCreatedResult.Key, queuedFiles[0]);
-                }
-                else
-                {
-                    api.CreateGallery(cookie);
-                }
+                api.UploadItem(cookie, galleryCreatedResult.EditorId, galleryCreatedResult.Key, queuedFiles[0]);
             }
             else
             {
-                api.CreateGallery();
+                api.CreateGallery(cookie);
             }
         }
 
@@ -168,17 +170,14 @@ namespace Koffeinfrei.MinusShare
 
                     List<MinusResult.Gallery> galleries = result.Galleries.Select(gallery =>
                     {
-                        bool hasEditorId = gallery.EditorId == UrlUnavailable || gallery.EditorId == GalleryDeleted;
-                        bool hasReaderId = gallery.ReaderId == UrlUnavailable || gallery.ReaderId == GalleryDeleted;
+                        bool hasId = gallery.ReaderId == UrlUnavailable || gallery.ReaderId == GalleryDeleted;
 
                         return new MinusResult.Gallery
                         {
-                            EditorId = hasEditorId ? null : gallery.EditorId,
-                            EditUrl = hasEditorId ? null : BaseUrl + gallery.EditorId,
+                            Id = hasId ? null : gallery.ReaderId,
+                            Url = hasId ? null : BaseUrl + gallery.ReaderId,
                             ItemCount = gallery.ItemCount,
                             Name = gallery.Name,
-                            ReaderId = hasReaderId ? null : gallery.ReaderId,
-                            ShareUrl = hasReaderId ? null : BaseUrl + gallery.ReaderId,
                             Deleted = gallery.ReaderId == GalleryDeleted
                         };
                     }).ToList();
@@ -210,24 +209,30 @@ namespace Koffeinfrei.MinusShare
                 };
                 api.SignInComplete += (sender, result) =>
                 {
-                    LogInfo(Resources.LoggedIn);
-                    LoginStatus = LoginStatus.Successful;
+                    if (HasLoginCredentials())
+                    {
+                        LogInfo(Resources.LoggedIn);
+                        LoginStatus = LoginStatus.Successful;
+                    }
+                    else
+                    {
+                        LogInfo(Resources.LoggedInAsGuest);
+                        LoginStatus = LoginStatus.Anonymous;
+                    }
 
                     cookie = result.CookieHeaders;
 
                     loggedIn(LoginStatus);
                 };
 
-                if (!string.IsNullOrEmpty(Settings.Default.Username) && !string.IsNullOrEmpty(Settings.Default.Password))
+                if (HasLoginCredentials())
                 {
                     api.SignIn(Settings.Default.Username, KfEncryption.DecryptString(Settings.Default.Password).ToInsecureString());
                 }
                 else
                 {
                     // no account set
-                    LoginStatus = LoginStatus.Anonymous;
-
-                    loggedIn(LoginStatus);
+                    api.SignIn();
                 }
             }
             else
@@ -235,7 +240,12 @@ namespace Koffeinfrei.MinusShare
                 loggedIn(LoginStatus);
             }
         }
-        
+
+        private static bool HasLoginCredentials()
+        {
+            return !string.IsNullOrEmpty(Settings.Default.Username) && !string.IsNullOrEmpty(Settings.Default.Password);
+        }
+
         private void LogInfo(string message)
         {
             if (InfoLogger != null)

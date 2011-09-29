@@ -120,6 +120,9 @@
   <data name="InputTitleDefaultText" xml:space="preserve">
     <value>&lt;Title&gt;</value>
   </data>
+  <data name="InputTitleReadonlyDefaultText" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
   <data name="RemoveFile" xml:space="preserve">
     <value>Remove this file</value>
   </data>
@@ -192,6 +195,9 @@
   <data name="LoggedIn" xml:space="preserve">
     <value>Logged In.</value>
   </data>
+  <data name="LoggedInAsGuest" xml:space="preserve">
+    <value>Logged In as guest.</value>
+  </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Check for updates automatically</value>
   </data>
@@ -238,8 +244,9 @@
     <value>So what?</value>
   </data>
   <data name="NotLoggedInInfoText" xml:space="preserve">
-    <value>Guests cannot edit a gallery once uploaded.
-Guest galleries expire after X days.</value>
+    <value>Guests cannot edit the gallery's title.
+Guests cannot edit the files once uploaded.
+Guest file uploads expire after 30 days.</value>
   </data>
   <data name="LoggingIn" xml:space="preserve">
     <value>Logging in...</value>

@@ -29,9 +29,9 @@
                     <Image Source="/Koffeinfrei.MinusShare;component/img/home.png" Width="16" Height="16" />
                 </TabItem.Header>
                 <StackPanel Margin="5,5,5,5">
-                    <TextBox HorizontalAlignment="Stretch" Style="{StaticResource TitleTextBox}" Name="inputTitleText" Text="{x:Static p:Resources.InputTitleDefaultText}" 
+                    <TextBox HorizontalAlignment="Stretch" Style="{StaticResource TitleTextBox}" Name="inputTitleText" Text="{x:Static p:Resources.InputTitleReadonlyDefaultText}" 
                              GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" 
-                             Background="White" BorderBrush="DarkGray" />
+                             Background="White" BorderBrush="DarkGray" IsEnabled="False" />
                 
                     <ComboBox HorizontalAlignment="Stretch" Name="inputTitleCombo" Text="{x:Static p:Resources.InputTitleDefaultText}" 
                               GotFocus="inputTitle_GotFocus" LostFocus="inputTitle_LostFocus" Margin="0,0,0,0" KeyDown="inputTitle_KeyDown" 
@@ -90,7 +90,6 @@
                     <Grid Name="sectionDone" HorizontalAlignment="Stretch" Margin="0,5,0,0" Visibility="Collapsed">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -99,7 +98,6 @@
                         </Grid.ColumnDefinitions>
 
                         <Image HorizontalAlignment="Left" Height="24" Width="24" Source="pack://application:,,,/img/share.png" Grid.Row="0" Grid.Column="0" />
-                        <Image Margin="0,5,0,0" HorizontalAlignment="Left" Height="24" Width="24" Source="pack://application:,,,/img/edit.png" Grid.Row="1" Grid.Column="0" />
 
                         <Button Margin="5,0,0,0" Name="buttonShareLink" Cursor="Hand" HorizontalAlignment="Stretch" 
                                 VerticalAlignment="Center" Click="buttonShareLink_Click" Grid.Row="0" Grid.Column="1"
@@ -122,29 +120,7 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-
-                        <Button Margin="5,5,0,0" Name="buttonEditLink" Cursor="Hand" HorizontalAlignment="Stretch" 
-                                VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Click="buttonEditLink_Click"
-                                ToolTip="{x:Static p:Resources.TooltipOpenEditLink}">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <TextBlock TextDecorations="Underline">
-                                <ContentPresenter />
-                                    </TextBlock>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Foreground" Value="Black" />
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="true">
-                                            <Setter Property="Foreground" Value="Red" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-
+                       
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="5,0,0,0" Grid.Row="0" Grid.Column="2">
                             <Button Margin="0,0,2,0" ToolTip="{x:Static p:Resources.TooltipCopyToClipboard}" Click="buttonClipboard_Click">
                                 <Image Source="pack://application:,,,/img/clipboard.png" Height="16" Width="16" />
@@ -167,10 +143,6 @@
                             </Button>
 
                         </StackPanel>
-
-                        <Button HorizontalAlignment="Left" Margin="5,5,0,0" Grid.Row="1" Grid.Column="2" ToolTip="{x:Static p:Resources.TooltipCopyEditToClipboard}" Click="buttonEditClipboard_Click">
-                            <Image Source="pack://application:,,,/img/clipboard.png" Height="16" Width="16" />
-                        </Button>
 
                     </Grid>
 
@@ -197,7 +169,6 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
 
                                             <Label Content="{Binding Path=Name, Converter={StaticResource NoTitleConverter}}" Grid.Column="0" Margin="0" />
@@ -209,16 +180,9 @@
 
                                             <Button Margin="0,0,2,0" Grid.Column="2"
                                                     Click="buttonGalleriesShareLink_Click" DataContext="{Binding}"
-                                                    IsEnabled="{Binding Path=ShareUrl, Converter={StaticResource NullToBooleanConverter}}"
+                                                    IsEnabled="{Binding Path=Url, Converter={StaticResource NullToBooleanConverter}}"
                                                     ToolTip="{x:Static p:Resources.TooltipOpenShareLink}">
                                                 <Image Source="/Koffeinfrei.MinusShare;component/img/share.png" Height="16" Width="16" />
-                                            </Button>
-
-                                            <Button Margin="0,0,2,0" Grid.Column="3"
-                                                    Click="buttonGalleriesEditLink_Click" DataContext="{Binding}"
-                                                    IsEnabled="{Binding Path=EditUrl, Converter={StaticResource NullToBooleanConverter}}"
-                                                    ToolTip="{x:Static p:Resources.TooltipOpenEditLink}">
-                                                <Image Source="/Koffeinfrei.MinusShare;component/img/edit.png" Height="16" Width="16" />
                                             </Button>
 
                                         </Grid>
@@ -344,11 +308,11 @@
             <StackPanel Orientation="Horizontal" Name="loginInfoYes" Visibility="Collapsed">
                 <TextBlock Text="{Binding Source={x:Static p:Resources.LoggedInAs}}" />
                 <TextBlock xml:space="preserve"> </TextBlock>
-                <TextBlock Text="{Binding Source={x:Static p:Settings.Default}, Path=Username}"></TextBlock>
-                <TextBlock>!</TextBlock>
+                <TextBlock Text="{Binding Source={x:Static p:Settings.Default}, Path=Username}" />
+                <TextBlock>.</TextBlock>
             </StackPanel>
         </StackPanel>
-                
+        
     </StackPanel>
 
 </Window>
