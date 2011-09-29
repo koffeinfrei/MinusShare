@@ -241,7 +241,7 @@
     <value>You are not logged in</value>
   </data>
   <data name="NotLoggedInInfo" xml:space="preserve">
-    <value>So what?</value>
+    <value>Why do I care?</value>
   </data>
   <data name="NotLoggedInInfoText" xml:space="preserve">
     <value>Guests cannot edit the gallery's title.

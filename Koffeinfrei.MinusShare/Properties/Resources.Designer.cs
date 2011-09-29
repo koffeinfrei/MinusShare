@@ -241,7 +241,7 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to So what?.
+        ///   Looks up a localized string similar to Why do I care?.
         /// </summary>
         public static string NotLoggedInInfo {
             get {

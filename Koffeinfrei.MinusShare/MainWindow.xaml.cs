@@ -79,7 +79,7 @@ namespace Koffeinfrei.MinusShare
                 ErrorLogger = OnErrorMessage
             };
             
-            minus.Login(loginResult => Dispatcher.Invoke(new Action(Initialize)));
+            Initialize();
         }
 
         private void Initialize()
@@ -107,27 +107,24 @@ namespace Koffeinfrei.MinusShare
 
             // settings change listener
             Settings.Default.PropertyChanged += Default_PropertyChanged;
-            authenticationSettingsChanged = true;
-            galleriesSettingsChanged = true;
+
+            minus.Login(loginResult => Dispatcher.Invoke(new Action(AuthenticationChanged)));
         }
 
         private void FillGalleriesDropdown()
         {
-            minus.Login(loginResult =>
+            if (minus.LoginStatus == LoginStatus.Successful)
             {
-                if (loginResult == LoginStatus.Successful)
-                {
-                    minus.GetGalleries(galleries => Dispatcher.Invoke(
-                        new Action(() =>
-                        {
-                            GalleriesForDropdown = new ObservableCollection<MinusResult.Gallery>(
-                                galleries.Where(gallery => 
-                                    gallery.NotDeleted && 
-                                    gallery.Id != null &&
-                                    new NoTitleConverter().Convert(gallery.Name, null, null, null).ToString() != Properties.Resources.Untitled));
-                        })));
-                }
-            });
+                minus.GetGalleries(galleries => Dispatcher.Invoke(
+                    new Action(() =>
+                    {
+                        GalleriesForDropdown = new ObservableCollection<MinusResult.Gallery>(
+                            galleries.Where(gallery =>
+                                            gallery.NotDeleted &&
+                                            gallery.Id != null &&
+                                            new NoTitleConverter().Convert(gallery.Name, null, null, null).ToString() != Properties.Resources.Untitled));
+                    })));
+            }
         }
 
         // TODO: find a nicer way to track settings changes
@@ -251,20 +248,16 @@ namespace Koffeinfrei.MinusShare
             sectionProgress.Visibility = Visibility.Visible;
 
             // share
-            minus.Login(loginResult =>
+            if (minus.LoginStatus == LoginStatus.Anonymous || minus.LoginStatus == LoginStatus.Successful)
             {
-                if (loginResult == LoginStatus.Anonymous || loginResult == LoginStatus.Successful)
-                {
-                    Dispatcher.Invoke(new Action(() =>
-                    {
-                        minus.AddFiles(Files.Select(x => x.FullName).ToList());
-                        minus.SetTitle(GetTitle());
-                        // reset galleries -> need reload
-                        GalleriesForHistoryView = null;
-                    }));
-                    minus.Share(OnGalleryCreated, loginResult == LoginStatus.Successful ? (MinusResult.Gallery)inputTitleCombo.SelectedItem : null);
-                }
-            });
+                
+                minus.AddFiles(Files.Select(x => x.FullName).ToList());
+                minus.SetTitle(GetTitle());
+                // reset galleries -> need reload
+                GalleriesForHistoryView = null;
+
+                minus.Share(OnGalleryCreated, minus.LoginStatus == LoginStatus.Successful ? (MinusResult.Gallery)inputTitleCombo.SelectedItem : null);
+            }
         }
 
         private void buttonCancel_Click(object sender, RoutedEventArgs e)
@@ -358,20 +351,26 @@ namespace Koffeinfrei.MinusShare
             if (authenticationSettingsChanged)
             {
                 minus.LoginStatus = LoginStatus.None;
+
+                minus.Login(loginResult => Dispatcher.Invoke(new Action(() =>
+                {
+                    if (galleriesSettingsChanged || authenticationSettingsChanged)
+                    {
+                        GalleriesForHistoryView = null;
+                        GalleriesForDropdown = null;
+                    }
+
+                    Settings.Default.Save();
+                    mainTabControl.SelectedIndex = 0;
+
+                    // reset change flags
+                    authenticationSettingsChanged = false;
+                    galleriesSettingsChanged = false;
+
+                    AuthenticationChanged();
+                }
+                )));
             }
-
-            if (galleriesSettingsChanged || authenticationSettingsChanged)
-            {
-                GalleriesForHistoryView = null;
-                GalleriesForDropdown = null;
-            }
-
-            Settings.Default.Save();
-            mainTabControl.SelectedIndex = 0;
-
-            // reset change flags
-            authenticationSettingsChanged = false;
-            galleriesSettingsChanged = false;
         }
 
         private void buttonDiscardSettings_Click(object sender, RoutedEventArgs e)
@@ -403,31 +402,24 @@ namespace Koffeinfrei.MinusShare
                 galleriesNeedLogin.Visibility = Visibility.Collapsed;
                 galleriesProgress.Visibility = Visibility.Visible;
 
-                minus.Login(loginResult =>
+                if (minus.LoginStatus == LoginStatus.Successful)
                 {
-                    if (loginResult == LoginStatus.Successful)
-                    {
-                        minus.GetGalleries(galleries => Dispatcher.Invoke(
-                            new Action(() =>
-                            {
-                                GalleriesForHistoryView = new ObservableCollection<MinusResult.Gallery>(
-                                    Settings.Default.HideDeletedGalleries
-                                        ? galleries.Where(gallery => gallery.NotDeleted)
-                                        : galleries);
+                    minus.GetGalleries(galleries => Dispatcher.Invoke(
+                        new Action(() =>
+                        {
+                            GalleriesForHistoryView = new ObservableCollection<MinusResult.Gallery>(
+                                Settings.Default.HideDeletedGalleries
+                                    ? galleries.Where(gallery => gallery.NotDeleted)
+                                    : galleries);
 
-                                galleriesProgress.Visibility = Visibility.Collapsed;
-                            })));
-                    }
-                    else
-                    {
-                        Dispatcher.Invoke(
-                            new Action(() =>
-                            {
-                                galleriesProgress.Visibility = Visibility.Collapsed;
-                                galleriesNeedLogin.Visibility = Visibility.Visible;
-                            }));
-                    }
-                });
+                            galleriesProgress.Visibility = Visibility.Collapsed;
+                        })));
+                }
+                else
+                {
+                    galleriesProgress.Visibility = Visibility.Collapsed;
+                    galleriesNeedLogin.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -478,7 +470,10 @@ namespace Koffeinfrei.MinusShare
             {
                 FillGalleriesDropdown();
             }
+        }
 
+        private void AuthenticationChanged()
+        {
             if (minus.LoginStatus == LoginStatus.Successful)
             {
                 loginInfoYes.Visibility = Visibility.Visible;
