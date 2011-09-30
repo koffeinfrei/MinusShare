@@ -12,15 +12,16 @@ Main window, done sharing:
 
 ## Features
 
-* Share files and folders
-* Remove files from the list before uploading
-* Copy reader and editor links to clipboard
-* Share reader link
+* Share files and folders directly from the explorer context menu
+* Add and remove files from the list before uploading
+* Copy links to clipboard
+* Share link
   * Twitter
   * Identi.ca
   * Facebook
   * Email
 * Authentication with Minus account
+* Upload to existing gallery **(NEW)**
 * Display my galleries aka. share history
 * Optionally display file size in list
 
