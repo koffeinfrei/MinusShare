@@ -59,11 +59,6 @@ namespace Koffeinfrei.MinusShare
             DependencyProperty.Register("GalleriesForDropdown", typeof(ObservableCollection<MinusResult.Gallery>), typeof(MainWindow), new UIPropertyMetadata(null));
 
 
-        protected dynamic CurrentInputTitle
-        {
-            get { return inputTitleCombo.Visibility == Visibility.Visible ? (dynamic)inputTitleCombo : (dynamic)inputTitleText; }
-        }
-        
         private readonly Minus minus;
         private bool authenticationSettingsChanged;
         private bool galleriesSettingsChanged;
@@ -87,8 +82,7 @@ namespace Koffeinfrei.MinusShare
             InitializeComponent();
 
             // setup the UI
-            CurrentInputTitle.Focus();
-            //inputTitle.Text = Properties.Resources.InputTitleDefaultText;
+            inputTitleCombo.Focus();
 
             stackFilesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
             stackGalleriesScrollViewer.MaxHeight = SystemParameters.FullPrimaryScreenHeight / 2;
@@ -189,9 +183,9 @@ namespace Koffeinfrei.MinusShare
 
         private string GetTitle()
         {
-            return CurrentInputTitle.Text == Properties.Resources.InputTitleDefaultText
+            return inputTitleCombo.Text == Properties.Resources.InputTitleDefaultText
                        ? ""
-                       : CurrentInputTitle.Text;
+                       : inputTitleCombo.Text;
         }
 
         private void OnGalleryCreated(MinusResult.Share result)
@@ -240,7 +234,6 @@ namespace Koffeinfrei.MinusShare
         {
             // disable controls
             inputTitleCombo.IsEnabled = false;
-            inputTitleText.IsEnabled = false;
             buttonShare.IsEnabled = false;
             buttonCancel.IsEnabled = false;
             listFiles.IsEnabled = false;
@@ -267,25 +260,25 @@ namespace Koffeinfrei.MinusShare
 
         private void inputTitle_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (CurrentInputTitle.Text == Properties.Resources.InputTitleDefaultText)
+            if (inputTitleCombo.Text == Properties.Resources.InputTitleDefaultText)
             {
-                CurrentInputTitle.Text = "";
+                inputTitleCombo.Text = "";
             }
         }
 
         private void inputTitle_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(CurrentInputTitle.Text))
+            if (string.IsNullOrEmpty(inputTitleCombo.Text))
             {
-                CurrentInputTitle.Text = Properties.Resources.InputTitleDefaultText;
+                inputTitleCombo.Text = Properties.Resources.InputTitleDefaultText;
             }
         }
 
         private void inputTitle_KeyDown(object sender, KeyEventArgs e)
         {
-            if (CurrentInputTitle.Text == Properties.Resources.InputTitleDefaultText)
+            if (inputTitleCombo.Text == Properties.Resources.InputTitleDefaultText)
             {
-                CurrentInputTitle.Text = "";
+                inputTitleCombo.Text = "";
             }
         }
 
@@ -338,7 +331,7 @@ namespace Koffeinfrei.MinusShare
             {
                 AddFileList(droppedFiles);
             }
-            CurrentInputTitle.Focus();
+            inputTitleCombo.Focus();
         }
 
         private void buttonCheckUpdates_Click(object sender, RoutedEventArgs e)
@@ -412,6 +405,7 @@ namespace Koffeinfrei.MinusShare
                                     ? galleries.Where(gallery => gallery.NotDeleted)
                                     : galleries);
 
+                            galleriesNeedLogin.Visibility = Visibility.Collapsed;
                             galleriesProgress.Visibility = Visibility.Collapsed;
                         })));
                 }
@@ -478,11 +472,15 @@ namespace Koffeinfrei.MinusShare
             {
                 loginInfoYes.Visibility = Visibility.Visible;
                 loginInfoNo.Visibility = Visibility.Collapsed;
+                inputTitleText.Visibility = Visibility.Collapsed;
+                inputTitleCombo.Visibility = Visibility.Visible;
             }
             else
             {
                 loginInfoYes.Visibility = Visibility.Collapsed;
                 loginInfoNo.Visibility = Visibility.Visible;
+                inputTitleText.Visibility = Visibility.Visible;
+                inputTitleCombo.Visibility = Visibility.Collapsed;
             }
         }
     }

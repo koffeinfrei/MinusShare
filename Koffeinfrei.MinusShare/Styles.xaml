@@ -283,24 +283,5 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-
-    
-    <Style TargetType="ComboBox" x:Key="TitleComboBox">
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" Value="0">
-                <Setter Property="Visibility" Value="Collapsed" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-    
-    <Style TargetType="TextBox" x:Key="TitleTextBox">
-        <Setter Property="Visibility" Value="Collapsed" />
-        
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Items.Count, ElementName=inputTitleCombo}" Value="0">
-                <Setter Property="Visibility" Value="Visible" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
     
 </ResourceDictionary>

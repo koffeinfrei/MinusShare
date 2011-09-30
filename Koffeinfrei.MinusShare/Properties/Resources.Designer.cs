@@ -187,7 +187,7 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logged In..
+        ///   Looks up a localized string similar to Logged in..
         /// </summary>
         public static string LoggedIn {
             get {
@@ -205,7 +205,7 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logged In as guest..
+        ///   Looks up a localized string similar to Logged in as guest..
         /// </summary>
         public static string LoggedInAsGuest {
             get {

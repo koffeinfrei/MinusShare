@@ -193,10 +193,10 @@
     <value>Login failed.</value>
   </data>
   <data name="LoggedIn" xml:space="preserve">
-    <value>Logged In.</value>
+    <value>Logged in.</value>
   </data>
   <data name="LoggedInAsGuest" xml:space="preserve">
-    <value>Logged In as guest.</value>
+    <value>Logged in as guest.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Check for updates automatically</value>
