@@ -1,14 +1,14 @@
 * replace minusengine with https://github.com/johnsheehan/RestSharp
-* upload quota
-* check login button
+* upload quota (overall, per file)
+* check login button (or: display login failed after save settings, login ok is displayed already)
 * show upload percentage
 * option to cancel an upload in progress (-> deleting created gallery)
 * context menu icon (use default)
 * split up mainwindow to components (http://reedcopsey.com/series/windows-forms-to-mvvm/)
+* proxy support
+* display whether upload in existing or new gallery (colored? additional status text?)
 
 * BUG: startup, when no internet connection -> crash
-
-(* check for 10MB limit (not necessary, uploads don't seem to be limited))
 
 /* support directories
 /* make file list scrollable if getting too long

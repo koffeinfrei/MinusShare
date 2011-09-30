@@ -96,12 +96,10 @@ namespace Koffeinfrei.MinusShare
                 CheckForUpdates(false);
             }
 
-            // fill the existing galleries dropdown
-            FillGalleriesDropdown();
-
             // settings change listener
             Settings.Default.PropertyChanged += Default_PropertyChanged;
 
+            // login
             minus.Login(loginResult => Dispatcher.Invoke(new Action(AuthenticationChanged)));
         }
 
@@ -399,6 +397,9 @@ namespace Koffeinfrei.MinusShare
                 inputTitleText.Visibility = Visibility.Visible;
                 inputTitleCombo.Visibility = Visibility.Collapsed;
             }
+
+            // fill the existing galleries dropdown
+            FillGalleriesDropdown();
         }
 
         private string GetTitle()
