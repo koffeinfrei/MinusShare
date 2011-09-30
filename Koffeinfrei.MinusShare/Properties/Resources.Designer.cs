@@ -61,6 +61,34 @@ namespace Koffeinfrei.MinusShare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Project issues.
+        /// </summary>
+        public static string AboutIssues {
+            get {
+                return ResourceManager.GetString("AboutIssues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project page.
+        /// </summary>
+        public static string AboutProjectPage {
+            get {
+                return ResourceManager.GetString("AboutProjectPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please report bugs and other problems on the project&apos;s issues page. 
+        ///Also, if you have suggestions, feel free to post them..
+        /// </summary>
+        public static string AboutReportIssues {
+            get {
+                return ResourceManager.GetString("AboutReportIssues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All uploads complete, saving gallery....
         /// </summary>
         public static string AllUploadSuccessful {
@@ -228,6 +256,15 @@ namespace Koffeinfrei.MinusShare.Properties {
         public static string LoginFailed {
             get {
                 return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to minus.
+        /// </summary>
+        public static string Minus {
+            get {
+                return ResourceManager.GetString("Minus", resourceCulture);
             }
         }
         

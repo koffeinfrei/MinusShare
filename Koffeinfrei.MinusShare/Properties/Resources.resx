@@ -251,4 +251,17 @@ Guest file uploads expire after 30 days.</value>
   <data name="LoggingIn" xml:space="preserve">
     <value>Logging in...</value>
   </data>
+  <data name="AboutIssues" xml:space="preserve">
+    <value>Project issues</value>
+  </data>
+  <data name="AboutProjectPage" xml:space="preserve">
+    <value>Project page</value>
+  </data>
+  <data name="AboutReportIssues" xml:space="preserve">
+    <value>Please report bugs and other problems on the project's issues page. 
+Also, if you have suggestions, feel free to post them.</value>
+  </data>
+  <data name="Minus" xml:space="preserve">
+    <value>minus</value>
+  </data>
 </root>

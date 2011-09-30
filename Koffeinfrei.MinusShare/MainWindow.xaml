@@ -267,20 +267,28 @@
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <Label Content="Project page" Grid.Row="0" Grid.Column="0" Padding="0,5,0,5" />
+                        <Label Content="{Binding Source={x:Static p:Resources.AboutProjectPage}}" Grid.Row="0" Grid.Column="0" Padding="0,5,0,5" />
                         <Button Margin="5,0,0,0" Name="buttonAuthorsPageLink" HorizontalAlignment="Stretch" 
                             VerticalAlignment="Center" Click="buttonLink_Click" Grid.Row="0" Grid.Column="1"
                             Content="{Binding Source={x:Static p:Settings.Default}, Path=ProjectUrl}" Style="{StaticResource HyperlinkButton}" />
 
-                        <Label Content="minus" Grid.Row="1" Grid.Column="0" Padding="0,5,0,5" />
-                        <Button Margin="5,0,0,0" Name="buttonMinusPageLink" HorizontalAlignment="Stretch" 
+                        <Label Content="{Binding Source={x:Static p:Resources.AboutIssues}}" Grid.Row="1" Grid.Column="0" Padding="0,5,0,5" />
+                        <Button Margin="5,0,0,0" Name="buttonIssuesPageLink" HorizontalAlignment="Stretch" 
                             VerticalAlignment="Center" Click="buttonLink_Click" Grid.Row="1" Grid.Column="1"
+                            Content="{Binding Source={x:Static p:Settings.Default}, Path=ProjectIssuesUrl}" Style="{StaticResource HyperlinkButton}" />
+
+                        <Label Content="{Binding Source={x:Static p:Resources.Minus}}" Grid.Row="2" Grid.Column="0" Padding="0,5,0,5" />
+                        <Button Margin="5,0,0,0" Name="buttonMinusPageLink" HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Center" Click="buttonLink_Click" Grid.Row="2" Grid.Column="1"
                             Content="{Binding Source={x:Static p:Settings.Default}, Path=MinusUrl}" Style="{StaticResource HyperlinkButton}" />
 
                     </Grid>
-                
+
+                    <TextBlock Text="{Binding Source={x:Static p:Resources.AboutReportIssues}}"  Margin="0,10,0,0" TextWrapping="Wrap" />
+
                 </StackPanel>
 
             </TabItem>

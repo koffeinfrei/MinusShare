@@ -4,7 +4,7 @@
 * show upload percentage
 * option to cancel an upload in progress (-> deleting created gallery)
 * context menu icon (use default)
-* split up mainwindow to components (http://reedcopsey.com/series/windows-forms-to-mvvm/)
+* split up mainwindow to components (at least the tabs) (http://reedcopsey.com/series/windows-forms-to-mvvm/)
 * proxy support
 * display whether upload in existing or new gallery (colored? additional status text?)
 
