@@ -1,4 +1,3 @@
-* is guest login required? or just provide static cookie?
 * remove bindings for readonly title box for guest mode
 * replace minusengine with https://github.com/johnsheehan/RestSharp
 * reorder methods in xaml code behing (move to other class?)
@@ -32,3 +31,4 @@
 /* use existing gallery
 /* display login status somewhere (anonymous / logged in as ..."
 /* link button -> styles.xml
+/* is guest login required? or just provide static cookie?

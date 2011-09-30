@@ -408,55 +408,11 @@ namespace BiasedBit.MinusEngine
         /// </summary>
         public void SignIn()
         {
-            CookieAwareWebClient client = CreateAndSetupWebClient();
-            client.setCookieHeader(new Uri(PAGE_BASE_URL), PAGE_COOKIE);
-
-            client.DownloadStringCompleted += delegate(object sender, DownloadStringCompletedEventArgs e)
+            SignInResult result = new SignInResult(true)
             {
-                if (e.Error == null)
-                {
-                    SignInResult result = new SignInResult(true)
-                    {
-                        CookieHeaders = client.getCookieHeader(new Uri(BASE_URL))
-                    };
-                    TriggerSignInComplete(result);
-                }
-                else
-                {
-                    this.TriggerSignInFailed(e.Error);
-                }
-#if !WINDOWS_PHONE
-                client.Dispose();
-#endif
+                CookieHeaders = PAGE_COOKIE
             };
-
-            // submit as an asynchronous task
-            try
-            {
-                ThreadPool.QueueUserWorkItem((object state) =>
-                {
-                    try
-                    {
-                        client.DownloadStringAsync(new Uri("http://minus.com"));
-                    }
-                    catch (WebException e)
-                    {
-                        Debug.WriteLine("Failed to access SignIn API: " + e.Message);
-                        this.TriggerSignInFailed(e);
-                        #if !WINDOWS_PHONE
-                            client.Dispose();
-                        #endif
-                    }
-                });
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Failed to submit task to thread pool: " + e.Message);
-                this.TriggerSignInFailed(e);
-                #if !WINDOWS_PHONE
-                    client.Dispose();
-                #endif
-            }
+            TriggerSignInComplete(result);
         }
 
         /// <summary>
