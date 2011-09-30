@@ -1,10 +1,10 @@
 * replace minusengine with https://github.com/johnsheehan/RestSharp
-* reorder methods in xaml code behing (move to other class?)
 * upload quota
 * check login button
 * show upload percentage
 * option to cancel an upload in progress (-> deleting created gallery)
 * context menu icon (use default)
+* split up mainwindow to components (http://reedcopsey.com/series/windows-forms-to-mvvm/)
 
 * BUG: startup, when no internet connection -> crash
 
@@ -32,3 +32,4 @@
 /* link button -> styles.xml
 /* is guest login required? or just provide static cookie?
 /* remove bindings for readonly title box for guest mode
+/* reorder methods in xaml code behing (move to other class?)

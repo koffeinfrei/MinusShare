@@ -105,89 +105,7 @@ namespace Koffeinfrei.MinusShare
             minus.Login(loginResult => Dispatcher.Invoke(new Action(AuthenticationChanged)));
         }
 
-        private void FillGalleriesDropdown()
-        {
-            if (minus.LoginStatus == LoginStatus.Successful)
-            {
-                minus.GetGalleries(galleries => Dispatcher.Invoke(
-                    new Action(() =>
-                    {
-                        GalleriesForDropdown = new ObservableCollection<MinusResult.Gallery>(
-                            galleries.Where(gallery =>
-                                            gallery.NotDeleted &&
-                                            gallery.Id != null &&
-                                            new NoTitleConverter().Convert(gallery.Name, null, null, null).ToString() != Properties.Resources.Untitled));
-                    })));
-            }
-        }
-
-        // TODO: find a nicer way to track settings changes
-        void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "Username":
-                case "Password":
-                    authenticationSettingsChanged = true;
-                    break;
-                case "HideDeletedGalleries":
-                    galleriesSettingsChanged = true;
-                    break;
-            }
-        }
-
-        private static void CheckForUpdates(bool showResultsAlways)
-        {
-            KfUpdater updater = new KfUpdater(Settings.Default.VersionUrl, Settings.Default.DownloadUrlFormat);
-            updater.CheckCompleted = () =>
-            {
-                if (updater.HasNewerVersion)
-                {
-                    MessageBoxResult dialogResult = MessageBox.Show(string.Format(Base.Resources.DialogVersionUpdateQuestionFormat,
-                                                                                  updater.NewerVersion),
-                                                                    Base.Resources.DialogVersionUpdate,
-                                                                    MessageBoxButton.YesNo);
-
-                    if (dialogResult == MessageBoxResult.Yes)
-                    {
-                        updater.Update();
-                    }
-                }
-                else if (showResultsAlways)
-                {
-                    MessageBox.Show(Properties.Resources.DialogVersionUpdateNoUpdates, Base.Resources.DialogVersionUpdate, MessageBoxButton.OK);
-                }
-            };
-
-            updater.Check();
-        }
-
-        private void AddFileList(IEnumerable<string> fileList)
-        {
-            foreach (string file in fileList)
-            {
-                // recursively get files from directory
-                if (File.GetAttributes(file).HasFlag(FileAttributes.Directory))
-                {
-                    foreach (string enumeratedFile in Directory.EnumerateFiles(file, "*.*", SearchOption.AllDirectories))
-                    {
-                        Files.Add(new FileListItem(enumeratedFile));
-                    }
-                }
-                else
-                {
-                    Files.Add(new FileListItem(file));
-                }
-            }
-        }
-
-        private string GetTitle()
-        {
-            return inputTitleCombo.Text == Properties.Resources.InputTitleDefaultText
-                       ? ""
-                       : inputTitleCombo.Text;
-        }
-
+        
         private void OnGalleryCreated(MinusResult.Share result)
         {
             Dispatcher.Invoke(new Action(() =>
@@ -224,40 +142,23 @@ namespace Koffeinfrei.MinusShare
                 }));
             }
         }
-        
-        private void buttonShareLink_Click(object sender, RoutedEventArgs e)
+
+
+        void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            Process.Start(buttonShareLink.Content.ToString());
-        }
-
-        private void buttonShare_Click(object sender, RoutedEventArgs e)
-        {
-            // disable controls
-            inputTitleCombo.IsEnabled = false;
-            buttonShare.IsEnabled = false;
-            buttonCancel.IsEnabled = false;
-            listFiles.IsEnabled = false;
-
-            sectionProgress.Visibility = Visibility.Visible;
-
-            // share
-            if (minus.LoginStatus == LoginStatus.Anonymous || minus.LoginStatus == LoginStatus.Successful)
+            switch (e.PropertyName)
             {
-                
-                minus.AddFiles(Files.Select(x => x.FullName).ToList());
-                minus.SetTitle(GetTitle());
-                // reset galleries -> need reload
-                GalleriesForHistoryView = null;
-
-                minus.Share(OnGalleryCreated, minus.LoginStatus == LoginStatus.Successful ? (MinusResult.Gallery)inputTitleCombo.SelectedItem : null);
+                case "Username":
+                case "Password":
+                    authenticationSettingsChanged = true;
+                    break;
+                case "HideDeletedGalleries":
+                    galleriesSettingsChanged = true;
+                    break;
             }
         }
 
-        private void buttonCancel_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
+        
         private void inputTitle_GotFocus(object sender, RoutedEventArgs e)
         {
             if (inputTitleCombo.Text == Properties.Resources.InputTitleDefaultText)
@@ -280,6 +181,40 @@ namespace Koffeinfrei.MinusShare
             {
                 inputTitleCombo.Text = "";
             }
+        }
+
+
+        private void buttonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void buttonShare_Click(object sender, RoutedEventArgs e)
+        {
+            // disable controls
+            inputTitleCombo.IsEnabled = false;
+            buttonShare.IsEnabled = false;
+            buttonCancel.IsEnabled = false;
+            listFiles.IsEnabled = false;
+
+            sectionProgress.Visibility = Visibility.Visible;
+
+            // share
+            if (minus.LoginStatus == LoginStatus.Anonymous || minus.LoginStatus == LoginStatus.Successful)
+            {
+
+                minus.AddFiles(Files.Select(x => x.FullName).ToList());
+                minus.SetTitle(GetTitle());
+                // reset galleries -> need reload
+                GalleriesForHistoryView = null;
+
+                minus.Share(OnGalleryCreated, minus.LoginStatus == LoginStatus.Successful ? (MinusResult.Gallery)inputTitleCombo.SelectedItem : null);
+            }
+        }
+
+        private void buttonShareLink_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(buttonShareLink.Content.ToString());
         }
 
         private void buttonClipboard_Click(object sender, RoutedEventArgs e)
@@ -314,26 +249,6 @@ namespace Koffeinfrei.MinusShare
                          "mailto:?subject={1}&body={0}");
         }
 
-        private void OpenShareUrl(string urlFormat, string urlWithTitleFormat)
-        {
-            string title = GetTitle();
-            string url = string.IsNullOrEmpty(title)
-                             ? string.Format(urlFormat, buttonShareLink.Content)
-                             : string.Format(urlWithTitleFormat, buttonShareLink.Content, title);
-
-            Process.Start(url);
-        }
-
-        private void stackFilesScrollViewer_Drop(object sender, DragEventArgs e)
-        {
-            string[] droppedFiles = e.Data.GetData(DataFormats.FileDrop) as string[];
-            if (droppedFiles != null)
-            {
-                AddFileList(droppedFiles);
-            }
-            inputTitleCombo.Focus();
-        }
-
         private void buttonCheckUpdates_Click(object sender, RoutedEventArgs e)
         {
             CheckForUpdates(true);
@@ -353,9 +268,6 @@ namespace Koffeinfrei.MinusShare
                         GalleriesForDropdown = null;
                     }
 
-                    Settings.Default.Save();
-                    mainTabControl.SelectedIndex = 0;
-
                     // reset change flags
                     authenticationSettingsChanged = false;
                     galleriesSettingsChanged = false;
@@ -364,6 +276,9 @@ namespace Koffeinfrei.MinusShare
                 }
                 )));
             }
+
+            Settings.Default.Save();
+            mainTabControl.SelectedIndex = 0;
         }
 
         private void buttonDiscardSettings_Click(object sender, RoutedEventArgs e)
@@ -385,6 +300,39 @@ namespace Koffeinfrei.MinusShare
                 {
                     Application.Current.Shutdown();
                 }
+            }
+        }
+
+        private void buttonGalleriesShareLink_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            MinusResult.Gallery item = button.DataContext as MinusResult.Gallery;
+            if (item != null)
+            {
+                Process.Start(item.Url);
+            }
+        }
+
+        /// <summary>
+        /// Genereal link button which has an url as its text (= content)
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void buttonLink_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button != null)
+            {
+                Process.Start(button.Content.ToString());
+            }
+        }
+
+        
+        private void tabItemHome_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (GalleriesForDropdown == null)
+            {
+                FillGalleriesDropdown();
             }
         }
 
@@ -417,26 +365,6 @@ namespace Koffeinfrei.MinusShare
             }
         }
 
-        private void buttonGalleriesEditLink_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            MinusResult.Gallery item = button.DataContext as MinusResult.Gallery;
-            if (item != null)
-            {
-                Process.Start(item.Url);
-            }
-        }
-
-        private void buttonGalleriesShareLink_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            MinusResult.Gallery item = button.DataContext as MinusResult.Gallery;
-            if (item != null)
-            {
-                Process.Start(item.Url);
-            }
-        }
-
         private void tabItemAbout_GotFocus(object sender, RoutedEventArgs e)
         {
             KfProductInfo info = new KfProductInfo();
@@ -444,27 +372,16 @@ namespace Koffeinfrei.MinusShare
             aboutCopyrightText.Text = info.Copyright;
         }
 
-        /// <summary>
-        /// Genereal link button which has an url as its text (= content)
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
-        private void buttonLink_Click(object sender, RoutedEventArgs e)
+        private void stackFilesScrollViewer_Drop(object sender, DragEventArgs e)
         {
-            Button button = sender as Button;
-            if (button != null)
+            string[] droppedFiles = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (droppedFiles != null)
             {
-                Process.Start(button.Content.ToString());
+                AddFileList(droppedFiles);
             }
+            inputTitleCombo.Focus();
         }
 
-        private void tabItemHome_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (GalleriesForDropdown == null)
-            {
-                FillGalleriesDropdown();
-            }
-        }
 
         private void AuthenticationChanged()
         {
@@ -482,6 +399,84 @@ namespace Koffeinfrei.MinusShare
                 inputTitleText.Visibility = Visibility.Visible;
                 inputTitleCombo.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private string GetTitle()
+        {
+            return inputTitleCombo.Text == Properties.Resources.InputTitleDefaultText
+                       ? ""
+                       : inputTitleCombo.Text;
+        }
+
+        private void AddFileList(IEnumerable<string> fileList)
+        {
+            foreach (string file in fileList)
+            {
+                // recursively get files from directory
+                if (File.GetAttributes(file).HasFlag(FileAttributes.Directory))
+                {
+                    foreach (string enumeratedFile in Directory.EnumerateFiles(file, "*.*", SearchOption.AllDirectories))
+                    {
+                        Files.Add(new FileListItem(enumeratedFile));
+                    }
+                }
+                else
+                {
+                    Files.Add(new FileListItem(file));
+                }
+            }
+        }
+
+        private void FillGalleriesDropdown()
+        {
+            if (minus.LoginStatus == LoginStatus.Successful)
+            {
+                minus.GetGalleries(galleries => Dispatcher.Invoke(
+                    new Action(() =>
+                    {
+                        GalleriesForDropdown = new ObservableCollection<MinusResult.Gallery>(
+                            galleries.Where(gallery =>
+                                            gallery.NotDeleted &&
+                                            gallery.Id != null &&
+                                            new NoTitleConverter().Convert(gallery.Name, null, null, null).ToString() != Properties.Resources.Untitled));
+                    })));
+            }
+        }
+
+        private void OpenShareUrl(string urlFormat, string urlWithTitleFormat)
+        {
+            string title = GetTitle();
+            string url = string.IsNullOrEmpty(title)
+                             ? string.Format(urlFormat, buttonShareLink.Content)
+                             : string.Format(urlWithTitleFormat, buttonShareLink.Content, title);
+
+            Process.Start(url);
+        }
+
+        private static void CheckForUpdates(bool showResultsAlways)
+        {
+            KfUpdater updater = new KfUpdater(Settings.Default.VersionUrl, Settings.Default.DownloadUrlFormat);
+            updater.CheckCompleted = () =>
+            {
+                if (updater.HasNewerVersion)
+                {
+                    MessageBoxResult dialogResult = MessageBox.Show(string.Format(Base.Resources.DialogVersionUpdateQuestionFormat,
+                                                                                  updater.NewerVersion),
+                                                                    Base.Resources.DialogVersionUpdate,
+                                                                    MessageBoxButton.YesNo);
+
+                    if (dialogResult == MessageBoxResult.Yes)
+                    {
+                        updater.Update();
+                    }
+                }
+                else if (showResultsAlways)
+                {
+                    MessageBox.Show(Properties.Resources.DialogVersionUpdateNoUpdates, Base.Resources.DialogVersionUpdate, MessageBoxButton.OK);
+                }
+            };
+
+            updater.Check();
         }
     }
 }
