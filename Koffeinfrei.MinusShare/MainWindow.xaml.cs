@@ -202,11 +202,16 @@ namespace Koffeinfrei.MinusShare
             {
 
                 minus.AddFiles(Files.Select(x => x.FullName).ToList());
-                minus.SetTitle(GetTitle());
+                
+                string title = GetTitle();
+                MinusResult.Gallery selectedGallery = (MinusResult.Gallery)inputTitleCombo.SelectedItem;
+
+                minus.SetTitle(title);
+                
                 // reset galleries -> need reload
                 GalleriesForHistoryView = null;
 
-                minus.Share(OnGalleryCreated, minus.LoginStatus == LoginStatus.Successful ? (MinusResult.Gallery)inputTitleCombo.SelectedItem : null);
+                minus.Share(OnGalleryCreated, minus.LoginStatus == LoginStatus.Successful && title == selectedGallery.Name ? selectedGallery : null);
             }
         }
 

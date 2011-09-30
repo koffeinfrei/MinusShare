@@ -170,15 +170,20 @@ namespace Koffeinfrei.MinusShare
 
                     List<MinusResult.Gallery> galleries = result.Galleries.Select(gallery =>
                     {
-                        bool hasId = gallery.ReaderId == UrlUnavailable || gallery.ReaderId == GalleryDeleted;
+                        bool hasId = 
+                            gallery.EditorId != UrlUnavailable && 
+                            gallery.EditorId != GalleryDeleted && 
+                            gallery.ReaderId != UrlUnavailable && 
+                            gallery.ReaderId != GalleryDeleted && 
+                            gallery.ReaderId == gallery.EditorId;
 
                         return new MinusResult.Gallery
                         {
-                            Id = hasId ? null : gallery.ReaderId,
-                            Url = hasId ? null : BaseUrl + gallery.ReaderId,
+                            Id = hasId ? gallery.ReaderId : null,
+                            Url = hasId ? BaseUrl + gallery.ReaderId : null,
                             ItemCount = gallery.ItemCount,
                             Name = gallery.Name,
-                            Deleted = gallery.ReaderId == GalleryDeleted
+                            Deleted = gallery.ReaderId == GalleryDeleted || gallery.EditorId == GalleryDeleted
                         };
                     }).ToList();
 
