@@ -211,7 +211,8 @@ namespace Koffeinfrei.MinusShare
                 // reset galleries -> need reload
                 GalleriesForHistoryView = null;
 
-                minus.Share(OnGalleryCreated, minus.LoginStatus == LoginStatus.Successful && title == selectedGallery.Name ? selectedGallery : null);
+                bool useExistingGallery = minus.LoginStatus == LoginStatus.Successful && selectedGallery != null && title == selectedGallery.Name;
+                minus.Share(OnGalleryCreated, useExistingGallery ? selectedGallery : null);
             }
         }
 
