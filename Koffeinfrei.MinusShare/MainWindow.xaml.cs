@@ -90,17 +90,18 @@ namespace Koffeinfrei.MinusShare
             // get the files from the passed arguments
             AddFileList(Environment.GetCommandLineArgs().Skip(1).ToList());
 
+            // settings change listener
+            Settings.Default.PropertyChanged += Default_PropertyChanged;
+
+            // login
+            imageLoading.Visibility = Visibility.Visible;
+            minus.Login(loginResult => Dispatcher.Invoke(new Action(AuthenticationChanged)));
+
             // update check
             if (Settings.Default.AutoUpdateCheck)
             {
                 CheckForUpdates(false);
             }
-
-            // settings change listener
-            Settings.Default.PropertyChanged += Default_PropertyChanged;
-
-            // login
-            minus.Login(loginResult => Dispatcher.Invoke(new Action(AuthenticationChanged)));
         }
 
         
@@ -189,18 +190,13 @@ namespace Koffeinfrei.MinusShare
 
         private void buttonShare_Click(object sender, RoutedEventArgs e)
         {
-            // disable controls
-            inputTitleCombo.IsEnabled = false;
-            buttonShare.IsEnabled = false;
-            buttonCancel.IsEnabled = false;
-            listFiles.IsEnabled = false;
+            DisableControls();
 
-            sectionProgress.Visibility = Visibility.Visible;
+            imageLoading.Visibility = Visibility.Visible;
 
             // share
             if (minus.LoginStatus == LoginStatus.Anonymous || minus.LoginStatus == LoginStatus.Successful)
             {
-
                 minus.AddFiles(Files.Select(x => x.FullName).ToList());
                 
                 string title = GetTitle();
@@ -262,6 +258,8 @@ namespace Koffeinfrei.MinusShare
         {
             if (authenticationSettingsChanged)
             {
+                imageLoading.Visibility = Visibility.Visible;
+
                 minus.LoginStatus = LoginStatus.None;
 
                 minus.Login(loginResult => Dispatcher.Invoke(new Action(() =>
@@ -389,12 +387,19 @@ namespace Koffeinfrei.MinusShare
 
         private void AuthenticationChanged()
         {
+            imageLoading.Visibility = Visibility.Collapsed;
+
             if (minus.LoginStatus == LoginStatus.Successful)
             {
                 loginInfoYes.Visibility = Visibility.Visible;
                 loginInfoNo.Visibility = Visibility.Collapsed;
                 inputTitleText.Visibility = Visibility.Collapsed;
                 inputTitleCombo.Visibility = Visibility.Visible;
+            }
+            else if (minus.LoginStatus == LoginStatus.Failed)
+            {
+                OnErrorMessage(Base.Resources.ConnectionError);
+                DisableControls();
             }
             else
             {
@@ -446,8 +451,22 @@ namespace Koffeinfrei.MinusShare
                                             gallery.NotDeleted &&
                                             gallery.Id != null &&
                                             new NoTitleConverter().Convert(gallery.Name, null, null, null).ToString() != Properties.Resources.Untitled));
+                        ClearMessages();
                     })));
             }
+        }
+
+        private void DisableControls()
+        {
+            inputTitleCombo.IsEnabled = false;
+            buttonShare.IsEnabled = false;
+            buttonCancel.IsEnabled = false;
+            listFiles.IsEnabled = false;
+        }
+
+        private void ClearMessages()
+        {
+            OnInfoMessage("");
         }
 
         private void OpenShareUrl(string urlFormat, string urlWithTitleFormat)
@@ -460,17 +479,32 @@ namespace Koffeinfrei.MinusShare
             Process.Start(url);
         }
 
-        private static void CheckForUpdates(bool showResultsAlways)
+        private void CheckForUpdates(bool showResultsAlways)
         {
             KfUpdater updater = new KfUpdater(Settings.Default.VersionUrl, Settings.Default.DownloadUrlFormat);
+            imageLoading.Visibility = Visibility.Visible;
             updater.CheckCompleted = () =>
             {
-                if (updater.HasNewerVersion)
+                imageLoading.Visibility = Visibility.Collapsed;
+
+                if (updater.HasError)
                 {
-                    MessageBoxResult dialogResult = MessageBox.Show(string.Format(Base.Resources.DialogVersionUpdateQuestionFormat,
-                                                                                  updater.NewerVersion),
-                                                                    Base.Resources.DialogVersionUpdate,
-                                                                    MessageBoxButton.YesNo);
+                    if (showResultsAlways)
+                    {
+                        MessageBox.Show(Base.Resources.ConnectionError, Base.Resources.DialogVersionUpdate, MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        OnErrorMessage(Base.Resources.ConnectionError);
+                        DisableControls();
+                    }
+                }
+                else if (updater.HasNewerVersion)
+                {
+                    MessageBoxResult dialogResult = MessageBox.Show(
+                        string.Format(Base.Resources.DialogVersionUpdateQuestionFormat, updater.NewerVersion),
+                        Base.Resources.DialogVersionUpdate,
+                        MessageBoxButton.YesNo);
 
                     if (dialogResult == MessageBoxResult.Yes)
                     {

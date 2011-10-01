@@ -1,5 +1,5 @@
 --- 
-repository_url: git@github.com:koffeinfrei/base-dotnet.git
+repository_url: https://koffeinfrei@github.com/koffeinfrei/base-dotnet.git
 lock: false
 repository_class: Piston::Git::Repository
 format: 1

@@ -78,9 +78,9 @@
                     </StackPanel>
 
 
-                    <StackPanel Name="sectionProgress" HorizontalAlignment="Stretch" Margin="0,5,0,0" Visibility="Collapsed">
+                    <StackPanel Name="sectionProgress" HorizontalAlignment="Stretch" Margin="0,5,0,0">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            <kf:Throbber x:Name="imageLoading" />
+                            <kf:Throbber x:Name="imageLoading" Visibility="Collapsed" />
 
                             <Label Content="" Height="28" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,0,0" Name="outputStatus" />
                         </StackPanel>

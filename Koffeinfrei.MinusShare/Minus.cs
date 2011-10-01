@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using BiasedBit.MinusEngine;
 using Koffeinfrei.Base;
 using Koffeinfrei.MinusShare.Properties;
@@ -209,6 +210,11 @@ namespace Koffeinfrei.MinusShare
                 {
                     LogError(Resources.LoginFailed, e);
                     LoginStatus = LoginStatus.Failed;
+
+                    if (e is WebException)
+                    {
+                        LogError(Base.Resources.ConnectionError, e);
+                    }
 
                     loggedIn(LoginStatus);
                 };
