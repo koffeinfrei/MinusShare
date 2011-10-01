@@ -30,6 +30,11 @@ namespace Koffeinfrei.Base
         public Action CheckCompleted { get; set; }
         public string NewerVersion { get; private set; }
         public bool HasNewerVersion { get; private set; }
+        public string Error { get; private set; }
+        public bool HasError
+        {
+            get { return !string.IsNullOrEmpty(Error); }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KfUpdater"/> class.
@@ -68,18 +73,23 @@ namespace Koffeinfrei.Base
 
         private void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            string serverVersion = e.Result.Trim();
+            NewerVersion = null;
+            HasNewerVersion = false;
 
-            if (Application.ProductVersion != serverVersion)
+            if (e.Error != null)
             {
-                // strip last .0
-                NewerVersion = Regex.Replace(serverVersion, @"(\d+\.\d+\.\d+)\.\d+", @"$1");
-                HasNewerVersion = true;
+                Error = Resources.ConnectionError;
             }
             else
             {
-                NewerVersion = null;
-                HasNewerVersion = false;
+                string serverVersion = e.Result.Trim();
+
+                if (Application.ProductVersion != serverVersion)
+                {
+                    // strip last .0
+                    NewerVersion = Regex.Replace(serverVersion, @"(\d+\.\d+\.\d+)\.\d+", @"$1");
+                    HasNewerVersion = true;
+                }
             }
 
             CheckCompleted();

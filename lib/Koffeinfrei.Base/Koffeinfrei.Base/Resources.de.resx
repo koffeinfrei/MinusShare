@@ -123,4 +123,7 @@
   <data name="DialogVersionUpdateQuestionFormat" xml:space="preserve">
     <value>Die neuere Version {0} ist verfügbar. Wollen Sie diese jetzt herunterladen?</value>
   </data>
+	<data name="ConnectionError" xml:space="preserve">
+    <value>Der Server kann nicht erreicht werden. Prüfe deine Internetverbindung.</value>
+  </data>
 </root>
