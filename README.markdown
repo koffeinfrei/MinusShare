@@ -5,10 +5,10 @@
 Share files with [Minus](http://min.us) from your windows explorer send to context menu.
 
 Explorer context menu:  
-![Send to menu](http://koffeinfrei.org/uploads/images/projects/minus-share-screen1.png "Send to context menu")  
+![Send to menu](http://dl.dropbox.com/u/1478836/koffeinfrei-www/minus-share-screen1.png "Send to context menu")  
 
 Main window, done sharing:  
-![Main window](http://koffeinfrei.org/uploads/images/projects/minus-share-screen2.png "Main window")
+![Main window](http://dl.dropbox.com/u/1478836/koffeinfrei-www/minus-share-screen2.png "Main window")
 
 ## Features
 
@@ -34,7 +34,7 @@ See license file for details.
 
 ## Links
 
-Download page: [http://www.koffeinfrei.org/projects/minus-share](http://www.koffeinfrei.org/projects/minus-share)
+Download page: [http://www.koffeinfrei.org/projects/minus-share](https://github.com/koffeinfrei/MinusShare/downloads)
 
 Source code: [https://github.com/koffeinfrei/MinusShare](https://github.com/koffeinfrei/MinusShare)
 
